@@ -1,8 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://dhpio07xeiuck"]
 
-[ext_resource type="Script" uid="uid://bldgxsrtlhe6k" path="res://Scripts/use-item.gd" id="1_0xm2m"]
-[ext_resource type="Resource" uid="uid://dt74rwyhfmi7p" path="res://Resources/item1.tres" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://c1xbwgfw3xy2l" path="res://scripts/use_bool_variable.gd" id="1_0xm2m"]
+[ext_resource type="Resource" uid="uid://rqh56mrmc6re" path="res://resources/bool_variable_1.tres" id="2_h2yge"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_0xm2m")
-item = ExtResource("2_h2yge")
+bool_variable = ExtResource("2_h2yge")
