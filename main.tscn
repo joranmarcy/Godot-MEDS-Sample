@@ -1,8 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://dhpio07xeiuck"]
+[gd_scene load_steps=4 format=3 uid="uid://dhpio07xeiuck"]
 
 [ext_resource type="Script" uid="uid://c1xbwgfw3xy2l" path="res://scripts/use_bool_variable.gd" id="1_0xm2m"]
 [ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://resources/bool1.tres" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/bool-driven-checkbox.gd" id="3_h2yge"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_0xm2m")
 bool_variable = ExtResource("2_0xm2m")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+
+[node name="BoxContainer" type="BoxContainer" parent="CanvasGroup"]
+offset_right = 902.0
+offset_bottom = 505.0
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasGroup/BoxContainer"]
+layout_mode = 2
+text = "bool1 value :"
+
+[node name="CheckBox" type="CheckBox" parent="CanvasGroup/BoxContainer"]
+layout_mode = 2
+script = ExtResource("3_h2yge")
+bool_var = ExtResource("2_0xm2m")
