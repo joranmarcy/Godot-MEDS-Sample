@@ -8,18 +8,31 @@
 script = ExtResource("1_0xm2m")
 bool_variable = ExtResource("2_0xm2m")
 
-[node name="CanvasGroup" type="CanvasGroup" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
-[node name="BoxContainer" type="BoxContainer" parent="CanvasGroup"]
-offset_right = 902.0
-offset_bottom = 505.0
-alignment = 1
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Label" type="Label" parent="CanvasGroup/BoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer"]
 layout_mode = 2
-text = "bool1 value :"
 
-[node name="CheckBox" type="CheckBox" parent="CanvasGroup/BoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/HBoxContainer"]
+layout_mode = 2
+text = "Bool Variable 1 :"
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/CenterContainer/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("3_h2yge")
 bool_var = ExtResource("2_0xm2m")
