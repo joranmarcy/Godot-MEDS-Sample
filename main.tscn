@@ -1,12 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dhpio07xeiuck"]
+[gd_scene load_steps=3 format=3 uid="uid://dhpio07xeiuck"]
 
-[ext_resource type="Script" uid="uid://c1xbwgfw3xy2l" path="res://scripts/use_bool_variable.gd" id="1_0xm2m"]
 [ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://resources/bool1.tres" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/bool-driven-checkbox.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/ui/bool-driven-checkbox.gd" id="3_h2yge"]
 
 [node name="Node3D" type="Node3D"]
-script = ExtResource("1_0xm2m")
-bool_variable = ExtResource("2_0xm2m")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enabled = true
