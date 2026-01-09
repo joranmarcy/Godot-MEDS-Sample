@@ -8,8 +8,8 @@ func _ready() -> void:
 	print("The bool variable value: " + str(bool_variable.value))
 	bool_variable.value = false
 	# Change the value after a delay
-	await get_tree().create_timer(2.0).timeout
-	bool_variable.value = true
+	#await get_tree().create_timer(2.0).timeout
+	#bool_variable.value = true
 	
 
 func _on_bool_value_changed(new_value: bool):
