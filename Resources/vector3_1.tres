@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Vector3Variable" load_steps=2 format=3 uid="uid://dwpllbbgocs27"]
+
+[ext_resource type="Script" uid="uid://bmupv4jk5rq55" path="res://scripts/resources/vector3-variable.gd" id="1_08gb6"]
+
+[resource]
+script = ExtResource("1_08gb6")
+initial_value = Vector3(-0.08, 0, 0)

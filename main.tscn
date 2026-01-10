@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dhpio07xeiuck"]
+[gd_scene load_steps=5 format=3 uid="uid://dhpio07xeiuck"]
 
 [ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://resources/bool1.tres" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://88788hcpf44m" path="res://scripts/ui/float-driven-slider.gd" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/ui/bool-driven-checkbox.gd" id="3_h2yge"]
+[ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://resources/float_1.tres" id="4_1bvp3"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -22,14 +24,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Bool Variable 1 :"
 
-[node name="CheckBox" type="CheckBox" parent="CanvasLayer/CenterContainer/HBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("3_h2yge")
 bool_var = ExtResource("2_0xm2m")
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("3_1bvp3")
+float_variable = ExtResource("4_1bvp3")
