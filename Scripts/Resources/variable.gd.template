@@ -1,0 +1,21 @@
+extends Resource
+class_name __ClassName__
+
+signal value_changed(new_value: __Type__)
+
+@export var initial_value: __Type__ = __DefaultValue__:
+	set(new_val):
+		initial_value = new_val
+		_value = new_val
+		print("Resource loaded initial_value:", initial_value)
+
+var _value: __Type__ = __DefaultValue__
+
+var value: __Type__:
+	get:
+		return _value
+	set(new_val):
+		if _value != new_val:
+			_value = new_val
+			value_changed.emit(_value)
+			print("Runtime value changed to:", _value)
