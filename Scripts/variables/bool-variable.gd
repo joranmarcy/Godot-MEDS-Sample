@@ -6,8 +6,8 @@ signal value_changed(new_value: bool)
 @export var initial_value: bool = false:
 	set(new_val):
 		initial_value = new_val
-		_value = new_val		
-		print("Resource loaded initial_value:", initial_value)
+		_value = new_val
+		Debug.log("BoolVariable: " + resource_path.get_basename() + " loaded initial_value: " + str(initial_value))
 
 var _value: bool = false
 
@@ -18,4 +18,4 @@ var value: bool:
 		if _value != new_val:
 			_value = new_val
 			value_changed.emit(_value)
-			print("Runtime value changed to:", _value)
+			Debug.log("BoolVariable: " + resource_path.get_basename() + " runtime value changed to: " + str(_value))
