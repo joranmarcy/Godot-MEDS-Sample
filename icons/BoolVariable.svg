@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="128"
+   height="128"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="bool-variable.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="6.4468251"
+     inkscape:cx="36.607166"
+     inkscape:cy="52.661581"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <rect
+     width="124"
+     height="124"
+     x="2"
+     y="2"
+     fill="#363d52"
+     stroke="#212532"
+     stroke-width="4"
+     rx="14"
+     id="rect1" />
+  <path
+     d="m 91.470983,79.26166 q 0,5.465127 -2.151167,9.709321 -2.093028,4.186055 -6.046524,7.093038 -3.895356,2.906982 -9.476762,4.418611 -5.523267,1.51163 -12.325606,1.51163 H 41.587165 V 26.005742 h 21.744228 q 25.407026,0 25.407026,18.488409 0,6.162802 -2.965122,10.581416 -2.906982,4.418613 -9.534902,6.56978 3.081401,0.581396 5.813965,1.976748 2.790703,1.395351 4.88373,3.604658 2.093028,2.209307 3.31396,5.232568 1.220933,3.023262 1.220933,6.802339 z M 77.982584,45.889502 q 0,-2.325586 -0.697675,-4.360474 Q 76.587233,39.436001 74.843043,37.98251 73.098854,36.470879 70.133732,35.598784 67.16861,34.72669 62.633717,34.72669 H 51.936022 v 23.779116 h 10.348857 q 3.546519,0 6.395362,-0.755816 2.906982,-0.755815 4.94187,-2.325586 2.093027,-1.56977 3.19768,-3.895356 1.162793,-2.383726 1.162793,-5.639546 z m 2.500005,33.720996 q 0,-2.906982 -1.220932,-5.232568 -1.220933,-2.325586 -3.546519,-3.895357 -2.325586,-1.62791 -5.697685,-2.500005 -3.31396,-0.872094 -7.500015,-0.872094 H 51.936022 v 26.162841 h 10.930254 q 8.895366,0 13.25584,-3.31396 4.360473,-3.313959 4.360473,-10.348857 z"
+     id="text1"
+     style="font-size:119.07px;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#ffffff;stroke-width:3.72094"
+     aria-label="B" />
+</svg>

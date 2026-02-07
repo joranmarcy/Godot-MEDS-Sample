@@ -1,3 +1,4 @@
+@icon("res://icons/FloatVariable.svg")
 extends Resource
 class_name FloatVariable
 

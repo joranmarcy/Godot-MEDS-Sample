@@ -1,3 +1,4 @@
+@icon("res://icons/IntVariable.svg")
 extends Resource
 class_name IntVariable
 

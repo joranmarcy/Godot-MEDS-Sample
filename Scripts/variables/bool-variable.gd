@@ -1,3 +1,4 @@
+@icon("res://icons/BoolVariable.svg")
 extends Resource
 class_name BoolVariable
 

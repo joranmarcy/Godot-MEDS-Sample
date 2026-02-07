@@ -1,3 +1,4 @@
+@icon("res://icons/StringVariable.svg")
 extends Resource
 class_name StringVariable
 

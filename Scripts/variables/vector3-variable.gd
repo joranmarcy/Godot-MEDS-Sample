@@ -1,3 +1,4 @@
+@icon("res://icons/Vector3Variable.svg")
 extends Resource
 class_name Vector3Variable
 

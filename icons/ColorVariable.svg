@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="128"
+   height="128"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="color-variable.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="6.4468251"
+     inkscape:cx="36.607166"
+     inkscape:cy="52.661581"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <rect
+     width="124"
+     height="124"
+     x="2"
+     y="2"
+     fill="#363d52"
+     stroke="#212532"
+     stroke-width="4"
+     rx="14"
+     id="rect1" />
+  <path
+     d="m 90.25005,99.14542 q -9.127925,3.77908 -19.127944,3.77908 -16.104683,0 -24.76749,-9.593045 -8.604668,-9.651182 -8.604668,-28.488428 0,-9.127924 2.383725,-16.51166 2.383726,-7.383735 6.802339,-12.500024 4.418614,-5.174429 10.697696,-7.965132 6.279082,-2.790703 14.069794,-2.790703 5.290708,0 9.825601,0.930234 4.534893,0.872095 8.720947,2.732564 v 10.174438 q -4.127915,-2.267446 -8.546528,-3.430239 -4.418613,-1.220933 -9.651182,-1.220933 -5.348847,0 -9.709321,2.034888 -4.302334,1.976748 -7.325596,5.813965 -3.023261,3.779077 -4.651172,9.302344 -1.62791,5.465127 -1.62791,12.500024 0,14.767471 5.988384,22.267485 5.988384,7.500015 17.558174,7.500015 4.88373,0 9.360483,-1.104653 4.476753,-1.162793 8.604668,-3.197681 z"
+     id="text1"
+     style="font-size:119.07px;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#ffffff;stroke-width:3.72094"
+     aria-label="C" />
+</svg>

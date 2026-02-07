@@ -1,3 +1,4 @@
+@icon("res://icons/ColorVariable.svg")
 extends Resource
 class_name ColorVariable
 
