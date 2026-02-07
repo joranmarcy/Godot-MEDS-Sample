@@ -1,0 +1,101 @@
+[gd_scene load_steps=14 format=3 uid="uid://dhpio07xeiuck"]
+
+[ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/ui/bool-driven-checkbox.gd" id="1_gvi1x"]
+[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://resources/bool1.tres" id="2_3v2ro"]
+[ext_resource type="Script" uid="uid://bsmw2a24e0op5" path="res://scripts/ui/float-driven-label.gd" id="3_2f2e5"]
+[ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://resources/float_1.tres" id="4_ybw4m"]
+[ext_resource type="Script" uid="uid://88788hcpf44m" path="res://scripts/ui/float-driven-slider.gd" id="5_l31fa"]
+[ext_resource type="Environment" uid="uid://dbehk4clt7h0t" path="res://samples/main.tres" id="6_rd6o4"]
+[ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://scripts/ui/color-driven-color-picked.gd" id="6_ybw4m"]
+[ext_resource type="Script" uid="uid://cxtu81d4deqfi" path="res://samples/scripts/bind-color-var-to-mat-albedo.gd" id="7_3v2ro"]
+[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://resources/color_1.tres" id="8_2f2e5"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lquwl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvi1x"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3v2ro"]
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -231.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Bool Variable 1 :"
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("1_gvi1x")
+bool_var = ExtResource("2_3v2ro")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "0.0"
+script = ExtResource("3_2f2e5")
+float_variable = ExtResource("4_ybw4m")
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+script = ExtResource("5_l31fa")
+float_variable = ExtResource("4_ybw4m")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Cube color :"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Test"
+script = ExtResource("6_ybw4m")
+color_variable = ExtResource("8_2f2e5")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.8158955, 0.5781995, 0, -0.5781995, 0.8158955, 0.026003808, 2.6041217, 3.7880569)
+environment = ExtResource("6_rd6o4")
+
+[node name="Plane" type="MeshInstance3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.006424308, 2.3841858e-07, 0.0040380955)
+mesh = SubResource("PlaneMesh_lquwl")
+surface_material_override/0 = SubResource("StandardMaterial3D_gvi1x")
+
+[node name="Cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.764359, 0, 0.6447909, 0, 1, 0, -0.6447909, 0, 0.764359, 0.09024835, 0.5, 0)
+mesh = SubResource("BoxMesh_lquwl")
+surface_material_override/0 = SubResource("StandardMaterial3D_3v2ro")
+script = ExtResource("7_3v2ro")
+color_variable = ExtResource("8_2f2e5")
+material = SubResource("StandardMaterial3D_3v2ro")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.853669, -0.010552713, -0.52070904, 0.52081597, 0.017296942, 0.85349375, 0, -0.9997947, 0.020261884, 0, 0, 0)
