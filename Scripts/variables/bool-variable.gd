@@ -6,7 +6,7 @@ signal value_changed(new_value: bool)
 @export var initial_value: bool = false:
 	set(new_val):
 		initial_value = new_val
-		_value = new_val
+		_value = new_val		
 		print("Resource loaded initial_value:", initial_value)
 
 var _value: bool = false
