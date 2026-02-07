@@ -19,4 +19,3 @@ var value: String:
 			_value = new_val
 			value_changed.emit(_value)
 			print("Runtime value changed to:", _value)
-
