@@ -1,7 +1,8 @@
 [gd_resource type="Resource" script_class="BoolVariable" load_steps=2 format=3 uid="uid://d0f12m7q2anp7"]
 
-[ext_resource type="Script" uid="uid://bwi03jgew332k" path="res://scripts/resources/bool-variable.gd" id="1_w38bu"]
+[ext_resource type="Script" uid="uid://bwi03jgew332k" path="res://scripts/variables/bool-variable.gd" id="1_w38bu"]
 
 [resource]
 script = ExtResource("1_w38bu")
+initial_value = true
 metadata/_custom_type_script = "uid://bwi03jgew332k"

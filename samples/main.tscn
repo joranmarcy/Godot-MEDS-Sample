@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dhpio07xeiuck"]
+[gd_scene load_steps=12 format=3 uid="uid://dhpio07xeiuck"]
 
 [ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/ui/bool-driven-checkbox.gd" id="1_gvi1x"]
 [ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://resources/bool1.tres" id="2_3v2ro"]
@@ -6,18 +6,13 @@
 [ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://resources/float_1.tres" id="4_ybw4m"]
 [ext_resource type="Script" uid="uid://88788hcpf44m" path="res://scripts/ui/float-driven-slider.gd" id="5_l31fa"]
 [ext_resource type="Environment" uid="uid://dbehk4clt7h0t" path="res://samples/main.tres" id="6_rd6o4"]
-[ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://scripts/ui/color-driven-color-picked.gd" id="6_ybw4m"]
-[ext_resource type="Script" uid="uid://cxtu81d4deqfi" path="res://samples/scripts/bind-color-var-to-mat-albedo.gd" id="7_3v2ro"]
+[ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://scripts/ui/color-driven-color-picker.gd" id="6_ybw4m"]
 [ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://resources/color_1.tres" id="8_2f2e5"]
+[ext_resource type="PackedScene" uid="uid://bx0kscwc5q0uv" path="res://samples/prefabs/cube.tscn" id="9_ybw4m"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lquwl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvi1x"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3v2ro"]
-albedo_color = Color(1, 0, 0, 1)
 
 [node name="Node3D" type="Node3D"]
 
@@ -44,7 +39,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Bool Variable 1 :"
+text = "Cube visibility :"
 
 [node name="CheckBox" type="CheckBox" parent="CanvasLayer/PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -89,13 +84,8 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.006424308, 2.3841858e-07, 
 mesh = SubResource("PlaneMesh_lquwl")
 surface_material_override/0 = SubResource("StandardMaterial3D_gvi1x")
 
-[node name="Cube" type="MeshInstance3D" parent="."]
+[node name="Cube" parent="." instance=ExtResource("9_ybw4m")]
 transform = Transform3D(0.764359, 0, 0.6447909, 0, 1, 0, -0.6447909, 0, 0.764359, 0.09024835, 0.5, 0)
-mesh = SubResource("BoxMesh_lquwl")
-surface_material_override/0 = SubResource("StandardMaterial3D_3v2ro")
-script = ExtResource("7_3v2ro")
-color_variable = ExtResource("8_2f2e5")
-material = SubResource("StandardMaterial3D_3v2ro")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.853669, -0.010552713, -0.52070904, 0.52081597, 0.017296942, 0.85349375, 0, -0.9997947, 0.020261884, 0, 0, 0)
