@@ -2,9 +2,9 @@
 
 [ext_resource type="Material" uid="uid://csvib37rqkiw8" path="res://samples/materials/cube-material.tres" id="1_5f4ln"]
 [ext_resource type="Script" uid="uid://cxtu81d4deqfi" path="res://samples/scripts/bind-color-var-to-mat-albedo.gd" id="2_eorvf"]
-[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://resources/color_1.tres" id="3_8aot7"]
+[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/color_1.tres" id="3_8aot7"]
 [ext_resource type="Script" uid="uid://bq1yerw3xhjgh" path="res://samples/scripts/bind-bool-var-to-visibility.gd" id="4_eorvf"]
-[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://resources/bool1.tres" id="5_8aot7"]
+[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/bool1.tres" id="5_8aot7"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 

@@ -1,13 +1,13 @@
 [gd_scene load_steps=12 format=3 uid="uid://dhpio07xeiuck"]
 
 [ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/ui/bool-driven-checkbox.gd" id="1_gvi1x"]
-[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://resources/bool1.tres" id="2_3v2ro"]
+[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/bool1.tres" id="2_3v2ro"]
 [ext_resource type="Script" uid="uid://bsmw2a24e0op5" path="res://scripts/ui/float-driven-label.gd" id="3_2f2e5"]
-[ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://resources/float_1.tres" id="4_ybw4m"]
+[ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://samples/resources/float_1.tres" id="4_ybw4m"]
 [ext_resource type="Script" uid="uid://88788hcpf44m" path="res://scripts/ui/float-driven-slider.gd" id="5_l31fa"]
 [ext_resource type="Environment" uid="uid://dbehk4clt7h0t" path="res://samples/main.tres" id="6_rd6o4"]
 [ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://scripts/ui/color-driven-color-picker.gd" id="6_ybw4m"]
-[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://resources/color_1.tres" id="8_2f2e5"]
+[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/color_1.tres" id="8_2f2e5"]
 [ext_resource type="PackedScene" uid="uid://bx0kscwc5q0uv" path="res://samples/prefabs/cube.tscn" id="9_ybw4m"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lquwl"]
