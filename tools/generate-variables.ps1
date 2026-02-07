@@ -19,9 +19,9 @@ pwsh -File .\tools\generate-variables.ps1 -Types String,Float,Color -Force
 
 [CmdletBinding()]
 param(
-	[string]$TemplatePath = "scripts/resources/variable.gd.template",
-	[string]$OutputDir = "scripts/resources",
-	[string[]]$Types = @("String", "Float", "Int", "Color", "Vector2", "Vector3", "NodePath"),
+	[string]$TemplatePath = "scripts/variables/variable.gd.template",
+	[string]$OutputDir = "scripts/variables",
+	[string[]]$Types = @("String", "Float", "Int", "Color", "Vector2", "Vector3"),
 	[switch]$Force
 )
 
