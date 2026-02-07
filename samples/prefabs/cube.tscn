@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bx0kscwc5q0uv"]
+[gd_scene load_steps=9 format=3 uid="uid://bx0kscwc5q0uv"]
 
 [ext_resource type="Material" uid="uid://csvib37rqkiw8" path="res://samples/materials/cube-material.tres" id="1_5f4ln"]
 [ext_resource type="Script" uid="uid://cxtu81d4deqfi" path="res://samples/scripts/bind-color-var-to-mat-albedo.gd" id="2_eorvf"]
-[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/color_1.tres" id="3_8aot7"]
+[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/cube-color.tres" id="3_8aot7"]
 [ext_resource type="Script" uid="uid://bq1yerw3xhjgh" path="res://samples/scripts/bind-bool-var-to-visibility.gd" id="4_eorvf"]
-[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/bool1.tres" id="5_8aot7"]
+[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/cube-visibility.tres" id="5_8aot7"]
+[ext_resource type="Script" uid="uid://lrdfsmroovyt" path="res://samples/scripts/bind-float-var-to-rotation.gd" id="6_107wp"]
+[ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://samples/resources/cube-rotation.tres" id="7_sn32g"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_lquwl"]
 
@@ -21,4 +23,9 @@ material = ExtResource("1_5f4ln")
 [node name="Visibility" type="Node3D" parent="." node_paths=PackedStringArray("target_node")]
 script = ExtResource("4_eorvf")
 bool_variable = ExtResource("5_8aot7")
+target_node = NodePath("..")
+
+[node name="Rotation" type="Node3D" parent="." node_paths=PackedStringArray("target_node")]
+script = ExtResource("6_107wp")
+float_variable = ExtResource("7_sn32g")
 target_node = NodePath("..")
