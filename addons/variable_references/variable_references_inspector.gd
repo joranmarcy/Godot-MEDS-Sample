@@ -91,7 +91,7 @@ func _log_references_for_resource(res: Resource) -> void:
 
 	print("Variable References: found ", results.size(), " reference(s) for ", target_path)
 	for entry in results:
-		print(entry)
+		print_rich(entry)
 
 
 func _find_references_in_project(target_path: String) -> Array[String]:
@@ -252,7 +252,7 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 			while use_in_header != null:
 				var id_in_header := use_in_header.get_string(1)
 				if ext_ids_for_target.has(id_in_header):
-					var msg_h := "Scene " + scene_path + " node " + current_node_path + " references " + target_path + " (line " + str(i + 1) + ")"
+					var msg_h := "Scene " + scene_path + " node " + _format_node_link(scene_path, current_node_path) + " references " + target_path + " (line " + str(i + 1) + ")"
 					if current_node_script_path != "":
 						msg_h += " via script " + current_node_script_path
 					out.append(msg_h)
@@ -274,7 +274,7 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 		while use_m != null:
 			var id := use_m.get_string(1)
 			if ext_ids_for_target.has(id):
-				var msg := "Scene " + scene_path + " node " + current_node_path + " references " + target_path + " (line " + str(i + 1) + ")"
+				var msg := "Scene " + scene_path + " node " + _format_node_link(scene_path, current_node_path) + " references " + target_path + " (line " + str(i + 1) + ")"
 				if current_node_script_path != "":
 					msg += " via script " + current_node_script_path
 				out.append(msg)
@@ -286,6 +286,13 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 		out.append("Scene " + scene_path + " references " + target_path + " (could not resolve node section)")
 
 	return out
+
+
+func _format_node_link(scene_path: String, node_path: String) -> String:
+	# The Output dock will turn this into a clickable link; our EditorPlugin
+	# listens for vr://open_node and opens/selects the node.
+	var url := "vr://open_node?scene=" + scene_path.uri_encode() + "&node=" + node_path.uri_encode()
+	return "[url=%s]%s[/url]" % [url, node_path]
 
 
 func _compute_scene_node_path_with_root(root_path: String, name: String, parent: String) -> String:
