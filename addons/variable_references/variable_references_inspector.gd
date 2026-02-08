@@ -1,11 +1,52 @@
 @tool
-extends EditorInspectorPlugin
+extends EditorContextMenuPlugin
 
 
-const MENU_LOG_REFERENCES := 1
+func _popup_menu(paths: PackedStringArray) -> void:
+	# Note: EditorContextMenuPlugin currently supports FileSystem/SceneTree/ScriptEditor/etc.
+	# This plugin is intended for the FileSystem dock: right-click a Variable .tres and choose "Log references".
+	if paths.is_empty():
+		return
+
+	if not _paths_contain_variable_resource(paths):
+		return
+
+	add_context_menu_item("Log references", Callable(self, "_on_log_references"))
 
 
-func _can_handle(object: Object) -> bool:
+func _on_log_references(selection: Array) -> void:
+	# For FileSystem slot, the callback receives a list of selected file paths.
+	for item in selection:
+		var path := str(item)
+		if path == "":
+			continue
+		if not (path.ends_with(".tres") or path.ends_with(".res")):
+			continue
+		if not ResourceLoader.exists(path):
+			continue
+
+		var res := ResourceLoader.load(path)
+		if res == null:
+			continue
+		if not _is_variable_resource(res):
+			continue
+
+		_log_references_for_resource(res)
+
+
+func _paths_contain_variable_resource(paths: PackedStringArray) -> bool:
+	for path in paths:
+		if not (path.ends_with(".tres") or path.ends_with(".res")):
+			continue
+		if not ResourceLoader.exists(path):
+			continue
+		var res := ResourceLoader.load(path)
+		if res != null and _is_variable_resource(res):
+			return true
+	return false
+
+
+func _is_variable_resource(object: Object) -> bool:
 	if object == null:
 		return false
 	if not (object is Resource):
@@ -29,38 +70,6 @@ func _can_handle(object: Object) -> bool:
 	if script is Script:
 		script_path = (script as Script).resource_path
 	return script_path.begins_with("res://scripts/variables/")
-
-
-func _parse_begin(object: Object) -> void:
-	var res := object as Resource
-	if res == null:
-		return
-
-	var header := HBoxContainer.new()
-	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-
-	var label := Label.new()
-	label.text = "Variable"
-	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	label.clip_text = true
-	header.add_child(label)
-
-	var menu := MenuButton.new()
-	menu.text = "⋮"
-	menu.tooltip_text = "Variable actions"
-	menu.focus_mode = Control.FOCUS_NONE
-	menu.flat = true
-	header.add_child(menu)
-
-	var popup := menu.get_popup()
-	popup.add_item("Log references", MENU_LOG_REFERENCES)
-	popup.id_pressed.connect(func(id: int) -> void:
-		match id:
-			MENU_LOG_REFERENCES:
-				_log_references_for_resource(res)
-	)
-
-	add_custom_control(header)
 
 
 func _log_references_for_resource(res: Resource) -> void:
