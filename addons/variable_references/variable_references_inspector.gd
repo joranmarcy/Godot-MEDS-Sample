@@ -139,22 +139,57 @@ func _read_text_file(path: String) -> String:
 	return f.get_as_text()
 
 
+func _parse_ext_resource_id_map(text: String) -> Dictionary:
+	var out: Dictionary = {}
+	var re_ext := RegEx.new()
+	re_ext.compile('^\\[ext_resource\\s+.*path="([^"]+)".*\\sid="([^"]+)".*\\]$')
+	var lines := text.split("\n", false)
+	for line in lines:
+		var m := re_ext.search(line.strip_edges())
+		if m == null:
+			continue
+		var p := m.get_string(1)
+		var id := m.get_string(2)
+		out[id] = p
+	return out
+
+
 func _find_in_resource_text(file_path: String, text: String, target_path: String) -> Array[String]:
 	if text.find(target_path) == -1:
 		return []
 
+	# Best-effort: if this .tres has a script assigned, include it.
+	var ext_id_to_path := _parse_ext_resource_id_map(text)
+	var owner_script_path := ""
+	var re_script := RegEx.new()
+	re_script.compile('^script\\s*=\\s*ExtResource\\("([^"]+)"\\)')
+	var lines_all := text.split("\n", false)
+	for line in lines_all:
+		var m := re_script.search(line.strip_edges())
+		if m != null:
+			var sid := m.get_string(1)
+			if ext_id_to_path.has(sid):
+				owner_script_path = ext_id_to_path[sid]
+			break
+
 	# Provide a small amount of context: first matching line number.
-	var lines := text.split("\n", false)
-	for i in range(lines.size()):
-		if lines[i].find(target_path) != -1:
-			return ["Resource " + file_path + " references " + target_path + " (line " + str(i + 1) + ")"]
-	return ["Resource " + file_path + " references " + target_path]
+	for i in range(lines_all.size()):
+		if lines_all[i].find(target_path) != -1:
+			var msg := "Resource " + file_path + " references " + target_path + " (line " + str(i + 1) + ")"
+			if owner_script_path != "":
+				msg += " via script " + owner_script_path
+			return [msg]
+	var msg2 := "Resource " + file_path + " references " + target_path
+	if owner_script_path != "":
+		msg2 += " via script " + owner_script_path
+	return [msg2]
 
 
 func _find_in_scene_text(scene_path: String, text: String, target_path: String) -> Array[String]:
 	var lines := text.split("\n", false)
 
 	# Pass 1: map ext_resource id -> path
+	var ext_id_to_path: Dictionary = {}
 	var ext_ids_for_target: Dictionary = {}
 	var re_ext := RegEx.new()
 	re_ext.compile('^\\[ext_resource\\s+.*path="([^"]+)".*\\sid="([^"]+)".*\\]$')
@@ -165,6 +200,7 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 			continue
 		var p := m.get_string(1)
 		var id := m.get_string(2)
+		ext_id_to_path[id] = p
 		if p == target_path:
 			ext_ids_for_target[id] = true
 
@@ -178,9 +214,12 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 	re_node.compile('^\\[node\\s+.*name="([^"]+)".*?(?:\\s+parent="([^"]+)")?.*\\]$')
 	var re_ext_use := RegEx.new()
 	re_ext_use.compile('ExtResource\\("([^"]+)"\\)')
+	var re_script_line := RegEx.new()
+	re_script_line.compile('^script\\s*=\\s*ExtResource\\("([^"]+)"\\)')
 
 	var root_path := ""
 	var current_node_path := ""
+	var current_node_script_path := ""
 	for i in range(lines.size()):
 		var raw := lines[i]
 		var stripped := raw.strip_edges()
@@ -192,6 +231,7 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 			if parent == null:
 				parent = ""
 			current_node_path = _compute_scene_node_path_with_root(root_path, name, parent)
+			current_node_script_path = ""
 			if parent == "":
 				root_path = current_node_path
 
@@ -200,7 +240,10 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 			while use_in_header != null:
 				var id_in_header := use_in_header.get_string(1)
 				if ext_ids_for_target.has(id_in_header):
-					out.append("Scene " + scene_path + " node " + current_node_path + " references " + target_path + " (line " + str(i + 1) + ")")
+					var msg_h := "Scene " + scene_path + " node " + current_node_path + " references " + target_path + " (line " + str(i + 1) + ")"
+					if current_node_script_path != "":
+						msg_h += " via script " + current_node_script_path
+					out.append(msg_h)
 					break
 				use_in_header = re_ext_use.search(stripped, use_in_header.get_end())
 			continue
@@ -208,11 +251,21 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 		if current_node_path == "":
 			continue
 
+		var script_m := re_script_line.search(stripped)
+		if script_m != null:
+			var sid2 := script_m.get_string(1)
+			if ext_id_to_path.has(sid2):
+				current_node_script_path = ext_id_to_path[sid2]
+			continue
+
 		var use_m := re_ext_use.search(stripped)
 		while use_m != null:
 			var id := use_m.get_string(1)
 			if ext_ids_for_target.has(id):
-				out.append("Scene " + scene_path + " node " + current_node_path + " references " + target_path + " (line " + str(i + 1) + ")")
+				var msg := "Scene " + scene_path + " node " + current_node_path + " references " + target_path + " (line " + str(i + 1) + ")"
+				if current_node_script_path != "":
+					msg += " via script " + current_node_script_path
+				out.append(msg)
 				break
 			use_m = re_ext_use.search(stripped, use_m.get_end())
 
