@@ -220,7 +220,9 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 	# Pass 2: walk nodes and find ExtResource("id") usage
 	var out: Array[String] = []
 	var re_node := RegEx.new()
-	re_node.compile('^\\[node\\s+.*name="([^"]+)".*?(?:\\s+parent="([^"]+)")?.*\\]$')
+	re_node.compile('^\\[node\\s+.*name="([^"]+)".*\\]$')
+	var re_parent := RegEx.new()
+	re_parent.compile('\\sparent="([^"]+)"')
 	var re_ext_use := RegEx.new()
 	re_ext_use.compile('ExtResource\\("([^"]+)"\\)')
 	var re_script_line := RegEx.new()
@@ -236,9 +238,10 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 		var node_m := re_node.search(stripped)
 		if node_m != null:
 			var name := node_m.get_string(1)
-			var parent := node_m.get_string(2)
-			if parent == null:
-				parent = ""
+			var parent := ""
+			var parent_m := re_parent.search(stripped)
+			if parent_m != null:
+				parent = parent_m.get_string(1)
 			current_node_path = _compute_scene_node_path_with_root(root_path, name, parent)
 			current_node_script_path = ""
 			if parent == "":
