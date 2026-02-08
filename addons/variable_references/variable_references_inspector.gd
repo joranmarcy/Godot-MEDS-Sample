@@ -291,7 +291,7 @@ func _find_in_scene_text(scene_path: String, text: String, target_path: String) 
 func _format_node_link(scene_path: String, node_path: String) -> String:
 	# The Output dock will turn this into a clickable link; our EditorPlugin
 	# listens for vr://open_node and opens/selects the node.
-	var url := "vr://open_node?scene=" + scene_path.uri_encode() + "&node=" + node_path.uri_encode()
+	var url := "//open_node?scene=" + scene_path.uri_encode() + "&node=" + node_path.uri_encode()
 	return "[url=%s]%s[/url]" % [url, node_path]
 
 

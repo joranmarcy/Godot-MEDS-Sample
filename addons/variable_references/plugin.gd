@@ -102,7 +102,7 @@ func _on_output_meta_clicked(meta: Variant) -> void:
 	if typeof(meta) != TYPE_STRING:
 		return
 	var s := String(meta)
-	if not s.begins_with("vr://open_node?"):
+	if not s.begins_with("//open_node?"):
 		return
 
 	print("Variable References: clicked link ", s)
