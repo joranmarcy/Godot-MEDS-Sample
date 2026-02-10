@@ -2,14 +2,34 @@
 extends EditorPlugin
 
 
+const VariableReferencesInspectorPlugin := preload("res://addons/variable_references/variable_references_inspector.gd")
+const VariableValuesDock := preload("res://addons/variable_references/variable_values_dock.gd")
+const VariableValuesDebugger := preload("res://addons/variable_references/variable_values_debugger.gd")
+
+
 var _context_menu_plugin: EditorContextMenuPlugin
 var _connected_rich_text_labels: Array[RichTextLabel] = []
 var _is_listening_for_new_nodes := false
 
+var _values_dock: Control
+var _values_debugger: EditorDebuggerPlugin
+
 
 func _enter_tree() -> void:
-	_context_menu_plugin = preload("res://addons/variable_references/variable_references_inspector.gd").new()
+	print("Variable References: plugin loaded")
+	_context_menu_plugin = VariableReferencesInspectorPlugin.new()
 	add_context_menu_plugin(EditorContextMenuPlugin.CONTEXT_SLOT_FILESYSTEM, _context_menu_plugin)
+
+	_values_dock = VariableValuesDock.new()
+	_values_dock.name = "Variable Values"
+	add_control_to_dock(DOCK_SLOT_RIGHT_UL, _values_dock)
+
+	_values_debugger = VariableValuesDebugger.new()
+	add_debugger_plugin(_values_debugger)
+	# Connect debugger updates to the dock.
+	if _values_debugger.has_signal("variable_value_updated"):
+		_values_debugger.connect("variable_value_updated", Callable(_values_dock, "on_variable_value_updated"))
+
 	_connect_output_meta_handlers_deferred()
 	_listen_for_rich_text_labels()
 
@@ -17,6 +37,15 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	_stop_listening_for_rich_text_labels()
 	_disconnect_output_meta_handlers()
+
+	if _values_debugger:
+		remove_debugger_plugin(_values_debugger)
+		_values_debugger = null
+	if _values_dock:
+		remove_control_from_docks(_values_dock)
+		_values_dock.queue_free()
+		_values_dock = null
+
 	if _context_menu_plugin:
 		remove_context_menu_plugin(_context_menu_plugin)
 		_context_menu_plugin = null
@@ -105,7 +134,7 @@ func _on_output_meta_clicked(meta: Variant) -> void:
 	if not s.begins_with("//open_node?"):
 		return
 
-	print("Variable References: clicked link ", s)
+	# print("Variable References: clicked link ", s)
 
 	var q_index := s.find("?")
 	if q_index == -1:
