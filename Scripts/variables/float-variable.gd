@@ -13,13 +13,19 @@ signal value_changed(new_value: float)
 
 var _value: float = 0.0
 
+func set_value(new_val: float, caller: Object = null) -> void:
+	_set_value(new_val, caller)
+
+func _set_value(new_val: float, caller: Object = null) -> void:
+	if _value != new_val:
+		_value = new_val
+		value_changed.emit(_value)
+		VariableRuntimeReporter.report(self, _value)
+		Debug.log("FloatVariable: " + resource_path.get_basename() + " runtime value changed to: " + str(_value), true, 12, caller)
+
 var value: float:
 	get:
 		return _value
 	set(new_val):
-		if _value != new_val:
-			_value = new_val
-			value_changed.emit(_value)
-			VariableRuntimeReporter.report(self, _value)
-			Debug.log("FloatVariable: " + resource_path.get_basename() + " runtime value changed to: " + str(_value))
+		_set_value(new_val, null)
 

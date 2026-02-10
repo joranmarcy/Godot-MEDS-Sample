@@ -10,7 +10,7 @@ func _ready():
 
 func _on_toggled(pressed: bool):	
 	print("Checkbox toggled to: " + str(pressed))
-	bool_var.value = pressed
+	bool_var.set_value(pressed, self)
 
 func _on_value_changed(new_value: bool):
 	print("BoolVariable changed to: " + str(new_value))

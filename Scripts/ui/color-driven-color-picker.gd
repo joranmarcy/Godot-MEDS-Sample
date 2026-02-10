@@ -8,7 +8,7 @@ func _ready():
 	connect("color_changed", _on_color_picker_value_changed)
 
 func _on_color_picker_value_changed(new_value: Color):	
-	color_variable.value = new_value
+	color_variable.set_value(new_value, self)
 
 func _on_color_variable_value_changed(new_value: Color):	
 	self.color = new_value
