@@ -29,6 +29,9 @@ func _enter_tree() -> void:
 	# Connect debugger updates to the dock.
 	if _values_debugger.has_signal("variable_value_updated"):
 		_values_debugger.connect("variable_value_updated", Callable(_values_dock, "on_variable_value_updated"))
+	# Connect dock edits back to the running game.
+	if _values_dock.has_signal("variable_value_set_requested") and _values_debugger.has_method("request_set_value"):
+		_values_dock.connect("variable_value_set_requested", Callable(_values_debugger, "request_set_value"))
 
 	_connect_output_meta_handlers_deferred()
 	_listen_for_rich_text_labels()
