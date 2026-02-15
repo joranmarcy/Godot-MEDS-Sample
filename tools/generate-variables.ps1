@@ -21,7 +21,7 @@ pwsh -File .\tools\generate-variables.ps1 -Types String,Float,Color -Force
 param(
 	[string]$TemplatePath = "scripts/variables/variable.gd.template",
 	[string]$OutputDir = "scripts/variables",
-	[string[]]$Types = @("String", "Float", "Int", "Color", "Vector2", "Vector3"),
+	[string[]]$Types = @("Bool", "String", "Float", "Int", "Color", "Vector2", "Vector3"),
 	[switch]$Force
 )
 
@@ -62,6 +62,7 @@ $specs = @{
 	"Vector2" = @{ ClassName = "Vector2Variable"; GdType = "Vector2";  DefaultValue = 'Vector2.ZERO';  FileName = "vector2-variable.gd" }
 	"Vector3" = @{ ClassName = "Vector3Variable"; GdType = "Vector3";  DefaultValue = 'Vector3.ZERO';  FileName = "vector3-variable.gd" }
 	"NodePath"= @{ ClassName = "NodePathVariable";GdType = "NodePath"; DefaultValue = 'NodePath(\"\")'; FileName = "nodepath-variable.gd" }
+	"Bool"    = @{ ClassName = "BoolVariable";    GdType = "bool";     DefaultValue = 'false';         FileName = "bool-variable.gd" }
 }
 
 $generated = New-Object System.Collections.Generic.List[string]
