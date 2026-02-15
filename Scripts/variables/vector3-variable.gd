@@ -4,6 +4,9 @@ class_name Vector3Variable
 
 signal value_changed(new_value: Vector3)
 
+func _init() -> void:
+	call_deferred("_report_next_frame", _value)
+
 func _report_next_frame(value_to_report: Vector3) -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree != null:
@@ -14,7 +17,6 @@ func _report_next_frame(value_to_report: Vector3) -> void:
 	set(new_val):
 		initial_value = new_val
 		_value = new_val
-		call_deferred("_report_next_frame", _value)
 		Debug.log("Vector3Variable: " + resource_path.get_basename() + " loaded initial_value: " + str(initial_value))
 
 var _value: Vector3 = Vector3.ZERO

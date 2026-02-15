@@ -4,6 +4,9 @@ class_name IntVariable
 
 signal value_changed(new_value: int)
 
+func _init() -> void:
+	call_deferred("_report_next_frame", _value)
+
 func _report_next_frame(value_to_report: int) -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree != null:
@@ -14,7 +17,6 @@ func _report_next_frame(value_to_report: int) -> void:
 	set(new_val):
 		initial_value = new_val
 		_value = new_val
-		call_deferred("_report_next_frame", _value)
 		Debug.log("IntVariable: " + resource_path.get_basename() + " loaded initial_value: " + str(initial_value))
 
 var _value: int = 0
