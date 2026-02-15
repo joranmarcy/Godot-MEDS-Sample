@@ -4,11 +4,17 @@ class_name ColorVariable
 
 signal value_changed(new_value: Color)
 
+func _report_next_frame(value_to_report: Color) -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null:
+		await tree.process_frame
+	VariableRuntimeReporter.report(self, value_to_report)
+
 @export var initial_value: Color = Color.WHITE:
 	set(new_val):
 		initial_value = new_val
 		_value = new_val
-		VariableRuntimeReporter.report(self, _value)
+		call_deferred("_report_next_frame", _value)
 		Debug.log("ColorVariable: " + resource_path.get_basename() + " loaded initial_value: " + str(initial_value))
 
 var _value: Color = Color.WHITE

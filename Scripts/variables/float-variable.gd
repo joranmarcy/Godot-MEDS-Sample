@@ -4,11 +4,17 @@ class_name FloatVariable
 
 signal value_changed(new_value: float)
 
+func _report_next_frame(value_to_report: float) -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null:
+		await tree.process_frame
+	VariableRuntimeReporter.report(self, value_to_report)
+
 @export var initial_value: float = 0.0:
 	set(new_val):
 		initial_value = new_val
 		_value = new_val
-		VariableRuntimeReporter.report(self, _value)
+		call_deferred("_report_next_frame", _value)
 		Debug.log("FloatVariable: " + resource_path.get_basename() + " loaded initial_value: " + str(initial_value))
 
 var _value: float = 0.0

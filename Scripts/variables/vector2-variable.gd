@@ -4,11 +4,17 @@ class_name Vector2Variable
 
 signal value_changed(new_value: Vector2)
 
+func _report_next_frame(value_to_report: Vector2) -> void:
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null:
+		await tree.process_frame
+	VariableRuntimeReporter.report(self, value_to_report)
+
 @export var initial_value: Vector2 = Vector2.ZERO:
 	set(new_val):
 		initial_value = new_val
 		_value = new_val
-		VariableRuntimeReporter.report(self, _value)
+		call_deferred("_report_next_frame", _value)
 		Debug.log("Vector2Variable: " + resource_path.get_basename() + " loaded initial_value: " + str(initial_value))
 
 var _value: Vector2 = Vector2.ZERO
