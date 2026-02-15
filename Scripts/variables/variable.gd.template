@@ -2,6 +2,7 @@
 extends BaseVariable
 class_name __ClassName__
 
+@warning_ignore("unused_signal")
 signal value_changed(new_value: __Type__)
 
 @export var initial_value: __Type__ = __DefaultValue__:

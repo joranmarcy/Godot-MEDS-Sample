@@ -2,6 +2,7 @@
 extends BaseVariable
 class_name Vector3Variable
 
+@warning_ignore("unused_signal")
 signal value_changed(new_value: Vector3)
 
 @export var initial_value: Vector3 = Vector3.ZERO:
@@ -14,8 +15,7 @@ func set_value(new_val: Vector3, caller: Object = null) -> void:
 
 var value: Vector3:
 	get:
-		var v: Variant = _get_value_variant()
-		return v if v is Vector3 else Vector3.ZERO
+		return _get_value_variant()
 	set(new_val):
 		_set_value_variant(new_val, null)
 

@@ -2,6 +2,7 @@
 extends BaseVariable
 class_name FloatVariable
 
+@warning_ignore("unused_signal")
 signal value_changed(new_value: float)
 
 @export var initial_value: float = 0.0:
@@ -14,7 +15,7 @@ func set_value(new_val: float, caller: Object = null) -> void:
 
 var value: float:
 	get:
-		return float(_get_value_variant())
+		return _get_value_variant()
 	set(new_val):
 		_set_value_variant(new_val, null)
 

@@ -2,6 +2,7 @@
 extends BaseVariable
 class_name ColorVariable
 
+@warning_ignore("unused_signal")
 signal value_changed(new_value: Color)
 
 @export var initial_value: Color = Color.WHITE:
@@ -14,8 +15,7 @@ func set_value(new_val: Color, caller: Object = null) -> void:
 
 var value: Color:
 	get:
-		var v: Variant = _get_value_variant()
-		return v if v is Color else Color.WHITE
+		return _get_value_variant()
 	set(new_val):
 		_set_value_variant(new_val, null)
 

@@ -2,6 +2,7 @@
 extends BaseVariable
 class_name StringVariable
 
+@warning_ignore("unused_signal")
 signal value_changed(new_value: String)
 
 @export var initial_value: String = "":
@@ -14,7 +15,7 @@ func set_value(new_val: String, caller: Object = null) -> void:
 
 var value: String:
 	get:
-		return str(_get_value_variant())
+		return _get_value_variant()
 	set(new_val):
 		_set_value_variant(new_val, null)
 
