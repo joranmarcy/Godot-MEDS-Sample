@@ -5,6 +5,7 @@ class_name BaseVariable
 @export var debug_logs: bool = false
 @export var stack_trace_logs: bool = false
 @export var listeners_logs: bool = false
+@export var save: bool = false
 
 var _value: Variant = null
 
@@ -28,6 +29,15 @@ func _report_next_frame() -> void:
 	if tree != null:
 		await tree.process_frame
 	VariableRuntimeReporter.report(self , _value)
+	if save:
+		# if there is a saved value for this variable, load it and override the initial value
+		var config = ConfigFile.new()
+		var err = config.load("user://settings.cfg")
+		if err == OK:
+			if config.has_section_key("variables", resource_path.get_basename()):
+				var saved_value = config.get_value("variables", resource_path.get_basename())
+				print("Loaded saved value for %s: %s" % [resource_path.get_basename(), str(saved_value)])
+				_set_value_variant(saved_value, null)
 
 func _apply_initial_value(new_val: Variant) -> void:
 	_value = new_val
@@ -87,6 +97,8 @@ func _log_listener_reacted_to_value_change(cb: Callable, caller: Object) -> void
 func _set_value_variant(new_val: Variant, caller: Object = null) -> void:
 	if _value != new_val:
 		_value = new_val
+		if save:
+			save_value("variables", resource_path.get_basename(), _value)
 		if has_signal("value_changed"):
 			emit_signal("value_changed", _value)
 			if listeners_logs:
@@ -99,3 +111,11 @@ func _set_value_variant(new_val: Variant, caller: Object = null) -> void:
 
 func _get_value_variant() -> Variant:
 	return _value
+
+func save_value(section: String, key: String, value: Variant):
+	var config = ConfigFile.new()
+	# Load existing file if it exists to avoid overwriting other settings
+	config.load("user://settings.cfg")
+	
+	config.set_value(section, key, value)
+	config.save("user://settings.cfg")
