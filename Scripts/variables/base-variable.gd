@@ -5,7 +5,7 @@ class_name BaseVariable
 @export var debug_logs: bool = false
 @export var stack_trace_logs: bool = false
 @export var listeners_logs: bool = false
-@export var save: bool = false
+@export var save_to_user_settings: bool = false
 
 var _value: Variant = null
 
@@ -29,7 +29,7 @@ func _report_next_frame() -> void:
 	if tree != null:
 		await tree.process_frame
 	VariableRuntimeReporter.report(self , _value)
-	if save:
+	if save_to_user_settings:
 		# if there is a saved value for this variable, load it and override the initial value
 		var config = ConfigFile.new()
 		var err = config.load("user://settings.cfg")
@@ -97,7 +97,7 @@ func _log_listener_reacted_to_value_change(cb: Callable, caller: Object) -> void
 func _set_value_variant(new_val: Variant, caller: Object = null) -> void:
 	if _value != new_val:
 		_value = new_val
-		if save:
+		if save_to_user_settings:
 			save_value("variables", resource_path.get_basename(), _value)
 		if has_signal("value_changed"):
 			emit_signal("value_changed", _value)
