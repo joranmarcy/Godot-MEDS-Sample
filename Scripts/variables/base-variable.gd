@@ -33,11 +33,26 @@ func _apply_initial_value(new_val: Variant) -> void:
 	if (debug_logs):
 		Debug.log("%s: %s loaded initial_value: %s" % [get_class(), resource_path.get_basename(), str(new_val)])
 
+func _object_node_path_or_name(obj: Object) -> String:
+	if obj == null:
+		return "<null>"
+	if obj is Node:
+		var node := obj as Node
+		if node.is_inside_tree():
+			return String(node.get_path())
+		return String(node.name)
+	# Fallback: best-effort readable identifier.
+	return str(obj)
+
 func _set_value_variant(new_val: Variant, caller: Object = null) -> void:
 	if _value != new_val:
 		_value = new_val
 		if has_signal("value_changed"):
 			emit_signal("value_changed", _value)
+			for c in get_signal_connection_list("value_changed"):
+				var cb: Callable = c["callable"]
+				var target_obj: Object = cb.get_object()
+				print(_object_node_path_or_name(target_obj), " reacted to value change from ", resource_path.get_basename(), " (caller: ", _object_node_path_or_name(caller), ")")
 		VariableRuntimeReporter.report(self , _value)
 		if (debug_logs):
 			Debug.log("%s: %s runtime value changed to: %s" % [get_class(), resource_path.get_basename(), str(_value)], stack_trace_logs, 12, caller)
