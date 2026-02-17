@@ -3,7 +3,6 @@ extends Resource
 class_name BaseVariable
 
 @export var debug_logs: bool = false
-@export var stack_trace_logs: bool = false
 @export var save_to_user_settings: bool = false
 
 var _value: Variant = null

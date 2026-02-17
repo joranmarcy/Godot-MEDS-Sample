@@ -8,7 +8,7 @@ static func log(msg: String, include_stack: bool = false, max_frames: int = 12, 
 		return
 
 	if caller is Node:
-		msg += "\nCaller node: " + String((caller as Node).get_path())
+		msg += "\nCaller node: " + String(_format_runtime_node_link(caller))
 
 	if not include_stack:
 		print(msg)
@@ -28,10 +28,10 @@ static func log_value_change(variable: BaseVariable, caller: Object = null) -> v
 	print("")
 	var msg := "%s: %s runtime value changed to: %s" % [variable.get_class(), variable.resource_path.get_basename(), str(variable._value)]
 	Debug.log(msg, true, 0, caller)
+	print("")
 	Debug.log_signal_listeners_reacted(variable, "value_changed")
 	print("")
-	print("--- End of Debug ---")
-	print("")
+	print("--- End of Debug ---")	
 
 static func log_signal_listeners_reacted(emitter: Object, signal_name: String) -> void:
 	if not debug_mode:
@@ -94,7 +94,7 @@ static func _log_listener_reacted_to_value_change(cb: Callable) -> void:
 	if target_obj is Node:
 		target_str = _format_runtime_node_link(target_obj as Node)
 
-	print_rich(target_str + " reacted to value change")
+	print_rich("- " + target_str + " reacted to value change")
 
 
 static func _format_stack(stack: Array, skip: int, max_frames: int) -> String:
