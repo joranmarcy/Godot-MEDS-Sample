@@ -27,7 +27,7 @@ static func log_value_change(variable: BaseVariable, caller: Object = null) -> v
 	print("--- Debug: Value Change Detected ---")
 	print("")
 	var msg := "%s: %s runtime value changed to: %s" % [variable.get_class(), variable.resource_path.get_basename(), str(variable._value)]
-	Debug._log(msg, true, 0, caller)
+	Debug._log(msg, true, 12, caller)
 	print("")
 	Debug._log_signal_listeners_reacted(variable, "value_changed")
 	print("")
