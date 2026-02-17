@@ -40,7 +40,7 @@ func _report_next_frame() -> void:
 func _apply_initial_value(new_val: Variant) -> void:
 	_value = new_val
 	if (debug_logs):
-		Debug.log("%s: %s loaded initial_value: %s" % [get_class(), resource_path.get_basename(), str(new_val)])
+		Debug._log("%s: %s loaded initial_value: %s" % [get_class(), resource_path.get_basename(), str(new_val)])
 
 func _set_value_variant(new_val: Variant, caller: Object = null) -> void:
 	if _value != new_val:

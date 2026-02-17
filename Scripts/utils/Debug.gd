@@ -3,7 +3,7 @@ class_name Debug
 
 static var debug_mode: bool = true
 
-static func log(msg: String, include_stack: bool = false, max_frames: int = 12, caller: Object = null) -> void:
+static func _log(msg: String, include_stack: bool = false, max_frames: int = 12, caller: Object = null) -> void:
 	if not debug_mode:
 		return
 
@@ -27,13 +27,13 @@ static func log_value_change(variable: BaseVariable, caller: Object = null) -> v
 	print("--- Debug: Value Change Detected ---")
 	print("")
 	var msg := "%s: %s runtime value changed to: %s" % [variable.get_class(), variable.resource_path.get_basename(), str(variable._value)]
-	Debug.log(msg, true, 0, caller)
+	Debug._log(msg, true, 0, caller)
 	print("")
-	Debug.log_signal_listeners_reacted(variable, "value_changed")
+	Debug._log_signal_listeners_reacted(variable, "value_changed")
 	print("")
 	print("--- End of Debug ---")	
 
-static func log_signal_listeners_reacted(emitter: Object, signal_name: String) -> void:
+static func _log_signal_listeners_reacted(emitter: Object, signal_name: String) -> void:
 	if not debug_mode:
 		return
 	if emitter == null:
