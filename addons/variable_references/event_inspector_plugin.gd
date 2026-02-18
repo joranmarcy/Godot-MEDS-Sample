@@ -2,6 +2,13 @@
 extends EditorInspectorPlugin
 
 
+var _owner_plugin: EditorPlugin
+
+
+func _init(owner_plugin: EditorPlugin = null) -> void:
+	_owner_plugin = owner_plugin
+
+
 func _can_handle(object: Object) -> bool:
 	if object == null:
 		return false
@@ -31,7 +38,9 @@ func _parse_begin(object: Object) -> void:
 func _on_raise_pressed(object: Object) -> void:
 	if not is_instance_valid(object):
 		return
-	if not object.has_method("raise_event"):
+	# In the editor, this Resource instance is not the same as the running game's instance.
+	# Send a debugger message so the running game can raise its cached resource.
+	if _owner_plugin != null and _owner_plugin.has_method("request_raise_event_resource"):
+		_owner_plugin.call("request_raise_event_resource", object)
 		return
-	print("Raising event...")
-	object.call("raise_event")
+	push_warning("Events: cannot raise event (missing owner plugin reference).")

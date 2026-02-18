@@ -4,6 +4,7 @@ extends EditorPlugin
 
 const VariableReferencesInspectorPlugin := preload("res://addons/variable_references/variable_references_inspector.gd")
 const EventInspectorPlugin := preload("res://addons/variable_references/event_inspector_plugin.gd")
+const EventDebugger := preload("res://addons/variable_references/event_debugger.gd")
 const VariableValuesDock := preload("res://addons/variable_references/variable_values_dock.gd")
 const VariableValuesDebugger := preload("res://addons/variable_references/variable_values_debugger.gd")
 
@@ -15,11 +16,12 @@ var _is_listening_for_new_nodes := false
 
 var _values_dock: Control
 var _values_debugger: EditorDebuggerPlugin
+var _event_debugger: EditorDebuggerPlugin
 
 
 func _enter_tree() -> void:
 	print("Variable References: plugin loaded")
-	_event_inspector_plugin = EventInspectorPlugin.new()
+	_event_inspector_plugin = EventInspectorPlugin.new(self)
 	add_inspector_plugin(_event_inspector_plugin)
 
 	_context_menu_plugin = VariableReferencesInspectorPlugin.new()
@@ -31,6 +33,9 @@ func _enter_tree() -> void:
 
 	_values_debugger = VariableValuesDebugger.new()
 	add_debugger_plugin(_values_debugger)
+
+	_event_debugger = EventDebugger.new()
+	add_debugger_plugin(_event_debugger)
 	# Connect debugger updates to the dock.
 	if _values_debugger.has_signal("variable_value_updated"):
 		_values_debugger.connect("variable_value_updated", Callable(_values_dock, "on_variable_value_updated"))
@@ -53,6 +58,9 @@ func _exit_tree() -> void:
 	if _values_debugger:
 		remove_debugger_plugin(_values_debugger)
 		_values_debugger = null
+	if _event_debugger:
+		remove_debugger_plugin(_event_debugger)
+		_event_debugger = null
 	if _values_dock:
 		remove_control_from_docks(_values_dock)
 		_values_dock.queue_free()
@@ -61,6 +69,21 @@ func _exit_tree() -> void:
 	if _context_menu_plugin:
 		remove_context_menu_plugin(_context_menu_plugin)
 		_context_menu_plugin = null
+
+
+func request_raise_event_resource(res: Resource) -> void:
+	if res == null:
+		return
+	var path := ""
+	if res.resource_path != null:
+		path = String(res.resource_path)
+	if path == "":
+		push_warning("Events: can't raise an unsaved resource. Save it as a .tres/.res first.")
+		return
+	if _event_debugger == null or not _event_debugger.has_method("request_raise_event"):
+		push_warning("Events: debugger bridge not available.")
+		return
+	_event_debugger.call("request_raise_event", path)
 
 
 func _connect_output_meta_handlers_deferred() -> void:

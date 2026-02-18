@@ -1,12 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhpio07xeiuck"]
+[gd_scene load_steps=10 format=3 uid="uid://dhpio07xeiuck"]
 
 [ext_resource type="PackedScene" uid="uid://bf7ic1165wq3u" path="res://samples/prefabs/menu.tscn" id="1_fqs1e"]
+[ext_resource type="Script" uid="uid://d0pv40e8hphp4" path="res://samples/scripts/utils/log-event-raised.gd" id="4_gvi1x"]
+[ext_resource type="Script" uid="uid://b38teclkivo6d" path="res://samples/scripts/events/event-listener.gd" id="4_lqy8j"]
+[ext_resource type="Script" uid="uid://xn8itmrc4852" path="res://scripts/events/event.gd" id="5_gvi1x"]
 [ext_resource type="Environment" uid="uid://dbehk4clt7h0t" path="res://samples/main.tres" id="6_rd6o4"]
 [ext_resource type="PackedScene" uid="uid://bx0kscwc5q0uv" path="res://samples/prefabs/cube.tscn" id="9_ybw4m"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lquwl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvi1x"]
+
+[sub_resource type="Resource" id="Resource_3v2ro"]
+script = ExtResource("5_gvi1x")
+metadata/_custom_type_script = "uid://xn8itmrc4852"
 
 [node name="Node3D" type="Node3D"]
 
@@ -26,3 +33,12 @@ transform = Transform3D(0.764359, 0, 0.6447909, 0, 1, 0, -0.6447909, 0, 0.764359
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.853669, -0.010552713, -0.52070904, 0.52081597, 0.017296942, 0.85349375, 0, -0.9997947, 0.020261884, 0, 0, 0)
+
+[node name="Node3D" type="Node3D" parent="."]
+script = ExtResource("4_gvi1x")
+
+[node name="EventListener" type="Node3D" parent="Node3D"]
+script = ExtResource("4_lqy8j")
+event = SubResource("Resource_3v2ro")
+
+[connection signal="event_raised" from="Node3D/EventListener" to="Node3D" method="print_log"]
