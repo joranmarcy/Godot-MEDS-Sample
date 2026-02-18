@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bf7ic1165wq3u" path="res://samples/prefabs/menu.tscn" id="1_fqs1e"]
 [ext_resource type="Script" uid="uid://bv0yeq0afhea3" path="res://samples/scripts/event-listener.gd" id="4_lqy8j"]
-[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/event.tres" id="5_gvi1x"]
+[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/event.tres" id="5_x7s1y"]
 [ext_resource type="Environment" uid="uid://dbehk4clt7h0t" path="res://samples/main.tres" id="6_rd6o4"]
 [ext_resource type="PackedScene" uid="uid://bx0kscwc5q0uv" path="res://samples/prefabs/cube.tscn" id="9_ybw4m"]
 
@@ -31,4 +31,4 @@ transform = Transform3D(0.853669, -0.010552713, -0.52070904, 0.52081597, 0.01729
 
 [node name="Node" type="Node" parent="."]
 script = ExtResource("4_lqy8j")
-event = ExtResource("5_gvi1x")
+event = ExtResource("5_x7s1y")

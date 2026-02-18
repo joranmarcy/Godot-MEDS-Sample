@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bf7ic1165wq3u"]
+[gd_scene load_steps=10 format=3 uid="uid://bf7ic1165wq3u"]
 
 [ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/ui/bool-driven-checkbox.gd" id="1_qp0mf"]
 [ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/cube-visibility.tres" id="2_3e2kd"]
@@ -8,11 +8,7 @@
 [ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://scripts/ui/color-driven-color-picker.gd" id="6_twerf"]
 [ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/cube-color.tres" id="7_43bnt"]
 [ext_resource type="Script" uid="uid://dgki0vmwag0uo" path="res://samples/scripts/raise-event.gd" id="8_f77vf"]
-[ext_resource type="Script" uid="uid://xn8itmrc4852" path="res://scripts/events/event.gd" id="9_8o0cq"]
-
-[sub_resource type="Resource" id="Resource_6nml3"]
-script = ExtResource("9_8o0cq")
-metadata/_custom_type_script = "uid://xn8itmrc4852"
+[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/event.tres" id="9_g3v0a"]
 
 [node name="Menu" type="CanvasLayer"]
 follow_viewport_enabled = true
@@ -94,6 +90,6 @@ text = "Raise Event
 
 [node name="RaiseEvent" type="Node" parent="PanelContainer/CenterContainer/VBoxContainer/Button"]
 script = ExtResource("8_f77vf")
-event = SubResource("Resource_6nml3")
+event = ExtResource("9_g3v0a")
 
 [connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/Button" to="PanelContainer/CenterContainer/VBoxContainer/Button/RaiseEvent" method="raise_event"]

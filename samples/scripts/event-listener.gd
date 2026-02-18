@@ -8,7 +8,3 @@ func _ready() -> void:
 
 func _on_event_raised() -> void:
 	print("Event was raised!")
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
