@@ -3,11 +3,13 @@ extends EditorPlugin
 
 
 const VariableReferencesInspectorPlugin := preload("res://addons/variable_references/variable_references_inspector.gd")
+const EventInspectorPlugin := preload("res://addons/variable_references/event_inspector_plugin.gd")
 const VariableValuesDock := preload("res://addons/variable_references/variable_values_dock.gd")
 const VariableValuesDebugger := preload("res://addons/variable_references/variable_values_debugger.gd")
 
 
 var _context_menu_plugin: EditorContextMenuPlugin
+var _event_inspector_plugin: EditorInspectorPlugin
 var _connected_rich_text_labels: Array[RichTextLabel] = []
 var _is_listening_for_new_nodes := false
 
@@ -17,6 +19,9 @@ var _values_debugger: EditorDebuggerPlugin
 
 func _enter_tree() -> void:
 	print("Variable References: plugin loaded")
+	_event_inspector_plugin = EventInspectorPlugin.new()
+	add_inspector_plugin(_event_inspector_plugin)
+
 	_context_menu_plugin = VariableReferencesInspectorPlugin.new()
 	add_context_menu_plugin(EditorContextMenuPlugin.CONTEXT_SLOT_FILESYSTEM, _context_menu_plugin)
 
@@ -40,6 +45,10 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	_stop_listening_for_rich_text_labels()
 	_disconnect_output_meta_handlers()
+
+	if _event_inspector_plugin:
+		remove_inspector_plugin(_event_inspector_plugin)
+		_event_inspector_plugin = null
 
 	if _values_debugger:
 		remove_debugger_plugin(_values_debugger)

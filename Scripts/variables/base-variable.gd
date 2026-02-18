@@ -3,7 +3,7 @@ extends Resource
 class_name BaseVariable
 
 @export var debug_logs: bool = false
-@export var save_to_user_settings: bool = false
+@export var save_to_device: bool = false
 
 var _value: Variant = null
 
@@ -27,7 +27,7 @@ func _report_next_frame() -> void:
 	if tree != null:
 		await tree.process_frame
 	VariableRuntimeReporter.report(self , _value)
-	if save_to_user_settings:
+	if save_to_device:
 		# if there is a saved value for this variable, load it and override the initial value
 		var config = ConfigFile.new()
 		var err = config.load("user://settings.cfg")
@@ -45,7 +45,7 @@ func _apply_initial_value(new_val: Variant) -> void:
 func _set_value_variant(new_val: Variant, caller: Object = null) -> void:
 	if _value != new_val:
 		_value = new_val
-		if save_to_user_settings:
+		if save_to_device:
 			save_value("variables", resource_path.get_basename(), _value)
 		if has_signal("value_changed"):
 			emit_signal("value_changed", _value)
