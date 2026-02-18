@@ -1,3 +1,4 @@
+@tool
 @icon("res://icons/BaseVariable.svg")
 extends Resource
 class_name Event

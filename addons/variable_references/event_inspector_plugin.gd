@@ -33,4 +33,5 @@ func _on_raise_pressed(object: Object) -> void:
 		return
 	if not object.has_method("raise_event"):
 		return
+	print("Raising event...")
 	object.call("raise_event")
