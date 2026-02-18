@@ -5,6 +5,8 @@ extends EditorPlugin
 const VariableReferencesInspectorPlugin := preload("res://addons/variable_references/variable_references_inspector.gd")
 const VariableValuesDock := preload("res://addons/variable_references/variable_values_dock.gd")
 const VariableValuesDebugger := preload("res://addons/variable_references/variable_values_debugger.gd")
+const EventsDock := preload("res://addons/variable_references/events_dock.gd")
+const EventsDebugger := preload("res://addons/variable_references/events_debugger.gd")
 
 
 var _context_menu_plugin: EditorContextMenuPlugin
@@ -13,6 +15,9 @@ var _is_listening_for_new_nodes := false
 
 var _values_dock: Control
 var _values_debugger: EditorDebuggerPlugin
+
+var _events_dock: Control
+var _events_debugger: EditorDebuggerPlugin
 
 
 func _enter_tree() -> void:
@@ -33,6 +38,17 @@ func _enter_tree() -> void:
 	if _values_dock.has_signal("variable_value_set_requested") and _values_debugger.has_method("request_set_value"):
 		_values_dock.connect("variable_value_set_requested", Callable(_values_debugger, "request_set_value"))
 
+	_events_dock = EventsDock.new()
+	_events_dock.name = "Events"
+	add_control_to_dock(DOCK_SLOT_RIGHT_UL, _events_dock)
+
+	_events_debugger = EventsDebugger.new()
+	add_debugger_plugin(_events_debugger)
+	if _events_debugger.has_signal("event_updated"):
+		_events_debugger.connect("event_updated", Callable(_events_dock, "on_event_updated"))
+	if _events_dock.has_signal("events_list_requested") and _events_debugger.has_method("request_list"):
+		_events_dock.connect("events_list_requested", Callable(_events_debugger, "request_list"))
+
 	_connect_output_meta_handlers_deferred()
 	_listen_for_rich_text_labels()
 
@@ -48,6 +64,14 @@ func _exit_tree() -> void:
 		remove_control_from_docks(_values_dock)
 		_values_dock.queue_free()
 		_values_dock = null
+
+	if _events_debugger:
+		remove_debugger_plugin(_events_debugger)
+		_events_debugger = null
+	if _events_dock:
+		remove_control_from_docks(_events_dock)
+		_events_dock.queue_free()
+		_events_dock = null
 
 	if _context_menu_plugin:
 		remove_context_menu_plugin(_context_menu_plugin)
