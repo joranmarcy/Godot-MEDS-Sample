@@ -3,6 +3,7 @@ extends EditorDebuggerPlugin
 
 
 signal event_updated(payload: Dictionary)
+signal debug_session_ended(session_id: int)
 
 
 const CAPTURE_NAME := "events"
@@ -54,10 +55,13 @@ func _send_to_all_sessions(message: String, data: Array) -> void:
 	if has_method("get_sessions"):
 		var sessions: Variant = call("get_sessions")
 		if typeof(sessions) == TYPE_ARRAY:
+			var sent_any := false
 			for s in sessions:
 				if s != null and s.has_method("send_message"):
 					s.call("send_message", message, data)
-					return
+					sent_any = true
+			if sent_any:
+				return
 
 	# Fallback: some versions only expose send_message(message, data, session_id).
 	if has_method("send_message"):
@@ -65,6 +69,24 @@ func _send_to_all_sessions(message: String, data: Array) -> void:
 		return
 
 	push_warning("Events: unable to send debugger message to running game (no compatible send API found).")
+
+
+# Session lifecycle hooks (Godot versions differ in naming).
+func _setup_session(session_id: int) -> void:
+	# No-op; present for compatibility.
+	pass
+
+
+func _end_session(session_id: int) -> void:
+	debug_session_ended.emit(session_id)
+
+
+func _session_stopped(session_id: int) -> void:
+	debug_session_ended.emit(session_id)
+
+
+func _stop_session(session_id: int) -> void:
+	debug_session_ended.emit(session_id)
 
 
 func _send_to_session(session_id: int, message: String, data: Array) -> void:

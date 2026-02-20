@@ -72,6 +72,10 @@ func _on_clear_pressed() -> void:
 	_root = _tree.create_item()
 
 
+func clear_events() -> void:
+	_on_clear_pressed()
+
+
 func _on_refresh_pressed() -> void:
 	if _last_session_id == 0:
 		push_warning("Events: no active debug session yet. Run the game with the debugger attached.")
