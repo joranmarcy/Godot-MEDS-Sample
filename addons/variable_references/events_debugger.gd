@@ -8,6 +8,7 @@ signal event_updated(payload: Dictionary)
 const CAPTURE_NAME := "events"
 const MSG_UPDATE := "events:update"
 const MSG_LIST := "events:list"
+const MSG_RAISE := "events:raise"
 
 
 func _has_capture(capture: String) -> bool:
@@ -31,7 +32,39 @@ func _capture(message: String, data: Array, session_id: int) -> bool:
 
 
 func request_list(session_id: int) -> void:
+	if session_id <= 0:
+		_send_to_all_sessions(MSG_LIST, [])
+		return
 	_send_to_session(session_id, MSG_LIST, [])
+
+
+func request_raise(session_id: int, event_id: String, path: String) -> void:
+	var payload: Dictionary = {
+		"id": event_id,
+		"path": path,
+	}
+	if session_id <= 0:
+		_send_to_all_sessions(MSG_RAISE, [payload])
+		return
+	_send_to_session(session_id, MSG_RAISE, [payload])
+
+
+func _send_to_all_sessions(message: String, data: Array) -> void:
+	# Best-effort: try to send to all active debug sessions.
+	if has_method("get_sessions"):
+		var sessions: Variant = call("get_sessions")
+		if typeof(sessions) == TYPE_ARRAY:
+			for s in sessions:
+				if s != null and s.has_method("send_message"):
+					s.call("send_message", message, data)
+					return
+
+	# Fallback: some versions only expose send_message(message, data, session_id).
+	if has_method("send_message"):
+		call("send_message", message, data, 0)
+		return
+
+	push_warning("Events: unable to send debugger message to running game (no compatible send API found).")
 
 
 func _send_to_session(session_id: int, message: String, data: Array) -> void:

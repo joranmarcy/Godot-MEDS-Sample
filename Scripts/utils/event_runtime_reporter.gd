@@ -5,6 +5,7 @@ class_name EventRuntimeReporter
 const CAPTURE_NAME := "events"
 const MSG_UPDATE := "events:update"
 const MSG_LIST := "events:list"
+const MSG_RAISE := "events:raise"
 
 
 class _DebuggerReceiver:
@@ -23,6 +24,9 @@ static var _capture_registered := false
 #   raised_count, last_raised_ticks
 # }
 static var _state_by_id: Dictionary = {}
+
+# id -> WeakRef(Event)
+static var _event_ref_by_id: Dictionary = {}
 
 
 static func register_event(event: Resource) -> void:
@@ -52,6 +56,8 @@ static func register_event(event: Resource) -> void:
 	var state: Dictionary = {}
 	if _state_by_id.has(id) and typeof(_state_by_id[id]) == TYPE_DICTIONARY:
 		state = _state_by_id[id] as Dictionary
+
+	_event_ref_by_id[id] = weakref(event)
 
 	state["id"] = id
 	state["path"] = path
@@ -160,16 +166,47 @@ static func _handle_debugger_message(message: String, _data: Array) -> bool:
 	var msg := message
 	if msg == "list":
 		msg = MSG_LIST
+	elif msg == "raise":
+		msg = MSG_RAISE
 	elif not msg.begins_with(CAPTURE_NAME + ":") and msg.find(":") == -1:
 		msg = CAPTURE_NAME + ":" + msg
 
-	if msg != MSG_LIST:
+	if msg == MSG_LIST:
+		# Respond by sending the current state for every known event.
+		for id in _state_by_id.keys():
+			var state: Variant = _state_by_id.get(id)
+			if typeof(state) != TYPE_DICTIONARY:
+				continue
+			_send_update_state(state as Dictionary)
+		return true
+
+	if msg != MSG_RAISE:
 		return false
 
-	# Respond by sending the current state for every known event.
-	for id in _state_by_id.keys():
-		var state: Variant = _state_by_id.get(id)
-		if typeof(state) != TYPE_DICTIONARY:
-			continue
-		_send_update_state(state as Dictionary)
+	if _data.is_empty() or typeof(_data[0]) != TYPE_DICTIONARY:
+		return true
+	var payload := _data[0] as Dictionary
+	var id := str(payload.get("id", ""))
+	var path := str(payload.get("path", ""))
+
+	# Try live reference first (works for runtime-only resources too).
+	var event_obj: Object = null
+	if id != "" and _event_ref_by_id.has(id) and typeof(_event_ref_by_id[id]) == TYPE_OBJECT:
+		var wr := _event_ref_by_id[id] as WeakRef
+		if wr != null:
+			event_obj = wr.get_ref()
+
+	# Then try loading by path (best for saved resources).
+	if event_obj == null and path != "" and ResourceLoader.exists(path):
+		event_obj = ResourceLoader.load(path)
+
+	# Finally, attempt instance id lookup.
+	if event_obj == null and id.is_valid_int():
+		event_obj = instance_from_id(int(id))
+
+	if event_obj == null:
+		return true
+	if event_obj.has_method("raise_event"):
+		print("EventRuntimeReporter: raise ", path if path != "" else id)
+		event_obj.call("raise_event")
 	return true

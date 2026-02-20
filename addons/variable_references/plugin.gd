@@ -48,6 +48,8 @@ func _enter_tree() -> void:
 		_events_debugger.connect("event_updated", Callable(_events_dock, "on_event_updated"))
 	if _events_dock.has_signal("events_list_requested") and _events_debugger.has_method("request_list"):
 		_events_dock.connect("events_list_requested", Callable(_events_debugger, "request_list"))
+	if _events_dock.has_signal("event_raise_requested") and _events_debugger.has_method("request_raise"):
+		_events_dock.connect("event_raise_requested", Callable(_events_debugger, "request_raise"))
 
 	_connect_output_meta_handlers_deferred()
 	_listen_for_rich_text_labels()
