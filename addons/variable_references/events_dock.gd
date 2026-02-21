@@ -7,13 +7,10 @@ signal event_debug_logs_set_requested(session_id: int, event_id: String, path: S
 
 
 const COL_NAME := 0
-const COL_TYPE := 1
-const COL_LISTENERS := 2
-const COL_RAISED := 3
-const COL_LAST_RAISED := 4
-const COL_UPDATED := 5
-const COL_DEBUG_LOGS := 6
-const COL_RAISE := 7
+const COL_LISTENERS := 1
+const COL_RAISED := 2
+const COL_DEBUG_LOGS := 3
+const COL_RAISE := 4
 
 const BTN_RAISE := 1
 
@@ -52,14 +49,11 @@ func _ready() -> void:
 
 	# Tree
 	_tree = Tree.new()
-	_tree.columns = 8
+	_tree.columns = 5
 	_tree.column_titles_visible = true
 	_tree.set_column_title(COL_NAME, "Event")
-	_tree.set_column_title(COL_TYPE, "Type")
 	_tree.set_column_title(COL_LISTENERS, "Listeners")
 	_tree.set_column_title(COL_RAISED, "Raised")
-	_tree.set_column_title(COL_LAST_RAISED, "Last Raised")
-	_tree.set_column_title(COL_UPDATED, "Updated")
 	_tree.set_column_title(COL_DEBUG_LOGS, "Debug Logs")
 	_tree.set_column_title(COL_RAISE, "Raise")
 	_tree.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -87,7 +81,7 @@ func clear_events() -> void:
 
 func on_event_updated(payload: Dictionary) -> void:
 	# payload format (best-effort):
-	#  id, path, name, type, debug_logs, listener_count, raised_count, last_raised_ticks, ticks_msec, session_id
+	#  id, path, name, type, debug_logs, listener_count, raised_count, session_id
 	_last_session_id = int(payload.get("session_id", _last_session_id))
 
 	var id := str(payload.get("id", ""))
@@ -117,7 +111,6 @@ func on_event_updated(payload: Dictionary) -> void:
 	item.set_editable(COL_DEBUG_LOGS, true)
 
 	item.set_text(COL_NAME, str(payload.get("name", id)))
-	item.set_text(COL_TYPE, str(payload.get("type", "")))
 	item.set_text(COL_LISTENERS, str(payload.get("listener_count", "")))
 	item.set_text(COL_RAISED, str(payload.get("raised_count", 0)))
 	item.set_checked(COL_DEBUG_LOGS, bool(payload.get("debug_logs", false)))
@@ -131,18 +124,6 @@ func on_event_updated(payload: Dictionary) -> void:
 		"event_id": id,
 		"path": str(payload.get("path", "")),
 	})
-
-	var last := payload.get("last_raised_ticks", null)
-	if last == null:
-		item.set_text(COL_LAST_RAISED, "")
-	else:
-		item.set_text(COL_LAST_RAISED, str(last))
-
-	var ticks := payload.get("ticks_msec", null)
-	if ticks == null:
-		item.set_text(COL_UPDATED, "")
-	else:
-		item.set_text(COL_UPDATED, str(ticks))
 
 
 func _on_tree_item_edited() -> void:
