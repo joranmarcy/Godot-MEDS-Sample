@@ -23,17 +23,48 @@ static func _log(msg: String, include_stack: bool = false, max_frames: int = 12,
 		print(msg + "\n" + stack_str)
 
 static func log_value_change(variable: BaseVariable, caller: Object = null) -> void:
+	if not debug_mode:
+		return
 	print("")
 	print("--- Debug: Value Change Detected ---")
 	print("")
 	var msg := "%s: %s runtime value changed to: %s" % [variable.get_class(), variable.resource_path.get_basename(), str(variable._value)]
 	Debug._log(msg, true, 12, caller)
 	print("")
-	Debug._log_signal_listeners_reacted(variable, "value_changed")
+	Debug._log_signal_listeners_reacted(variable, "value_changed", "value change")
 	print("")
 	print("--- End of Debug ---")	
 
-static func _log_signal_listeners_reacted(emitter: Object, signal_name: String) -> void:
+
+static func log_event_raised(event: Event, caller: Object = null) -> void:
+	if not debug_mode:
+		return
+	if event == null:
+		return
+
+	print("")
+	print("--- Debug: Event Raised ---")
+	print("")
+
+	var label := ""
+	var path := ""
+	if event.resource_path != null:
+		path = String(event.resource_path)
+	if path != "":
+		label = path.get_basename()
+	else:
+		label = String(event.resource_name)
+		if label == "":
+			label = "<runtime>"
+
+	var msg := "%s: %s was raised" % [event.get_class(), label]
+	Debug._log(msg, true, 12, caller)
+	print("")
+	Debug._log_signal_listeners_reacted(event, "event_raised", "event raised")
+	print("")
+	print("--- End of Debug ---")
+
+static func _log_signal_listeners_reacted(emitter: Object, signal_name: String, reaction_label: String = "signal") -> void:
 	if not debug_mode:
 		return
 	if emitter == null:
@@ -48,7 +79,7 @@ static func _log_signal_listeners_reacted(emitter: Object, signal_name: String) 
 		var cb: Callable = d.get("callable", Callable())
 		if cb.is_null():
 			continue
-		_log_listener_reacted_to_value_change(cb)
+		_log_listener_reacted(cb, reaction_label)
 
 
 static func _object_node_path_or_name(obj: Object) -> String:
@@ -89,12 +120,16 @@ static func _format_runtime_node_link(node: Node) -> String:
 
 
 static func _log_listener_reacted_to_value_change(cb: Callable) -> void:
+	_log_listener_reacted(cb, "value change")
+
+
+static func _log_listener_reacted(cb: Callable, reaction_label: String) -> void:
 	var target_obj: Object = cb.get_object()
 	var target_str := _object_node_path_or_name(target_obj)
 	if target_obj is Node:
 		target_str = _format_runtime_node_link(target_obj as Node)
 
-	print_rich("- " + target_str + " reacted to value change")
+	print_rich("- " + target_str + " reacted to " + reaction_label)
 
 
 static func _format_stack(stack: Array, skip: int, max_frames: int) -> String:

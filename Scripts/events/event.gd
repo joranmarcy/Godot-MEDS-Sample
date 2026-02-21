@@ -2,8 +2,9 @@
 extends Resource
 class_name Event
 
-signal event_raised()
+@export var debug_logs: bool = false
 
+signal event_raised()
 
 func _init() -> void:
 	# Only register during game runtime (avoid editor-time resource browsing noise).
@@ -20,3 +21,5 @@ func _report_next_frame() -> void:
 func raise_event() -> void:
 	EventRuntimeReporter.report_raised(self)
 	emit_signal("event_raised")
+	if debug_logs:
+		Debug.log_event_raised(self)
