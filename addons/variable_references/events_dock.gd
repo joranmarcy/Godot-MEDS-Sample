@@ -23,6 +23,7 @@ var _root: TreeItem
 var _items_by_id: Dictionary = {}
 var _last_session_id := 0
 var _editor_interface: Object = null
+var _is_bulk_updating_debug_logs := false
 
 
 func set_editor_interface(editor_interface: Object) -> void:
@@ -38,6 +39,11 @@ func _ready() -> void:
 	title.text = "Runtime Events"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
+
+	var all_debug_btn := Button.new()
+	all_debug_btn.text = "Enable Debug Logs (All)"
+	all_debug_btn.pressed.connect(_on_enable_all_debug_logs_pressed)
+	header.add_child(all_debug_btn)
 
 	# Tree
 	_tree = Tree.new()
@@ -135,6 +141,8 @@ func on_event_updated(payload: Dictionary) -> void:
 
 
 func _on_tree_item_edited() -> void:
+	if _is_bulk_updating_debug_logs:
+		return
 	if _tree == null:
 		return
 	var item := _tree.get_edited()
@@ -157,6 +165,39 @@ func _on_tree_item_edited() -> void:
 	if event_id == "" and path == "":
 		return
 	event_debug_logs_set_requested.emit(session_id, event_id, path, enabled)
+
+
+func _on_enable_all_debug_logs_pressed() -> void:
+	_set_debug_logs_for_all(true)
+
+
+func _set_debug_logs_for_all(enabled: bool) -> void:
+	if _tree == null:
+		return
+
+	_is_bulk_updating_debug_logs = true
+	for key in _items_by_id.keys():
+		var item: Variant = _items_by_id[key]
+		if not is_instance_valid(item):
+			continue
+		var tree_item := item as TreeItem
+		if tree_item == null:
+			continue
+		# Update UI first.
+		tree_item.set_checked(COL_DEBUG_LOGS, enabled)
+
+		# Then request the runtime change.
+		var meta: Variant = tree_item.get_metadata(COL_DEBUG_LOGS)
+		if typeof(meta) != TYPE_DICTIONARY:
+			continue
+		var dict := meta as Dictionary
+		var event_id := str(dict.get("event_id", ""))
+		var path := str(dict.get("path", ""))
+		if event_id == "" and path == "":
+			continue
+		# Use session_id 0 to broadcast to all active debug sessions.
+		event_debug_logs_set_requested.emit(0, event_id, path, enabled)
+	_is_bulk_updating_debug_logs = false
 
 
 func _on_tree_button_clicked_4(item: TreeItem, column: int, id: int, _mouse_button_index: int) -> void:
