@@ -8,7 +8,6 @@ signal debug_session_ended(session_id: int)
 
 const CAPTURE_NAME := "events"
 const MSG_UPDATE := "events:update"
-const MSG_LIST := "events:list"
 const MSG_RAISE := "events:raise"
 const MSG_SET_DEBUG_LOGS := "events:set_debug_logs"
 
@@ -31,13 +30,6 @@ func _capture(message: String, data: Array, session_id: int) -> bool:
 	dict["session_id"] = session_id
 	event_updated.emit(dict)
 	return true
-
-
-func request_list(session_id: int) -> void:
-	if session_id <= 0:
-		_send_to_all_sessions(MSG_LIST, [])
-		return
-	_send_to_session(session_id, MSG_LIST, [])
 
 
 func request_raise(session_id: int, event_id: String, path: String) -> void:

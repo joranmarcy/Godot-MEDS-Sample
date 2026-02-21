@@ -52,8 +52,6 @@ func _enter_tree() -> void:
 		_events_debugger.connect("event_updated", Callable(_events_dock, "on_event_updated"))
 	if _events_debugger.has_signal("debug_session_ended") and _events_dock.has_method("clear_events"):
 		_events_debugger.connect("debug_session_ended", Callable(_events_dock, "clear_events"))
-	if _events_dock.has_signal("events_list_requested") and _events_debugger.has_method("request_list"):
-		_events_dock.connect("events_list_requested", Callable(_events_debugger, "request_list"))
 	if _events_dock.has_signal("event_raise_requested") and _events_debugger.has_method("request_raise"):
 		_events_dock.connect("event_raise_requested", Callable(_events_debugger, "request_raise"))
 	if _events_dock.has_signal("event_debug_logs_set_requested") and _events_debugger.has_method("request_set_debug_logs"):

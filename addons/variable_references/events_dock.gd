@@ -2,7 +2,6 @@
 extends VBoxContainer
 
 
-signal events_list_requested(session_id: int)
 signal event_raise_requested(session_id: int, event_id: String, path: String)
 signal event_debug_logs_set_requested(session_id: int, event_id: String, path: String, enabled: bool)
 
@@ -40,16 +39,6 @@ func _ready() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
 
-	var refresh_btn := Button.new()
-	refresh_btn.text = "Refresh"
-	refresh_btn.pressed.connect(_on_refresh_pressed)
-	header.add_child(refresh_btn)
-
-	var clear_btn := Button.new()
-	clear_btn.text = "Clear"
-	clear_btn.pressed.connect(_on_clear_pressed)
-	header.add_child(clear_btn)
-
 	# Tree
 	_tree = Tree.new()
 	_tree.columns = 8
@@ -77,22 +66,12 @@ func _ready() -> void:
 	_root = _tree.create_item()
 
 
-func _on_clear_pressed() -> void:
+func clear_events() -> void:
 	_items_by_id.clear()
 	_last_session_id = 0
-	_tree.clear()
-	_root = _tree.create_item()
-
-
-func clear_events() -> void:
-	_on_clear_pressed()
-
-
-func _on_refresh_pressed() -> void:
-	if _last_session_id == 0:
-		push_warning("Events: no active debug session yet. Run the game with the debugger attached.")
-		return
-	events_list_requested.emit(_last_session_id)
+	if _tree != null:
+		_tree.clear()
+		_root = _tree.create_item()
 
 
 func on_event_updated(payload: Dictionary) -> void:
