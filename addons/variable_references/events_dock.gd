@@ -45,6 +45,11 @@ func _ready() -> void:
 	all_debug_btn.pressed.connect(_on_enable_all_debug_logs_pressed)
 	header.add_child(all_debug_btn)
 
+	var no_debug_btn := Button.new()
+	no_debug_btn.text = "Disable Debug Logs (All)"
+	no_debug_btn.pressed.connect(_on_disable_all_debug_logs_pressed)
+	header.add_child(no_debug_btn)
+
 	# Tree
 	_tree = Tree.new()
 	_tree.columns = 8
@@ -169,6 +174,10 @@ func _on_tree_item_edited() -> void:
 
 func _on_enable_all_debug_logs_pressed() -> void:
 	_set_debug_logs_for_all(true)
+
+
+func _on_disable_all_debug_logs_pressed() -> void:
+	_set_debug_logs_for_all(false)
 
 
 func _set_debug_logs_for_all(enabled: bool) -> void:
