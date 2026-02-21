@@ -10,6 +10,7 @@ const CAPTURE_NAME := "events"
 const MSG_UPDATE := "events:update"
 const MSG_LIST := "events:list"
 const MSG_RAISE := "events:raise"
+const MSG_SET_DEBUG_LOGS := "events:set_debug_logs"
 
 
 func _has_capture(capture: String) -> bool:
@@ -48,6 +49,18 @@ func request_raise(session_id: int, event_id: String, path: String) -> void:
 		_send_to_all_sessions(MSG_RAISE, [payload])
 		return
 	_send_to_session(session_id, MSG_RAISE, [payload])
+
+
+func request_set_debug_logs(session_id: int, event_id: String, path: String, enabled: bool) -> void:
+	var payload: Dictionary = {
+		"id": event_id,
+		"path": path,
+		"debug_logs": enabled,
+	}
+	if session_id <= 0:
+		_send_to_all_sessions(MSG_SET_DEBUG_LOGS, [payload])
+		return
+	_send_to_session(session_id, MSG_SET_DEBUG_LOGS, [payload])
 
 
 func _send_to_all_sessions(message: String, data: Array) -> void:

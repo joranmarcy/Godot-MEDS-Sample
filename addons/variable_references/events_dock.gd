@@ -4,6 +4,7 @@ extends VBoxContainer
 
 signal events_list_requested(session_id: int)
 signal event_raise_requested(session_id: int, event_id: String, path: String)
+signal event_debug_logs_set_requested(session_id: int, event_id: String, path: String, enabled: bool)
 
 
 const COL_NAME := 0
@@ -12,7 +13,8 @@ const COL_LISTENERS := 2
 const COL_RAISED := 3
 const COL_LAST_RAISED := 4
 const COL_UPDATED := 5
-const COL_RAISE := 6
+const COL_DEBUG_LOGS := 6
+const COL_RAISE := 7
 
 const BTN_RAISE := 1
 
@@ -50,7 +52,7 @@ func _ready() -> void:
 
 	# Tree
 	_tree = Tree.new()
-	_tree.columns = 7
+	_tree.columns = 8
 	_tree.column_titles_visible = true
 	_tree.set_column_title(COL_NAME, "Event")
 	_tree.set_column_title(COL_TYPE, "Type")
@@ -58,10 +60,13 @@ func _ready() -> void:
 	_tree.set_column_title(COL_RAISED, "Raised")
 	_tree.set_column_title(COL_LAST_RAISED, "Last Raised")
 	_tree.set_column_title(COL_UPDATED, "Updated")
+	_tree.set_column_title(COL_DEBUG_LOGS, "Debug Logs")
 	_tree.set_column_title(COL_RAISE, "Raise")
 	_tree.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	if _tree.has_signal("item_activated"):
 		_tree.item_activated.connect(_on_tree_item_activated)
+	if _tree.has_signal("item_edited"):
+		_tree.item_edited.connect(_on_tree_item_edited)
 	# Tree's button click signal name differs across Godot versions.
 	if _tree.has_signal("button_clicked"):
 		_tree.button_clicked.connect(_on_tree_button_clicked_4)
@@ -92,7 +97,7 @@ func _on_refresh_pressed() -> void:
 
 func on_event_updated(payload: Dictionary) -> void:
 	# payload format (best-effort):
-	#  id, path, name, type, listener_count, raised_count, last_raised_ticks, ticks_msec, session_id
+	#  id, path, name, type, debug_logs, listener_count, raised_count, last_raised_ticks, ticks_msec, session_id
 	_last_session_id = int(payload.get("session_id", _last_session_id))
 
 	var id := str(payload.get("id", ""))
@@ -117,10 +122,20 @@ func on_event_updated(payload: Dictionary) -> void:
 			icon = get_theme_icon("Play", "EditorIcons")
 		item.add_button(COL_RAISE, icon, BTN_RAISE, false, "Raise this event")
 
+	# Ensure checkbox column stays configured even if the row existed already.
+	item.set_cell_mode(COL_DEBUG_LOGS, TreeItem.CELL_MODE_CHECK)
+	item.set_editable(COL_DEBUG_LOGS, true)
+
 	item.set_text(COL_NAME, str(payload.get("name", id)))
 	item.set_text(COL_TYPE, str(payload.get("type", "")))
 	item.set_text(COL_LISTENERS, str(payload.get("listener_count", "")))
 	item.set_text(COL_RAISED, str(payload.get("raised_count", 0)))
+	item.set_checked(COL_DEBUG_LOGS, bool(payload.get("debug_logs", false)))
+	item.set_metadata(COL_DEBUG_LOGS, {
+		"session_id": int(payload.get("session_id", _last_session_id)),
+		"event_id": id,
+		"path": str(payload.get("path", "")),
+	})
 	item.set_metadata(COL_RAISE, {
 		"session_id": int(payload.get("session_id", _last_session_id)),
 		"event_id": id,
@@ -138,6 +153,31 @@ func on_event_updated(payload: Dictionary) -> void:
 		item.set_text(COL_UPDATED, "")
 	else:
 		item.set_text(COL_UPDATED, str(ticks))
+
+
+func _on_tree_item_edited() -> void:
+	if _tree == null:
+		return
+	var item := _tree.get_edited()
+	if item == null:
+		return
+	var column := _tree.get_edited_column()
+	if column != COL_DEBUG_LOGS:
+		return
+
+	var meta: Variant = item.get_metadata(COL_DEBUG_LOGS)
+	if typeof(meta) != TYPE_DICTIONARY:
+		return
+	var dict := meta as Dictionary
+	var session_id := int(dict.get("session_id", 0))
+	if session_id == 0:
+		session_id = _last_session_id
+	var event_id := str(dict.get("event_id", ""))
+	var path := str(dict.get("path", ""))
+	var enabled := bool(item.is_checked(COL_DEBUG_LOGS))
+	if event_id == "" and path == "":
+		return
+	event_debug_logs_set_requested.emit(session_id, event_id, path, enabled)
 
 
 func _on_tree_button_clicked_4(item: TreeItem, column: int, id: int, _mouse_button_index: int) -> void:
