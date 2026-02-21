@@ -205,13 +205,26 @@ func _select_event_resource_in_editor(path: String) -> void:
 	if res != null and _editor_interface.has_method("edit_resource"):
 		_editor_interface.call("edit_resource", res)
 
-	if _editor_interface.has_method("get_file_system_dock"):
-		var fs_dock: Variant = _editor_interface.call("get_file_system_dock")
-		if fs_dock != null:
-			if fs_dock.has_method("navigate_to_path"):
-				fs_dock.call("navigate_to_path", path.get_base_dir())
-			if fs_dock.has_method("select_file"):
-				fs_dock.call("select_file", path)
+	_select_file_in_filesystem_dock(path)
+
+
+func _select_file_in_filesystem_dock(path: String) -> void:
+	if _editor_interface == null:
+		return
+	var normalized := path.replace("\\", "/")
+
+	# Prefer the higher-level API if present.
+	if _editor_interface.has_method("select_file"):
+		_editor_interface.call("select_file", normalized)
+		return
+
+	if not _editor_interface.has_method("get_file_system_dock"):
+		return
+	var fs_dock: Variant = _editor_interface.call("get_file_system_dock")
+	if fs_dock == null:
+		return
+	if fs_dock.has_method("select_file"):
+		fs_dock.call("select_file", normalized)
 
 
 func _focus_inspector_tab() -> void:
