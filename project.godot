@@ -21,6 +21,7 @@ enabled=PackedStringArray("res://addons/variable_references/plugin.cfg")
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
 anti_aliasing/quality/msaa_3d=3
 environment/defaults/default_clear_color=Color(1, 1, 1, 1)
