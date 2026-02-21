@@ -65,7 +65,8 @@ static func register_event(event: Resource) -> void:
 	state["name"] = name
 	state["type"] = event.get_class()
 	state["debug_logs"] = bool(event.get("debug_logs") if event.has_method("get") else false)
-	state["listener_count"] = _get_listener_count(event)
+	state["listeners"] = _get_listener_details(event)
+	state["listener_count"] = (state["listeners"] as Array).size()
 	state["raised_count"] = int(state.get("raised_count", 0))
 	state["last_raised_ticks"] = state.get("last_raised_ticks", null)
 	_state_by_id[id] = state
@@ -100,7 +101,8 @@ static func report_raised(event: Resource) -> void:
 	state["id"] = id
 	state["path"] = path
 	state["type"] = event.get_class()
-	state["listener_count"] = _get_listener_count(event)
+	state["listeners"] = _get_listener_details(event)
+	state["listener_count"] = (state["listeners"] as Array).size()
 
 	var name := str(state.get("name", ""))
 	if name == "":
@@ -127,6 +129,7 @@ static func _send_update_state(state: Dictionary) -> void:
 		"type": str(state.get("type", "")),
 		"debug_logs": bool(state.get("debug_logs", false)),
 		"listener_count": int(state.get("listener_count", 0)),
+		"listeners": state.get("listeners", []),
 		"raised_count": int(state.get("raised_count", 0)),
 		"last_raised_ticks": state.get("last_raised_ticks", null),
 		"ticks_msec": Time.get_ticks_msec(),
@@ -143,6 +146,70 @@ static func _get_listener_count(event: Object) -> int:
 		if typeof(conns) == TYPE_ARRAY:
 			return (conns as Array).size()
 	return 0
+
+
+static func _get_listener_details(event: Object) -> Array:
+	var listeners: Array = []
+	if event == null:
+		return listeners
+	# Best effort across Godot versions.
+	if not event.has_method("get_signal_connection_list"):
+		return listeners
+	var conns: Variant = event.call("get_signal_connection_list", "event_raised")
+	if typeof(conns) != TYPE_ARRAY:
+		return listeners
+
+	for c in conns as Array:
+		if typeof(c) != TYPE_DICTIONARY:
+			continue
+		var conn := c as Dictionary
+
+		var target_obj: Object = null
+		var method := ""
+		if conn.has("callable") and typeof(conn.get("callable")) == TYPE_CALLABLE:
+			var cb := conn.get("callable") as Callable
+			target_obj = cb.get_object()
+			method = str(cb.get_method())
+		elif conn.has("target"):
+			target_obj = conn.get("target") as Object
+			method = str(conn.get("method", ""))
+
+		if target_obj == null:
+			continue
+
+		var node_path := ""
+		var node_name := ""
+		if target_obj is Node:
+			var node := target_obj as Node
+			node_name = str(node.name)
+			if node.is_inside_tree():
+				node_path = str(node.get_path())
+			else:
+				node_path = node_name
+		else:
+			node_name = target_obj.get_class()
+			node_path = node_name
+
+		var script_path := ""
+		var script_name := ""
+		if target_obj.has_method("get_script"):
+			var s: Variant = target_obj.call("get_script")
+			var script := s as Script
+			if script != null:
+				script_name = str(script.resource_name)
+				script_path = str(script.resource_path)
+
+		listeners.append({
+			"node_path": node_path,
+			"node_name": node_name,
+			"script_path": script_path,
+			"script_name": script_name,
+			"method": method,
+			"object_class": target_obj.get_class(),
+			"object_id": int(target_obj.get_instance_id()),
+		})
+
+	return listeners
 
 
 static func _ensure_capture_registered() -> void:

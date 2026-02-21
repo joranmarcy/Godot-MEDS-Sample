@@ -21,6 +21,9 @@ var _items_by_id: Dictionary = {}
 var _last_session_id := 0
 var _editor_interface: Object = null
 var _is_bulk_updating_debug_logs := false
+var _listeners_dialog: AcceptDialog
+var _listeners_tree: Tree
+var _last_selected_column := -1
 
 
 func set_editor_interface(editor_interface: Object) -> void:
@@ -47,6 +50,26 @@ func _ready() -> void:
 	no_debug_btn.pressed.connect(_on_disable_all_debug_logs_pressed)
 	header.add_child(no_debug_btn)
 
+	# Listeners dialog
+	_listeners_dialog = AcceptDialog.new()
+	_listeners_dialog.title = "Event Listeners"
+	_listeners_dialog.visible = false
+	add_child(_listeners_dialog)
+
+	var dialog_root := VBoxContainer.new()
+	dialog_root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dialog_root.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_listeners_dialog.add_child(dialog_root)
+
+	_listeners_tree = Tree.new()
+	_listeners_tree.columns = 2
+	_listeners_tree.column_titles_visible = true
+	_listeners_tree.set_column_title(0, "Node")
+	_listeners_tree.set_column_title(1, "Script")
+	_listeners_tree.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_listeners_tree.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	dialog_root.add_child(_listeners_tree)
+
 	# Tree
 	_tree = Tree.new()
 	_tree.columns = 5
@@ -61,6 +84,8 @@ func _ready() -> void:
 		_tree.item_activated.connect(_on_tree_item_activated)
 	if _tree.has_signal("item_edited"):
 		_tree.item_edited.connect(_on_tree_item_edited)
+	if _tree.has_signal("cell_selected"):
+		_tree.cell_selected.connect(_on_tree_cell_selected)
 	# Tree's button click signal name differs across Godot versions.
 	if _tree.has_signal("button_clicked"):
 		_tree.button_clicked.connect(_on_tree_button_clicked_4)
@@ -81,7 +106,7 @@ func clear_events() -> void:
 
 func on_event_updated(payload: Dictionary) -> void:
 	# payload format (best-effort):
-	#  id, path, name, type, debug_logs, listener_count, raised_count, session_id
+	#  id, path, name, type, debug_logs, listener_count, listeners, raised_count, session_id
 	_last_session_id = int(payload.get("session_id", _last_session_id))
 
 	var id := str(payload.get("id", ""))
@@ -114,6 +139,11 @@ func on_event_updated(payload: Dictionary) -> void:
 	item.set_text(COL_LISTENERS, str(payload.get("listener_count", "")))
 	item.set_text(COL_RAISED, str(payload.get("raised_count", 0)))
 	item.set_checked(COL_DEBUG_LOGS, bool(payload.get("debug_logs", false)))
+	item.set_metadata(COL_LISTENERS, {
+		"event_id": id,
+		"path": str(payload.get("path", "")),
+		"listeners": payload.get("listeners", []),
+	})
 	item.set_metadata(COL_DEBUG_LOGS, {
 		"session_id": int(payload.get("session_id", _last_session_id)),
 		"event_id": id,
@@ -231,6 +261,11 @@ func _on_tree_item_activated() -> void:
 	if item == null:
 		return
 
+	var column := _get_selected_column()
+	if column == COL_LISTENERS:
+		_open_listeners_dialog_for_item(item)
+		return
+
 	var meta: Variant = item.get_metadata(COL_RAISE)
 	if typeof(meta) != TYPE_DICTIONARY:
 		return
@@ -239,6 +274,51 @@ func _on_tree_item_activated() -> void:
 	if path == "":
 		return
 	_select_event_resource_in_editor(path)
+
+
+func _on_tree_cell_selected() -> void:
+	_last_selected_column = _get_selected_column()
+
+
+func _get_selected_column() -> int:
+	if _tree == null:
+		return _last_selected_column
+	if _tree.has_method("get_selected_column"):
+		return int(_tree.call("get_selected_column"))
+	return _last_selected_column
+
+
+func _open_listeners_dialog_for_item(item: TreeItem) -> void:
+	if _listeners_dialog == null or _listeners_tree == null:
+		return
+	var meta: Variant = item.get_metadata(COL_LISTENERS)
+	if typeof(meta) != TYPE_DICTIONARY:
+		return
+	var dict := meta as Dictionary
+	var listeners: Variant = dict.get("listeners", [])
+	if typeof(listeners) != TYPE_ARRAY:
+		listeners = []
+	var arr := listeners as Array
+
+	_listeners_tree.clear()
+	var root := _listeners_tree.create_item()
+	for v in arr:
+		if typeof(v) != TYPE_DICTIONARY:
+			continue
+		var l := v as Dictionary
+		var node_label := str(l.get("node_path", l.get("node_name", "")))
+		var script_label := str(l.get("script_path", l.get("script_name", "")))
+		if script_label == "":
+			script_label = "<no script>"
+		var method := str(l.get("method", ""))
+		if method != "":
+			script_label = "%s (%s)" % [script_label, method]
+
+		var row := _listeners_tree.create_item(root)
+		row.set_text(0, node_label)
+		row.set_text(1, script_label)
+
+	_listeners_dialog.popup_centered_ratio(0.5)
 
 
 func _select_event_resource_in_editor(path: String) -> void:
