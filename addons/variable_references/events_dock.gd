@@ -79,6 +79,12 @@ func _ready() -> void:
 	_tree.set_column_title(COL_RAISED, "Raised")
 	_tree.set_column_title(COL_DEBUG_LOGS, "Debug Logs")
 	_tree.set_column_title(COL_RAISE, "Raise")
+	# Column sizing: keep buttons compact, share remaining space.
+	_tree.set_column_custom_minimum_width(COL_NAME, 200)
+	_tree.set_column_expand(COL_NAME, true)
+	_tree.set_column_expand_ratio(COL_NAME, 2)
+	for col in [COL_LISTENERS, COL_RAISED, COL_DEBUG_LOGS, COL_RAISE]:
+		_tree.set_column_expand(col, true)
 	_tree.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	if _tree.has_signal("item_activated"):
 		_tree.item_activated.connect(_on_tree_item_activated)
