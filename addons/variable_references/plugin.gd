@@ -42,6 +42,8 @@ func _enter_tree() -> void:
 
 	_events_dock = EventsDock.new()
 	_events_dock.name = "Events"
+	if _events_dock.has_method("set_editor_interface"):
+		_events_dock.call("set_editor_interface", get_editor_interface())
 	add_control_to_dock(DOCK_SLOT_RIGHT_UL, _events_dock)
 
 	_events_debugger = EventsDebugger.new()
