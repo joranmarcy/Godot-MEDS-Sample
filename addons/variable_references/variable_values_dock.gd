@@ -26,11 +26,6 @@ func _ready() -> void:
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
 
-	var clear_btn := Button.new()
-	clear_btn.text = "Clear"
-	clear_btn.pressed.connect(_on_clear_pressed)
-	header.add_child(clear_btn)
-
 	# Tree
 	_tree = Tree.new()
 	_tree.columns = 4
@@ -51,10 +46,6 @@ func clear_values() -> void:
 	if _tree != null:
 		_tree.clear()
 		_root = _tree.create_item()
-
-
-func _on_clear_pressed() -> void:
-	clear_values()
 
 
 func on_variable_value_updated(payload: Dictionary) -> void:
