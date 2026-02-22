@@ -3,11 +3,13 @@ extends VBoxContainer
 
 
 signal variable_value_set_requested(session_id: int, path: String, type_name: String, value_str: String)
+signal variable_debug_logs_set_requested(session_id: int, path: String, enabled: bool)
 
 
 const COL_NAME := 0
 const COL_TYPE := 1
 const COL_VALUE := 2
+const COL_DEBUG_LOGS := 3
 
 const EditorUIUtils := preload("res://addons/variable_references/editor_ui_utils.gd")
 
@@ -35,11 +37,12 @@ func _ready() -> void:
 
 	# Tree
 	_tree = Tree.new()
-	_tree.columns = 3
+	_tree.columns = 4
 	_tree.column_titles_visible = true
 	_tree.set_column_title(COL_NAME, "Variable")
 	_tree.set_column_title(COL_TYPE, "Type")
 	_tree.set_column_title(COL_VALUE, "Value")
+	_tree.set_column_title(COL_DEBUG_LOGS, "Debug Logs")
 	_tree.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_tree.item_edited.connect(_on_tree_item_edited)
 	if _tree.has_signal("item_activated"):
@@ -60,7 +63,7 @@ func clear_values() -> void:
 
 func on_variable_value_updated(payload: Dictionary) -> void:
 	# payload format (best-effort):
-	#  id, path, name, type, value_str, ticks_msec, session_id
+	#  id, path, name, type, value_str, debug_logs, ticks_msec, session_id
 	var id := str(payload.get("id", ""))
 	if id == "":
 		id = str(payload.get("path", ""))
@@ -83,10 +86,17 @@ func on_variable_value_updated(payload: Dictionary) -> void:
 	item.set_text(COL_TYPE, str(payload.get("type", "")))
 	item.set_text(COL_VALUE, str(payload.get("value_str", "")))
 	item.set_editable(COL_VALUE, true)
+	item.set_cell_mode(COL_DEBUG_LOGS, TreeItem.CELL_MODE_CHECK)
+	item.set_editable(COL_DEBUG_LOGS, true)
+	item.set_checked(COL_DEBUG_LOGS, bool(payload.get("debug_logs", false)))
 	item.set_metadata(COL_VALUE, {
 		"session_id": int(payload.get("session_id", 0)),
 		"path": str(payload.get("path", "")),
 		"type": str(payload.get("type", "")),
+	})
+	item.set_metadata(COL_DEBUG_LOGS, {
+		"session_id": int(payload.get("session_id", 0)),
+		"path": str(payload.get("path", "")),
 	})
 
 
@@ -126,23 +136,48 @@ func _on_tree_item_activated() -> void:
 
 
 
+func _get_metadata_dict(item: TreeItem, column: int) -> Dictionary:
+	if item == null:
+		return {}
+	var meta: Variant = item.get_metadata(column)
+	if typeof(meta) != TYPE_DICTIONARY:
+		return {}
+	return meta as Dictionary
+
+
+
 func _on_tree_item_edited() -> void:
 	var item := _tree.get_edited()
 	if item == null:
 		return
 	var column := _tree.get_edited_column()
-	if column != COL_VALUE:
-		return
+	match column:
+		COL_VALUE:
+			var value_meta := _get_metadata_dict(item, COL_VALUE)
+			if value_meta.is_empty():
+				return
+			var session_id := int(value_meta.get("session_id", 0))
+			var path := str(value_meta.get("path", ""))
+			var type_name := str(value_meta.get("type", ""))
+			if path == "":
+				push_warning("Variable Values: can't edit values for resources without a saved path.")
+				return
+			var value_str := item.get_text(COL_VALUE)
+			variable_value_set_requested.emit(session_id, path, type_name, value_str)
+			return
 
-	var meta: Variant = item.get_metadata(COL_VALUE)
-	if typeof(meta) != TYPE_DICTIONARY:
-		return
-	var dict := meta as Dictionary
-	var session_id := int(dict.get("session_id", 0))
-	var path := str(dict.get("path", ""))
-	var type_name := str(dict.get("type", ""))
-	if path == "":
-		push_warning("Variable Values: can't edit values for resources without a saved path.")
-		return
-	var value_str := item.get_text(COL_VALUE)
-	variable_value_set_requested.emit(session_id, path, type_name, value_str)
+		COL_DEBUG_LOGS:
+			var debug_meta := _get_metadata_dict(item, COL_DEBUG_LOGS)
+			if debug_meta.is_empty():
+				return
+			var session_id := int(debug_meta.get("session_id", 0))
+			var path := str(debug_meta.get("path", ""))
+			if path == "":
+				push_warning("Variable Values: can't toggle debug logs for resources without a saved path.")
+				return
+			var enabled := bool(item.is_checked(COL_DEBUG_LOGS))
+			variable_debug_logs_set_requested.emit(session_id, path, enabled)
+			return
+
+		_:
+			return

@@ -41,6 +41,8 @@ func _enter_tree() -> void:
 	# Connect dock edits back to the running game.
 	if _values_dock.has_signal("variable_value_set_requested") and _values_debugger.has_method("request_set_value"):
 		_values_dock.connect("variable_value_set_requested", Callable(_values_debugger, "request_set_value"))
+	if _values_dock.has_signal("variable_debug_logs_set_requested") and _values_debugger.has_method("request_set_debug_logs"):
+		_values_dock.connect("variable_debug_logs_set_requested", Callable(_values_debugger, "request_set_debug_logs"))
 
 	_events_dock = EventsDock.new()
 	_events_dock.name = "Events"

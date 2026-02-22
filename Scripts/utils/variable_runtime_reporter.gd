@@ -4,6 +4,7 @@ class_name VariableRuntimeReporter
 
 const CAPTURE_NAME := "variable_values"
 const MSG_SET := "variable_values:set"
+const MSG_SET_DEBUG_LOGS := "variable_values:set_debug_logs"
 
 
 class _DebuggerReceiver:
@@ -49,6 +50,7 @@ static func report(variable: Resource, value: Variant) -> void:
 		"name": name,
 		"type": variable.get_class(),
 		"value_str": str(value),
+		"debug_logs": bool(variable.get("debug_logs") if variable.has_method("get") else false),
 		"ticks_msec": Time.get_ticks_msec(),
 	}
 
@@ -79,10 +81,12 @@ static func _handle_debugger_message(message: String, data: Array) -> bool:
 	var msg := message
 	if msg == "set":
 		msg = MSG_SET
+	elif msg == "set_debug_logs":
+		msg = MSG_SET_DEBUG_LOGS
 	elif not msg.begins_with(CAPTURE_NAME + ":") and msg.find(":") == -1:
 		msg = CAPTURE_NAME + ":" + msg
 
-	if msg != MSG_SET:
+	if msg != MSG_SET and msg != MSG_SET_DEBUG_LOGS:
 		return false
 	if data.is_empty() or typeof(data[0]) != TYPE_DICTIONARY:
 		return true
@@ -99,16 +103,30 @@ static func _handle_debugger_message(message: String, data: Array) -> bool:
 		return true
 	if not res.has_method("set") or not res.has_method("get"):
 		return true
-	if not _object_has_property(res, "value"):
+
+	if msg == MSG_SET:
+		if not _object_has_property(res, "value"):
+			return true
+		var type_name := str(payload.get("type", res.get_class()))
+		var value_str := str(payload.get("value_str", ""))
+		var new_val: Variant = _parse_value(type_name, value_str)
+		# Apply, then re-report to refresh editor UI.
+		print("VariableRuntimeReporter: set ", path, " = ", value_str, " (", type_name, ")")
+		res.set("value", new_val)
+		report(res, res.get("value"))
 		return true
 
-	var type_name := str(payload.get("type", res.get_class()))
-	var value_str := str(payload.get("value_str", ""))
-	var new_val: Variant = _parse_value(type_name, value_str)
-	# Apply, then re-report to refresh editor UI.
-	print("VariableRuntimeReporter: set ", path, " = ", value_str, " (", type_name, ")")
-	res.set("value", new_val)
-	report(res, res.get("value"))
+	# MSG_SET_DEBUG_LOGS
+	if not _object_has_property(res, "debug_logs"):
+		return true
+	var enabled := bool(payload.get("debug_logs", false))
+	print("VariableRuntimeReporter: debug_logs ", path, " = ", enabled)
+	res.set("debug_logs", enabled)
+	# Re-report to refresh editor UI.
+	var current_value: Variant = null
+	if _object_has_property(res, "value"):
+		current_value = res.get("value")
+	report(res, current_value)
 	return true
 
 
