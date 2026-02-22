@@ -19,6 +19,7 @@ var _root: TreeItem
 var _items_by_id: Dictionary = {}
 var _editor_interface: Object = null
 var _last_selected_column := -1
+var _is_bulk_updating_debug_logs := false
 
 
 func _get_pretty_type_name(type_name: String) -> String:
@@ -43,6 +44,16 @@ func _ready() -> void:
 	title.text = "Runtime Variable Values"
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
+
+	var all_debug_btn := Button.new()
+	all_debug_btn.text = "Enable Debug Logs (All)"
+	all_debug_btn.pressed.connect(_on_enable_all_debug_logs_pressed)
+	header.add_child(all_debug_btn)
+
+	var no_debug_btn := Button.new()
+	no_debug_btn.text = "Disable Debug Logs (All)"
+	no_debug_btn.pressed.connect(_on_disable_all_debug_logs_pressed)
+	header.add_child(no_debug_btn)
 
 	# Tree
 	_tree = Tree.new()
@@ -213,6 +224,8 @@ func _get_metadata_dict(item: TreeItem, column: int) -> Dictionary:
 
 
 func _on_tree_item_edited() -> void:
+	if _is_bulk_updating_debug_logs:
+		return
 	var item := _tree.get_edited()
 	if item == null:
 		return
@@ -247,3 +260,39 @@ func _on_tree_item_edited() -> void:
 
 		_:
 			return
+
+
+func _on_enable_all_debug_logs_pressed() -> void:
+	_set_debug_logs_for_all(true)
+
+
+func _on_disable_all_debug_logs_pressed() -> void:
+	_set_debug_logs_for_all(false)
+
+
+func _set_debug_logs_for_all(enabled: bool) -> void:
+	if _tree == null:
+		return
+
+	_is_bulk_updating_debug_logs = true
+	for key in _items_by_id.keys():
+		var item: Variant = _items_by_id[key]
+		if not is_instance_valid(item):
+			continue
+		var tree_item := item as TreeItem
+		if tree_item == null:
+			continue
+		# Update UI first.
+		tree_item.set_checked(COL_DEBUG_LOGS, enabled)
+
+		# Then request the runtime change.
+		var meta: Variant = tree_item.get_metadata(COL_DEBUG_LOGS)
+		if typeof(meta) != TYPE_DICTIONARY:
+			continue
+		var dict := meta as Dictionary
+		var path := str(dict.get("path", ""))
+		if path == "":
+			continue
+		# Use session_id 0 to broadcast to all active debug sessions.
+		variable_debug_logs_set_requested.emit(0, path, enabled)
+	_is_bulk_updating_debug_logs = false
