@@ -66,17 +66,28 @@ static func report(variable: Resource, value: Variant) -> void:
 		if name == "":
 			name = id
 
+	var type_name := _get_pretty_runtime_type_name(variable)
+
 	var payload: Dictionary = {
 		"id": id,
 		"path": path,
 		"name": name,
-		"type": _get_pretty_runtime_type_name(variable),
-		"value_str": str(value),
+		"type": type_name,
+		"value_str": _format_value_str(type_name, value),
 		"debug_logs": bool(variable.get("debug_logs") if variable.has_method("get") else false),
 		"ticks_msec": Time.get_ticks_msec(),
 	}
 
 	EngineDebugger.send_message("variable_values:update", [payload])
+
+
+static func _format_value_str(type_name: String, value: Variant) -> String:
+	if type_name == "ColorVariable" and typeof(value) == TYPE_COLOR:
+		var c := value as Color
+		var include_alpha := not is_equal_approx(c.a, 1.0)
+		# Godot returns hex without '#'. Prefer uppercase for readability.
+		return "#" + c.to_html(include_alpha).to_upper()
+	return str(value)
 
 
 static func _ensure_capture_registered() -> void:
@@ -175,7 +186,22 @@ static func _parse_value(type_name: String, value_str: String) -> Variant:
 			return float(value_str)
 		"StringVariable":
 			return value_str
-		"Vector2Variable", "Vector3Variable", "ColorVariable":
+		"ColorVariable":
+			var s := value_str.strip_edges()
+			# Accept hex formats like '#RRGGBB' and '#RRGGBBAA' (case-insensitive),
+			# in addition to Godot's printed form 'Color(r, g, b, a)'.
+			if s.begins_with("#"):
+				# Prefer parsing '#RRGGBB' / '#RRGGBBAA' via Color.from_string when available.
+				if ClassDB.class_has_method("Color", "from_string"):
+					var sentinel := Color(-1, -1, -1, -1)
+					var parsed := Color.from_string(s, sentinel)
+					if parsed != sentinel:
+						return parsed
+			var v_hex_fallback: Variant = str_to_var(s)
+			if typeof(v_hex_fallback) == TYPE_COLOR:
+				return v_hex_fallback
+			return s
+		"Vector2Variable", "Vector3Variable":
 			# Best effort: accept Godot's printed forms like Vector2(1, 2) and Color(1, 1, 1, 1)
 			# and also allow raw literals supported by str_to_var.
 			var v: Variant = str_to_var(value_str)
