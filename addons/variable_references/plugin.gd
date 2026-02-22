@@ -106,6 +106,8 @@ func _process(_delta: float) -> void:
 		# Just stopped running: clear runtime-only UI.
 		if is_instance_valid(_events_dock) and _events_dock.has_method("clear_events"):
 			_events_dock.call("clear_events")
+		if is_instance_valid(_values_dock) and _values_dock.has_method("clear_values"):
+			_values_dock.call("clear_values")
 
 	_was_playing = is_playing
 

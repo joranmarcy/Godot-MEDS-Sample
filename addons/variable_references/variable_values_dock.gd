@@ -46,10 +46,15 @@ func _ready() -> void:
 	_root = _tree.create_item()
 
 
-func _on_clear_pressed() -> void:
+func clear_values() -> void:
 	_items_by_id.clear()
-	_tree.clear()
-	_root = _tree.create_item()
+	if _tree != null:
+		_tree.clear()
+		_root = _tree.create_item()
+
+
+func _on_clear_pressed() -> void:
+	clear_values()
 
 
 func on_variable_value_updated(payload: Dictionary) -> void:
