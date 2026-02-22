@@ -93,21 +93,77 @@ func on_variable_value_updated(payload: Dictionary) -> void:
 	})
 
 	var raw_type := str(payload.get("type", ""))
+	var new_value_str := str(payload.get("value_str", ""))
+	var old_value_str := ""
+	var old_blink_token := 0
+	var value_meta_before: Variant = item.get_metadata(COL_VALUE)
+	if typeof(value_meta_before) == TYPE_DICTIONARY:
+		var vd := value_meta_before as Dictionary
+		old_value_str = str(vd.get("value_str", ""))
+		old_blink_token = int(vd.get("blink_token", 0))
 	item.set_text(COL_TYPE, _get_pretty_type_name(raw_type))
-	item.set_text(COL_VALUE, str(payload.get("value_str", "")))
+	item.set_text(COL_VALUE, new_value_str)
 	item.set_editable(COL_VALUE, true)
 	item.set_cell_mode(COL_DEBUG_LOGS, TreeItem.CELL_MODE_CHECK)
 	item.set_editable(COL_DEBUG_LOGS, true)
 	item.set_checked(COL_DEBUG_LOGS, bool(payload.get("debug_logs", false)))
+
+	# Store value_str for future blink detection.
+	var blink_token := old_blink_token
+	if old_value_str != "" and new_value_str != old_value_str:
+		blink_token += 1
 	item.set_metadata(COL_VALUE, {
 		"session_id": int(payload.get("session_id", 0)),
 		"path": str(payload.get("path", "")),
 		"type": raw_type,
+		"value_str": new_value_str,
+		"blink_token": blink_token,
 	})
+	if old_value_str != "" and new_value_str != old_value_str:
+		_blink_cell_bg(item, COL_VALUE, blink_token)
 	item.set_metadata(COL_DEBUG_LOGS, {
 		"session_id": int(payload.get("session_id", 0)),
 		"path": str(payload.get("path", "")),
 	})
+
+
+func _blink_cell_bg(item: TreeItem, column: int, token: int) -> void:
+	if item == null:
+		return
+	var blink_color := _get_blink_color()
+	# TreeItem supports per-cell custom background.
+	item.set_custom_bg_color(column, blink_color)
+	call_deferred("_clear_blink_cell_bg_later", item, column, token)
+
+
+func _clear_blink_cell_bg_later(item: TreeItem, column: int, token: int) -> void:
+	# Short delay for the blink effect.
+	await get_tree().create_timer(0.18).timeout
+	if not is_instance_valid(item):
+		return
+	var meta: Variant = item.get_metadata(column)
+	if typeof(meta) != TYPE_DICTIONARY:
+		return
+	var dict := meta as Dictionary
+	if int(dict.get("blink_token", 0)) != token:
+		return
+	if item.has_method("clear_custom_bg_color"):
+		item.call("clear_custom_bg_color", column)
+	else:
+		item.set_custom_bg_color(column, Color(0, 0, 0, 0))
+
+
+func _get_blink_color() -> Color:
+	# Prefer editor theme colors when available.
+	if has_method("has_theme_color") and call("has_theme_color", "accent_color", "Editor"):
+		var c: Color = get_theme_color("accent_color", "Editor")
+		c.a = 0.35
+		return c
+	if has_method("has_theme_color") and call("has_theme_color", "warning_color", "Editor"):
+		var w: Color = get_theme_color("warning_color", "Editor")
+		w.a = 0.30
+		return w
+	return Color(1.0, 0.85, 0.2, 0.30)
 
 
 func _on_tree_cell_selected() -> void:
