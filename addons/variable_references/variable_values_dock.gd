@@ -21,6 +21,15 @@ var _editor_interface: Object = null
 var _last_selected_column := -1
 
 
+func _get_pretty_type_name(type_name: String) -> String:
+	# Runtime reports use script class names like "BoolVariable".
+	# For the UI, show a shorter label like "bool".
+	var t := type_name
+	if t.ends_with("Variable"):
+		return t.trim_suffix("Variable").to_lower()
+	return t.to_lower()
+
+
 func set_editor_interface(editor_interface: Object) -> void:
 	_editor_interface = editor_interface
 
@@ -83,7 +92,8 @@ func on_variable_value_updated(payload: Dictionary) -> void:
 		"path": str(payload.get("path", "")),
 	})
 
-	item.set_text(COL_TYPE, str(payload.get("type", "")))
+	var raw_type := str(payload.get("type", ""))
+	item.set_text(COL_TYPE, _get_pretty_type_name(raw_type))
 	item.set_text(COL_VALUE, str(payload.get("value_str", "")))
 	item.set_editable(COL_VALUE, true)
 	item.set_cell_mode(COL_DEBUG_LOGS, TreeItem.CELL_MODE_CHECK)
@@ -92,7 +102,7 @@ func on_variable_value_updated(payload: Dictionary) -> void:
 	item.set_metadata(COL_VALUE, {
 		"session_id": int(payload.get("session_id", 0)),
 		"path": str(payload.get("path", "")),
-		"type": str(payload.get("type", "")),
+		"type": raw_type,
 	})
 	item.set_metadata(COL_DEBUG_LOGS, {
 		"session_id": int(payload.get("session_id", 0)),

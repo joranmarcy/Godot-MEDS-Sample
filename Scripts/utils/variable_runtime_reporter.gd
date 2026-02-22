@@ -18,6 +18,28 @@ static var _receiver: _DebuggerReceiver = null
 static var _capture_registered := false
 
 
+static func _get_pretty_runtime_type_name(obj: Object) -> String:
+	# `Object.get_class()` returns the native type (often just "Resource").
+	# For script-based resources, prefer the script's global class name (from `class_name`).
+	if obj == null:
+		return ""
+	var t := obj.get_class()
+	if obj.has_method("get_script"):
+		var script: Variant = obj.call("get_script")
+		if script != null:
+			# Godot 4.x: Script.get_global_name() returns the `class_name` if set.
+			if script.has_method("get_global_name"):
+				var global_name := str(script.call("get_global_name"))
+				if global_name != "":
+					return global_name
+			# Fallback: derive from script filename.
+			if script.has_method("get_path"):
+				var p := str(script.call("get_path"))
+				if p != "":
+					return p.get_file().get_basename()
+	return t
+
+
 static func report(variable: Resource, value: Variant) -> void:
 	if variable == null:
 		return
@@ -48,7 +70,7 @@ static func report(variable: Resource, value: Variant) -> void:
 		"id": id,
 		"path": path,
 		"name": name,
-		"type": variable.get_class(),
+		"type": _get_pretty_runtime_type_name(variable),
 		"value_str": str(value),
 		"debug_logs": bool(variable.get("debug_logs") if variable.has_method("get") else false),
 		"ticks_msec": Time.get_ticks_msec(),
