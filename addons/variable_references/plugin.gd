@@ -29,6 +29,8 @@ func _enter_tree() -> void:
 
 	_values_dock = VariableValuesDock.new()
 	_values_dock.name = "Variable Values"
+	if _values_dock.has_method("set_editor_interface"):
+		_values_dock.call("set_editor_interface", get_editor_interface())
 	add_control_to_dock(DOCK_SLOT_RIGHT_UL, _values_dock)
 
 	_values_debugger = VariableValuesDebugger.new()

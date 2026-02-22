@@ -14,6 +14,8 @@ const COL_RAISE := 4
 
 const BTN_RAISE := 1
 
+const EditorUIUtils := preload("res://addons/variable_references/editor_ui_utils.gd")
+
 
 var _tree: Tree
 var _root: TreeItem
@@ -387,78 +389,4 @@ func _open_listeners_dialog_for_item(item: TreeItem) -> void:
 
 
 func _select_event_resource_in_editor(path: String) -> void:
-	# Best-effort: mimic selecting the resource in the editor.
-	# 1) Focus the resource in the Inspector (edit_resource)
-	# 2) Highlight it in the FileSystem dock (select_file)
-	if _editor_interface == null:
-		return
-	_focus_inspector_tab()
-
-	var res: Resource = null
-	if ResourceLoader.exists(path):
-		res = load(path)
-	if res != null and _editor_interface.has_method("edit_resource"):
-		_editor_interface.call("edit_resource", res)
-
-	_select_file_in_filesystem_dock(path)
-
-
-func _select_file_in_filesystem_dock(path: String) -> void:
-	if _editor_interface == null:
-		return
-	var normalized := path.replace("\\", "/")
-
-	# Prefer the higher-level API if present.
-	if _editor_interface.has_method("select_file"):
-		_editor_interface.call("select_file", normalized)
-		return
-
-	if not _editor_interface.has_method("get_file_system_dock"):
-		return
-	var fs_dock: Variant = _editor_interface.call("get_file_system_dock")
-	if fs_dock == null:
-		return
-	if fs_dock.has_method("select_file"):
-		fs_dock.call("select_file", normalized)
-
-
-func _focus_inspector_tab() -> void:
-	# The Inspector is not a "main screen" (2D/3D/Script), it's a dock tab.
-	# Godot doesn't expose a stable API to focus it across all 4.x builds,
-	# so we do a best-effort UI search for a TabContainer/TabBar tab titled "Inspector".
-	if _editor_interface == null:
-		return
-	if not _editor_interface.has_method("get_base_control"):
-		return
-	var base: Variant = _editor_interface.call("get_base_control")
-	var base_control := base as Control
-	if base_control == null:
-		return
-
-	# TabContainer approach.
-	var tab_containers := base_control.find_children("*", "TabContainer", true, false)
-	for n in tab_containers:
-		var tc := n as TabContainer
-		if tc == null:
-			continue
-		for i in range(tc.get_tab_count()):
-			if tc.get_tab_title(i) == "Inspector":
-				if tc.has_method("set_current_tab"):
-					tc.call("set_current_tab", i)
-				else:
-					tc.current_tab = i
-				return
-
-	# TabBar approach (some editor UIs use a TabBar directly).
-	var tab_bars := base_control.find_children("*", "TabBar", true, false)
-	for n in tab_bars:
-		var tb := n as TabBar
-		if tb == null:
-			continue
-		for i in range(tb.get_tab_count()):
-			if tb.get_tab_title(i) == "Inspector":
-				if tb.has_method("set_current_tab"):
-					tb.call("set_current_tab", i)
-				else:
-					tb.current_tab = i
-				return
+	EditorUIUtils.select_resource_in_editor(_editor_interface, path)
