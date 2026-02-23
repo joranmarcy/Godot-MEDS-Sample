@@ -1,4 +1,4 @@
-@icon("res://icons/StringVariable.svg")
+@icon("res://addons/godot_flow_core/icons/StringVariable.svg")
 extends BaseVariable
 class_name StringVariable
 

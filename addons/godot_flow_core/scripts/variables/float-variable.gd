@@ -1,4 +1,4 @@
-@icon("res://icons/FloatVariable.svg")
+@icon("res://addons/godot_flow_core/icons/FloatVariable.svg")
 extends BaseVariable
 class_name FloatVariable
 

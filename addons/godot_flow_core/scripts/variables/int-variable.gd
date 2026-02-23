@@ -1,4 +1,4 @@
-@icon("res://icons/IntVariable.svg")
+@icon("res://addons/godot_flow_core/icons/IntVariable.svg")
 extends BaseVariable
 class_name IntVariable
 

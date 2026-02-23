@@ -1,4 +1,4 @@
-@icon("res://icons/ColorVariable.svg")
+@icon("res://addons/godot_flow_core/icons/ColorVariable.svg")
 extends BaseVariable
 class_name ColorVariable
 

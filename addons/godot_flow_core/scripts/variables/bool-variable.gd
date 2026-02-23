@@ -1,4 +1,4 @@
-@icon("res://icons/BoolVariable.svg")
+@icon("res://addons/godot_flow_core/icons/BoolVariable.svg")
 extends BaseVariable
 class_name BoolVariable
 

@@ -1,4 +1,4 @@
-@icon("res://icons/BaseVariable.svg")
+@icon("res://addons/godot_flow_core/icons/BaseVariable.svg")
 extends Resource
 class_name BaseVariable
 
