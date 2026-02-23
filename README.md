@@ -1,5 +1,7 @@
 # Custom Resources (Godot Flow)
 
+![alt text](README_RESOURCES/ui.gif)
+
 This repository is a Godot 4.x project that ships a small “Flow” framework built around **typed Resource variables** and **Resource events**, plus optional **editor extensions** for inspecting and editing their runtime state while the game is running.
 
 It’s intended for a decoupled, data-driven workflow:
