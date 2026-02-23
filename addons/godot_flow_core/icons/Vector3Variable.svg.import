@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5mlqfdv51ppt"
-path="res://.godot/imported/BoolVariable.svg-7e52f3dd1bd1087839bbcd540d8a0556.ctex"
+uid="uid://b2l6kgrb6u73r"
+path="res://.godot/imported/Vector3Variable.svg-59e82267e565e32e17a743044d0cc2de.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://icons/BoolVariable.svg"
-dest_files=["res://.godot/imported/BoolVariable.svg-7e52f3dd1bd1087839bbcd540d8a0556.ctex"]
+source_file="res://addons/godot_flow_core/icons/Vector3Variable.svg"
+dest_files=["res://.godot/imported/Vector3Variable.svg-59e82267e565e32e17a743044d0cc2de.ctex"]
 
 [params]
 
