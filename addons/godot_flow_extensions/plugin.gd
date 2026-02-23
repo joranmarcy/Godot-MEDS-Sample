@@ -2,11 +2,11 @@
 extends EditorPlugin
 
 
-const VariableReferencesInspectorPlugin := preload("res://addons/variable_references/variable_references_inspector.gd")
-const VariableValuesDock := preload("res://addons/variable_references/variable_values_dock.gd")
-const VariableValuesDebugger := preload("res://addons/variable_references/variable_values_debugger.gd")
-const EventsDock := preload("res://addons/variable_references/events_dock.gd")
-const EventsDebugger := preload("res://addons/variable_references/events_debugger.gd")
+const VariableReferencesInspectorPlugin := preload("res://addons/godot_flow_extensions/variable_references_inspector.gd")
+const VariableValuesDock := preload("res://addons/godot_flow_extensions/variable_values_dock.gd")
+const VariableValuesDebugger := preload("res://addons/godot_flow_extensions/variable_values_debugger.gd")
+const EventsDock := preload("res://addons/godot_flow_extensions/events_dock.gd")
+const EventsDebugger := preload("res://addons/godot_flow_extensions/events_debugger.gd")
 
 
 var _context_menu_plugin: EditorContextMenuPlugin

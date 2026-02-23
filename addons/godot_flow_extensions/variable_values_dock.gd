@@ -11,7 +11,7 @@ const COL_TYPE := 1
 const COL_VALUE := 2
 const COL_DEBUG_LOGS := 3
 
-const EditorUIUtils := preload("res://addons/variable_references/editor_ui_utils.gd")
+const EditorUIUtils := preload("res://addons/godot_flow_extensions/editor_ui_utils.gd")
 
 
 var _tree: Tree
