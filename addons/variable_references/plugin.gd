@@ -23,7 +23,7 @@ var _was_playing := false
 
 
 func _enter_tree() -> void:
-	print("Variable References: plugin loaded")
+	print("Godot Flow Extensions: plugin loaded")
 	_context_menu_plugin = VariableReferencesInspectorPlugin.new()
 	add_context_menu_plugin(EditorContextMenuPlugin.CONTEXT_SLOT_FILESYSTEM, _context_menu_plugin)
 
@@ -199,7 +199,7 @@ func _on_output_meta_clicked(meta: Variant) -> void:
 	if not s.begins_with("//open_node?"):
 		return
 
-	# print("Variable References: clicked link ", s)
+	# print("Godot Flow Extensions: clicked link ", s)
 
 	var q_index := s.find("?")
 	if q_index == -1:
@@ -232,7 +232,7 @@ func _open_scene_and_select_node(scene_path: String, node_path: String) -> void:
 		return
 
 	if scene_path == "":
-		push_warning("Variable References: missing scene path in link")
+		push_warning("Godot Flow Extensions: missing scene path in link")
 		return
 
 	# Open the scene first.
@@ -253,12 +253,12 @@ func _open_scene_and_select_node(scene_path: String, node_path: String) -> void:
 				break
 
 	if root == null:
-		push_warning("Variable References: could not open scene " + scene_path)
+		push_warning("Godot Flow Extensions: could not open scene " + scene_path)
 		return
 
 	var node := _resolve_node_from_logged_path(root, node_path)
 	if node == null:
-		push_warning("Variable References: node not found in opened scene: " + node_path)
+		push_warning("Godot Flow Extensions: node not found in opened scene: " + node_path)
 		return
 
 	# Select the node in the SceneTree dock.
