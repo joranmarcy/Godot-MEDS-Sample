@@ -5,6 +5,8 @@ extends EditorPlugin
 const VariableReferencesInspectorPlugin := preload("res://addons/variable_references/variable_references_inspector.gd")
 const VariableValuesDock := preload("res://addons/variable_references/variable_values_dock.gd")
 const VariableValuesDebugger := preload("res://addons/variable_references/variable_values_debugger.gd")
+const EventsDock := preload("res://addons/variable_references/events_dock.gd")
+const EventsDebugger := preload("res://addons/variable_references/events_debugger.gd")
 
 
 var _context_menu_plugin: EditorContextMenuPlugin
@@ -14,6 +16,11 @@ var _is_listening_for_new_nodes := false
 var _values_dock: Control
 var _values_debugger: EditorDebuggerPlugin
 
+var _events_dock: Control
+var _events_debugger: EditorDebuggerPlugin
+
+var _was_playing := false
+
 
 func _enter_tree() -> void:
 	print("Variable References: plugin loaded")
@@ -22,6 +29,8 @@ func _enter_tree() -> void:
 
 	_values_dock = VariableValuesDock.new()
 	_values_dock.name = "Variable Values"
+	if _values_dock.has_method("set_editor_interface"):
+		_values_dock.call("set_editor_interface", get_editor_interface())
 	add_control_to_dock(DOCK_SLOT_RIGHT_UL, _values_dock)
 
 	_values_debugger = VariableValuesDebugger.new()
@@ -32,12 +41,33 @@ func _enter_tree() -> void:
 	# Connect dock edits back to the running game.
 	if _values_dock.has_signal("variable_value_set_requested") and _values_debugger.has_method("request_set_value"):
 		_values_dock.connect("variable_value_set_requested", Callable(_values_debugger, "request_set_value"))
+	if _values_dock.has_signal("variable_debug_logs_set_requested") and _values_debugger.has_method("request_set_debug_logs"):
+		_values_dock.connect("variable_debug_logs_set_requested", Callable(_values_debugger, "request_set_debug_logs"))
+
+	_events_dock = EventsDock.new()
+	_events_dock.name = "Events"
+	if _events_dock.has_method("set_editor_interface"):
+		_events_dock.call("set_editor_interface", get_editor_interface())
+	add_control_to_dock(DOCK_SLOT_RIGHT_UL, _events_dock)
+
+	_events_debugger = EventsDebugger.new()
+	add_debugger_plugin(_events_debugger)
+	if _events_debugger.has_signal("event_updated"):
+		_events_debugger.connect("event_updated", Callable(_events_dock, "on_event_updated"))
+	if _events_debugger.has_signal("debug_session_ended") and _events_dock.has_method("clear_events"):
+		_events_debugger.connect("debug_session_ended", Callable(_events_dock, "clear_events"))
+	if _events_dock.has_signal("event_raise_requested") and _events_debugger.has_method("request_raise"):
+		_events_dock.connect("event_raise_requested", Callable(_events_debugger, "request_raise"))
+	if _events_dock.has_signal("event_debug_logs_set_requested") and _events_debugger.has_method("request_set_debug_logs"):
+		_events_dock.connect("event_debug_logs_set_requested", Callable(_events_debugger, "request_set_debug_logs"))
 
 	_connect_output_meta_handlers_deferred()
 	_listen_for_rich_text_labels()
+	set_process(true)
 
 
 func _exit_tree() -> void:
+	set_process(false)
 	_stop_listening_for_rich_text_labels()
 	_disconnect_output_meta_handlers()
 
@@ -49,9 +79,41 @@ func _exit_tree() -> void:
 		_values_dock.queue_free()
 		_values_dock = null
 
+	if _events_debugger:
+		remove_debugger_plugin(_events_debugger)
+		_events_debugger = null
+	if _events_dock:
+		remove_control_from_docks(_events_dock)
+		_events_dock.queue_free()
+		_events_dock = null
+
 	if _context_menu_plugin:
 		remove_context_menu_plugin(_context_menu_plugin)
 		_context_menu_plugin = null
+
+
+func _process(_delta: float) -> void:
+	var editor_interface := get_editor_interface()
+	var is_playing := false
+	if editor_interface != null:
+		if editor_interface.has_method("is_playing_scene"):
+			is_playing = bool(editor_interface.call("is_playing_scene"))
+		elif editor_interface.has_method("get_playing_scene"):
+			var v: Variant = editor_interface.call("get_playing_scene")
+			# Some versions return a path string, some a Node, some null.
+			if typeof(v) == TYPE_STRING:
+				is_playing = String(v) != ""
+			else:
+				is_playing = v != null
+
+	if _was_playing and not is_playing:
+		# Just stopped running: clear runtime-only UI.
+		if is_instance_valid(_events_dock) and _events_dock.has_method("clear_events"):
+			_events_dock.call("clear_events")
+		if is_instance_valid(_values_dock) and _values_dock.has_method("clear_values"):
+			_values_dock.call("clear_values")
+
+	_was_playing = is_playing
 
 
 func _connect_output_meta_handlers_deferred() -> void:

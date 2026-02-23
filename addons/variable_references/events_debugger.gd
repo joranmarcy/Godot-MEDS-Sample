@@ -2,13 +2,14 @@
 extends EditorDebuggerPlugin
 
 
-signal variable_value_updated(payload: Dictionary)
+signal event_updated(payload: Dictionary)
+signal debug_session_ended(session_id: int)
 
 
-const CAPTURE_NAME := "variable_values"
-const MSG_UPDATE := "variable_values:update"
-const MSG_SET := "variable_values:set"
-const MSG_SET_DEBUG_LOGS := "variable_values:set_debug_logs"
+const CAPTURE_NAME := "events"
+const MSG_UPDATE := "events:update"
+const MSG_RAISE := "events:raise"
+const MSG_SET_DEBUG_LOGS := "events:set_debug_logs"
 
 
 func _has_capture(capture: String) -> bool:
@@ -27,21 +28,24 @@ func _capture(message: String, data: Array, session_id: int) -> bool:
 
 	var dict := payload as Dictionary
 	dict["session_id"] = session_id
-	variable_value_updated.emit(dict)
+	event_updated.emit(dict)
 	return true
 
 
-func request_set_value(session_id: int, path: String, type_name: String, value_str: String) -> void:
+func request_raise(session_id: int, event_id: String, path: String) -> void:
 	var payload: Dictionary = {
+		"id": event_id,
 		"path": path,
-		"type": type_name,
-		"value_str": value_str,
 	}
-	_send_to_session(session_id, MSG_SET, [payload])
+	if session_id <= 0:
+		_send_to_all_sessions(MSG_RAISE, [payload])
+		return
+	_send_to_session(session_id, MSG_RAISE, [payload])
 
 
-func request_set_debug_logs(session_id: int, path: String, enabled: bool) -> void:
+func request_set_debug_logs(session_id: int, event_id: String, path: String, enabled: bool) -> void:
 	var payload: Dictionary = {
+		"id": event_id,
 		"path": path,
 		"debug_logs": enabled,
 	}
@@ -69,7 +73,25 @@ func _send_to_all_sessions(message: String, data: Array) -> void:
 		call("send_message", message, data, 0)
 		return
 
-	push_warning("Variable Values: unable to send debugger message to running game (no compatible send API found).")
+	push_warning("Events: unable to send debugger message to running game (no compatible send API found).")
+
+
+# Session lifecycle hooks (Godot versions differ in naming).
+func _setup_session(session_id: int) -> void:
+	# No-op; present for compatibility.
+	pass
+
+
+func _end_session(session_id: int) -> void:
+	debug_session_ended.emit(session_id)
+
+
+func _session_stopped(session_id: int) -> void:
+	debug_session_ended.emit(session_id)
+
+
+func _stop_session(session_id: int) -> void:
+	debug_session_ended.emit(session_id)
 
 
 func _send_to_session(session_id: int, message: String, data: Array) -> void:
@@ -94,4 +116,4 @@ func _send_to_session(session_id: int, message: String, data: Array) -> void:
 					s.call("send_message", message, data)
 					return
 
-	push_warning("Variable Values: unable to send debugger message to running game (no compatible send API found).")
+	push_warning("Events: unable to send debugger message to running game (no compatible send API found).")

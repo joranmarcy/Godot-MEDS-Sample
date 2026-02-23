@@ -4,6 +4,7 @@ class_name VariableRuntimeReporter
 
 const CAPTURE_NAME := "variable_values"
 const MSG_SET := "variable_values:set"
+const MSG_SET_DEBUG_LOGS := "variable_values:set_debug_logs"
 
 
 class _DebuggerReceiver:
@@ -15,6 +16,28 @@ class _DebuggerReceiver:
 
 static var _receiver: _DebuggerReceiver = null
 static var _capture_registered := false
+
+
+static func _get_pretty_runtime_type_name(obj: Object) -> String:
+	# `Object.get_class()` returns the native type (often just "Resource").
+	# For script-based resources, prefer the script's global class name (from `class_name`).
+	if obj == null:
+		return ""
+	var t := obj.get_class()
+	if obj.has_method("get_script"):
+		var script: Variant = obj.call("get_script")
+		if script != null:
+			# Godot 4.x: Script.get_global_name() returns the `class_name` if set.
+			if script.has_method("get_global_name"):
+				var global_name := str(script.call("get_global_name"))
+				if global_name != "":
+					return global_name
+			# Fallback: derive from script filename.
+			if script.has_method("get_path"):
+				var p := str(script.call("get_path"))
+				if p != "":
+					return p.get_file().get_basename()
+	return t
 
 
 static func report(variable: Resource, value: Variant) -> void:
@@ -43,16 +66,28 @@ static func report(variable: Resource, value: Variant) -> void:
 		if name == "":
 			name = id
 
+	var type_name := _get_pretty_runtime_type_name(variable)
+
 	var payload: Dictionary = {
 		"id": id,
 		"path": path,
 		"name": name,
-		"type": variable.get_class(),
-		"value_str": str(value),
+		"type": type_name,
+		"value_str": _format_value_str(type_name, value),
+		"debug_logs": bool(variable.get("debug_logs") if variable.has_method("get") else false),
 		"ticks_msec": Time.get_ticks_msec(),
 	}
 
 	EngineDebugger.send_message("variable_values:update", [payload])
+
+
+static func _format_value_str(type_name: String, value: Variant) -> String:
+	if type_name == "ColorVariable" and typeof(value) == TYPE_COLOR:
+		var c := value as Color
+		var include_alpha := not is_equal_approx(c.a, 1.0)
+		# Godot returns hex without '#'. Prefer uppercase for readability.
+		return "#" + c.to_html(include_alpha).to_upper()
+	return str(value)
 
 
 static func _ensure_capture_registered() -> void:
@@ -79,10 +114,12 @@ static func _handle_debugger_message(message: String, data: Array) -> bool:
 	var msg := message
 	if msg == "set":
 		msg = MSG_SET
+	elif msg == "set_debug_logs":
+		msg = MSG_SET_DEBUG_LOGS
 	elif not msg.begins_with(CAPTURE_NAME + ":") and msg.find(":") == -1:
 		msg = CAPTURE_NAME + ":" + msg
 
-	if msg != MSG_SET:
+	if msg != MSG_SET and msg != MSG_SET_DEBUG_LOGS:
 		return false
 	if data.is_empty() or typeof(data[0]) != TYPE_DICTIONARY:
 		return true
@@ -99,16 +136,30 @@ static func _handle_debugger_message(message: String, data: Array) -> bool:
 		return true
 	if not res.has_method("set") or not res.has_method("get"):
 		return true
-	if not _object_has_property(res, "value"):
+
+	if msg == MSG_SET:
+		if not _object_has_property(res, "value"):
+			return true
+		var type_name := str(payload.get("type", res.get_class()))
+		var value_str := str(payload.get("value_str", ""))
+		var new_val: Variant = _parse_value(type_name, value_str)
+		# Apply, then re-report to refresh editor UI.
+		print("VariableRuntimeReporter: set ", path, " = ", value_str, " (", type_name, ")")
+		res.set("value", new_val)
+		report(res, res.get("value"))
 		return true
 
-	var type_name := str(payload.get("type", res.get_class()))
-	var value_str := str(payload.get("value_str", ""))
-	var new_val: Variant = _parse_value(type_name, value_str)
-	# Apply, then re-report to refresh editor UI.
-	print("VariableRuntimeReporter: set ", path, " = ", value_str, " (", type_name, ")")
-	res.set("value", new_val)
-	report(res, res.get("value"))
+	# MSG_SET_DEBUG_LOGS
+	if not _object_has_property(res, "debug_logs"):
+		return true
+	var enabled := bool(payload.get("debug_logs", false))
+	print("VariableRuntimeReporter: debug_logs ", path, " = ", enabled)
+	res.set("debug_logs", enabled)
+	# Re-report to refresh editor UI.
+	var current_value: Variant = null
+	if _object_has_property(res, "value"):
+		current_value = res.get("value")
+	report(res, current_value)
 	return true
 
 
@@ -135,7 +186,22 @@ static func _parse_value(type_name: String, value_str: String) -> Variant:
 			return float(value_str)
 		"StringVariable":
 			return value_str
-		"Vector2Variable", "Vector3Variable", "ColorVariable":
+		"ColorVariable":
+			var s := value_str.strip_edges()
+			# Accept hex formats like '#RRGGBB' and '#RRGGBBAA' (case-insensitive),
+			# in addition to Godot's printed form 'Color(r, g, b, a)'.
+			if s.begins_with("#"):
+				# Prefer parsing '#RRGGBB' / '#RRGGBBAA' via Color.from_string when available.
+				if ClassDB.class_has_method("Color", "from_string"):
+					var sentinel := Color(-1, -1, -1, -1)
+					var parsed := Color.from_string(s, sentinel)
+					if parsed != sentinel:
+						return parsed
+			var v_hex_fallback: Variant = str_to_var(s)
+			if typeof(v_hex_fallback) == TYPE_COLOR:
+				return v_hex_fallback
+			return s
+		"Vector2Variable", "Vector3Variable":
 			# Best effort: accept Godot's printed forms like Vector2(1, 2) and Color(1, 1, 1, 1)
 			# and also allow raw literals supported by str_to_var.
 			var v: Variant = str_to_var(value_str)

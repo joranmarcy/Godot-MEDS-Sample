@@ -1,12 +1,43 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhpio07xeiuck"]
+[gd_scene load_steps=14 format=3 uid="uid://dhpio07xeiuck"]
 
 [ext_resource type="PackedScene" uid="uid://bf7ic1165wq3u" path="res://samples/prefabs/menu.tscn" id="1_fqs1e"]
+[ext_resource type="Script" uid="uid://bv0yeq0afhea3" path="res://samples/scripts/event-listener.gd" id="4_lqy8j"]
+[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/my-event.tres" id="5_x7s1y"]
+[ext_resource type="Script" uid="uid://g2yo0xaiy6nv" path="res://samples/scripts/trigger-particles.gd" id="6_gvi1x"]
 [ext_resource type="Environment" uid="uid://dbehk4clt7h0t" path="res://samples/main.tres" id="6_rd6o4"]
 [ext_resource type="PackedScene" uid="uid://bx0kscwc5q0uv" path="res://samples/prefabs/cube.tscn" id="9_ybw4m"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lquwl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gvi1x"]
+
+[sub_resource type="Curve" id="Curve_lqy8j"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_gvi1x"]
+curve = SubResource("Curve_lqy8j")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3v2ro"]
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 0.5, 0.5)
+radial_velocity_min = 3.9999776
+radial_velocity_max = 4.9999776
+gravity = Vector3(0, 0, 0)
+scale_min = 0.099999994
+scale_max = 0.099999994
+scale_curve = SubResource("CurveTexture_gvi1x")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3v2ro"]
+emission_enabled = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_gvi1x"]
+material = SubResource("StandardMaterial3D_3v2ro")
 
 [node name="Node3D" type="Node3D"]
 
@@ -24,5 +55,25 @@ surface_material_override/0 = SubResource("StandardMaterial3D_gvi1x")
 [node name="Cube" parent="." instance=ExtResource("9_ybw4m")]
 transform = Transform3D(0.764359, 0, 0.6447909, 0, 1, 0, -0.6447909, 0, 0.764359, 0.09024835, 0.5, 0)
 
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Cube"]
+emitting = false
+amount = 50
+lifetime = 0.5
+one_shot = true
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_3v2ro")
+draw_pass_1 = SubResource("QuadMesh_gvi1x")
+script = ExtResource("6_gvi1x")
+
+[node name="Node" type="Node" parent="Cube/GPUParticles3D"]
+script = ExtResource("4_lqy8j")
+event = ExtResource("5_x7s1y")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.853669, -0.010552713, -0.52070904, 0.52081597, 0.017296942, 0.85349375, 0, -0.9997947, 0.020261884, 0, 0, 0)
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("4_lqy8j")
+event = ExtResource("5_x7s1y")
+
+[connection signal="event_raised" from="Cube/GPUParticles3D/Node" to="Cube/GPUParticles3D" method="trigger_particles"]
