@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bf7ic1165wq3u"]
+[gd_scene load_steps=12 format=3 uid="uid://bf7ic1165wq3u"]
 
 [ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/ui/bool-driven-checkbox.gd" id="1_qp0mf"]
 [ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/cube-visibility.tres" id="2_3e2kd"]
@@ -8,7 +8,9 @@
 [ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://scripts/ui/color-driven-color-picker.gd" id="6_twerf"]
 [ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/cube-color.tres" id="7_43bnt"]
 [ext_resource type="Script" uid="uid://dgki0vmwag0uo" path="res://samples/scripts/raise-event.gd" id="8_f77vf"]
-[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/my-event.tres" id="9_g3v0a"]
+[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/trigger-cube-particles.tres" id="9_g3v0a"]
+[ext_resource type="Script" uid="uid://ddqa8ls461a42" path="res://samples/scripts/raise-bool-event.gd" id="10_8o0cq"]
+[ext_resource type="Resource" uid="uid://c7tug5nn8bxd3" path="res://samples/events/my-bool-event.tres" id="11_6nml3"]
 
 [node name="Menu" type="CanvasLayer"]
 follow_viewport_enabled = true
@@ -91,5 +93,19 @@ text = "Raise Event
 [node name="RaiseEvent" type="Node" parent="PanelContainer/CenterContainer/VBoxContainer/Button"]
 script = ExtResource("8_f77vf")
 event = ExtResource("9_g3v0a")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer4" node_paths=PackedStringArray("checkbox")]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Raise Bool Event"
+script = ExtResource("10_8o0cq")
+bool_event = ExtResource("11_6nml3")
+checkbox = NodePath("../CheckBox")
+
+[node name="CheckBox" type="CheckBox" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
 
 [connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/Button" to="PanelContainer/CenterContainer/VBoxContainer/Button/RaiseEvent" method="raise_event"]

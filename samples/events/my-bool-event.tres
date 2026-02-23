@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="BoolEvent" load_steps=2 format=3 uid="uid://c7tug5nn8bxd3"]
+
+[ext_resource type="Script" uid="uid://ccaovse8dpvoi" path="res://scripts/events/event-bool.gd" id="1_8evow"]
+
+[resource]
+script = ExtResource("1_8evow")
+metadata/_custom_type_script = "uid://ccaovse8dpvoi"
