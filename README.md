@@ -1,3 +1,5 @@
+![Godot Flow](logo/godot-flow-full.svg)
+
 # Custom Resources (Godot Flow)
 
 ![alt text](README_RESOURCES/ui.gif)
