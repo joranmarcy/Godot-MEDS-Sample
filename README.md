@@ -1,12 +1,16 @@
-![Godot Flow](logo/nsa.png)
+![Godot MEDS](logo/meds.png)
 
-# Godot No Singleton Architecture
+# Presentation
 
-The evolution of game engine architecture has historically been characterized by a tension between ease of use and long-term maintainability. In the early stages of development, global singletons and monolithic "Manager" classes offer a seductive simplicity, providing immediate access to game state from any point in the codebase. However, as projects scale, these patterns inevitably transform into a dependency nightmare where rigid dependencies and fragile global state make refactoring nearly impossible and testing a logistical nightmare. [The seminal work of Ryan Hipple at Unite 2017](https://www.youtube.com/watch?v=raQ3iHhE_Kk) introduced a radical alternative for the Unity ecosystem: a modular, data-driven architecture built entirely on ScriptableObjects. This paradigm shift focused on the decoupling of data from logic following three primary engineering pillars. Everything system needs to be Modular, Editable, and Debuggable. 
+Game engine architecture often involves a trade-off between short-term convenience and long-term maintainability. Early on, global singletons and monolithic "Manager" classes feel great: you can access game state from anywhere with minimal friction. But as projects grow, those patterns turn into hidden dependencies and fragile global state, making refactors risky and testing painful. [Ryan Hipple's Unite 2017 talk](https://www.youtube.com/watch?v=raQ3iHhE_Kk) popularized a strong alternative in the Unity ecosystem: a modular, data-driven architecture built on ScriptableObjects. The key idea is to decouple data from logic around three engineering pillars—every system should be **Modular**, **Editable**, and **Debuggable**.
 
-While originally designed for Unity, the underlying philosophy is engine-agnostic and finds a remarkably powerful, often superior, implementation within the Godot Engine through the use of Custom Resources.
+Although the approach was born in Unity, the philosophy is engine-agnostic and maps cleanly to Godot through Custom Resources. MEDS is my port of this workflow to Godot. After years of practice with the Unity implementations, I ran into a recurring limitation: in larger projects it can be difficult to see track references, which makes debugging and maintenance harder over time. This library is my attempt to keep the core idea lightweight while adding the tooling needed to stay debuggable as project scales.
 
-This repository is a Godot 4.x project that ships a small framework built around **typed Resource variables** and **Resource events**, plus **editor extensions** for inspecting and editing their runtime state while the game is running.
+**MED** stands for **Modular**, **Editable**, and **Debuggable**—the pillars popularized by Ryan Hipple.
+
+**S** stands for **Scalable**: an emphasis on making the approach work in larger projects by providing better tools to track dependencies between resources.
+
+This repository is a Godot 4.x MEDS project built around **typed Resource variables** and **Resource events**, plus **editor extensions** for inspecting and editing their runtime state while the game is running.
 
 - Store gameplay state in `.tres` Resources (Bool/Int/Float/String/Color/Vector2/Vector3 variables).
 - Listen to changes via signals (`value_changed`) instead of wiring node references everywhere.
@@ -17,10 +21,10 @@ This repository is a Godot 4.x project that ships a small framework built around
 
 ## Project layout
 
-- `addons/godot_nsa_core/`
+- `addons/godot_meds_core/`
   - Runtime: variable and event Resource types, runtime reporters, debug logging helpers.
   - Editor: a tiny plugin that silences custom debugger messages when the extensions plugin is disabled.
-- `addons/godot_nsa_extensions/`
+- `addons/godot_meds_extensions/`
   - Editor-only: docks/debugger plugins for viewing runtime variable values and events.
   - Context menu action to scan/log where a variable `.tres` is referenced.
 - `samples/`
