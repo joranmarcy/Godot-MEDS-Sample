@@ -30,7 +30,7 @@ Available variable types (scripts live under `addons/godot_meds_core/scripts/var
 
 ### Events
 
-Events are `Resource`s that expose a single signal and a method to emit it.
+Events are `Resources` that expose a single signal and a method to emit it.
 
 ## This repo
 
