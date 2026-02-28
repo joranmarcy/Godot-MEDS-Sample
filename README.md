@@ -1,26 +1,26 @@
-![Godot Flow](logo/godot-flow-full.svg)
+![Godot Flow](logo/nsa.png)
 
-# Godot No Singleton Architecture Library
+# Godot No Singleton Architecture
 
-![alt text](README_RESOURCES/ui.gif)
+The evolution of game engine architecture has historically been characterized by a tension between ease of use and long-term maintainability. In the early stages of development, global singletons and monolithic "Manager" classes offer a seductive simplicity, providing immediate access to game state from any point in the codebase. However, as projects scale, these patterns inevitably transform into a dependency nightmare where rigid dependencies and fragile global state make refactoring nearly impossible and testing a logistical nightmare. [The seminal work of Ryan Hipple at Unite 2017](https://www.youtube.com/watch?v=raQ3iHhE_Kk) introduced a radical alternative for the Unity ecosystem: a modular, data-driven architecture built entirely on ScriptableObjects. This paradigm shift focused on the decoupling of data from logic following three primary engineering pillars. Everything system needs to be Modular, Editable, and Debuggable. 
 
-The evolution of game engine architecture has historically been characterized by a tension between ease of use and long-term maintainability. In the early stages of development, global singletons and monolithic "Manager" classes offer a seductive simplicity, providing immediate access to game state from any point in the codebase. However, as projects scale, these patterns inevitably transform into a dependency nightmare where rigid dependencies and fragile global state make refactoring nearly impossible and testing a logistical nightmare. [The seminal work of Ryan Hipple at Unite 2017](https://www.youtube.com/watch?v=raQ3iHhE_Kk) introduced a radical alternative for the Unity ecosystem: a modular, data-driven architecture built entirely on ScriptableObjects. This paradigm shift focused on the decoupling of data from logic following three primary engineering pillars. Everything system needs to be Modular, Editable, and Debuggable. While originally designed for Unity, the underlying philosophy is engine-agnostic and finds a remarkably powerful, often superior, implementation within the Godot Engine through the use of Custom Resources.
+While originally designed for Unity, the underlying philosophy is engine-agnostic and finds a remarkably powerful, often superior, implementation within the Godot Engine through the use of Custom Resources.
 
-This repository is a Godot 4.x project that ships a small “Flow” framework built around **typed Resource variables** and **Resource events**, plus optional **editor extensions** for inspecting and editing their runtime state while the game is running.
-
-It’s intended for a decoupled, data-driven workflow:
+This repository is a Godot 4.x project that ships a small framework built around **typed Resource variables** and **Resource events**, plus **editor extensions** for inspecting and editing their runtime state while the game is running.
 
 - Store gameplay state in `.tres` Resources (Bool/Int/Float/String/Color/Vector2/Vector3 variables).
 - Listen to changes via signals (`value_changed`) instead of wiring node references everywhere.
 - Use `.tres` Events to broadcast occurrences (`event_raised`) without tightly coupling sender/receiver.
-- (Optional) Use the editor docks to watch/edit values and raise events live during play.
+- Use the editor docks to watch/edit values and raise events live during play.
+
+![alt text](README_RESOURCES/ui.gif)
 
 ## Project layout
 
-- `addons/godot_flow_core/`
+- `addons/godot_nsa_core/`
   - Runtime: variable and event Resource types, runtime reporters, debug logging helpers.
   - Editor: a tiny plugin that silences custom debugger messages when the extensions plugin is disabled.
-- `addons/godot_flow_extensions/`
+- `addons/godot_nsa_extensions/`
   - Editor-only: docks/debugger plugins for viewing runtime variable values and events.
   - Context menu action to scan/log where a variable `.tres` is referenced.
 - `samples/`
