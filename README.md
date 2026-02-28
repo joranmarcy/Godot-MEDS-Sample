@@ -32,7 +32,7 @@ Available variable types (scripts live under `addons/godot_meds_core/scripts/var
 
 Events are `Resources` that expose a single signal and a method to emit it.
 
-## This repo
+## This Project Sample
 
 This repository is a Godot 4.x MEDS project built around **typed Resource variables** and **Resource events**, plus **editor extensions** for inspecting and editing their runtime state while the game is running.
 
