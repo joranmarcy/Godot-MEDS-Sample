@@ -1,6 +1,6 @@
 ### Events (typed-less Resource signals)
 
-Events are `Resource`s that expose a single signal and a method to emit it.
+Events are `Resources` that expose a single signal and a method to emit it.
 
 - Script: `addons/godot_flow_core/scripts/events/event.gd`
 - API:
