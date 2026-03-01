@@ -22,17 +22,25 @@ Although the approach was born in Unity, the philosophy is engine-agnostic and m
 - Live variable debugger (read & edit values at runtime)
 - Live event debugger (raise events from editor / monitor event raises)
 
+Custom resource icons :
+
 ![alt text](README_RESOURCES/custom-icons.png)
 
-Custom resource icons
+Live variables debugger. Change and monitor event values :
 
 ![alt text](README_RESOURCES/variables-debugger-dock.gif)
 
-Live variables debugger. Change and monitor event values
+Live event debugger. Raise and monitor events at runtime :
 
 ![alt text](README_RESOURCES/event-debugger-dock.gif)
 
-Live event debugger. Raise and monitor events at runtime
+Easily track your resources usages at editor time :
+
+![alt text](README_RESOURCES/offline-reference-tracking.gif)
+
+And know at runtime who reacts to value or event raises :
+
+![alt text](README_RESOURCES/online-reference-tracking.gif)
 
 ------------------
 
