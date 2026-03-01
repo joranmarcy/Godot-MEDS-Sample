@@ -23,9 +23,11 @@ Although the approach was born in Unity, the philosophy is engine-agnostic and m
 - Live event debugger (raise events from editor / monitor event raises)
 
 ![alt text](README_RESOURCES/custom-icons.png)
+
 Custom resource icons
 
 ![alt text](README_RESOURCES/event-debugger-dock.gif)
+
 Live event debugger. Raise and monitor events at runtime
 
 ------------------
