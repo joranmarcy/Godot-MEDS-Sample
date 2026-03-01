@@ -26,6 +26,10 @@ Although the approach was born in Unity, the philosophy is engine-agnostic and m
 
 Custom resource icons
 
+![alt text](README_RESOURCES/variables-debugger-dock.gif)
+
+Live variables debugger. Change and monitor event values
+
 ![alt text](README_RESOURCES/event-debugger-dock.gif)
 
 Live event debugger. Raise and monitor events at runtime
