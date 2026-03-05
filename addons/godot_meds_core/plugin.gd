@@ -8,7 +8,7 @@ var _debugger_silencer: EditorDebuggerPlugin = null
 var _last_extensions_enabled: bool = false
 
 func _enter_tree() -> void:
-	print("Godot Flow Core: plugin loaded")
+	print("Godot MEDS Core: plugin loaded")
 	_last_extensions_enabled = _is_extensions_enabled()
 	_update_debugger_silencer(_last_extensions_enabled)
 	set_process(true)
@@ -16,7 +16,7 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	set_process(false)
 	_update_debugger_silencer(true) # force remove
-	print("Godot Flow Core: plugin unloaded")
+	print("Godot MEDS Core: plugin unloaded")
 
 
 func _process(_delta: float) -> void:
