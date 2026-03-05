@@ -2,7 +2,7 @@
 
 Events are `Resources` that expose a single signal and a method to emit it.
 
-- Script: `addons/godot_flow_core/scripts/events/event.gd`
+- Script: `addons/godot_meds_core/scripts/events/event.gd`
 - API:
   - `signal event_raised()`
   - `func raise_event() -> void`

@@ -2,7 +2,7 @@
 
 Variables are `Resource`s that hold a typed value and emit a signal when the value changes.
 
-Available variable types (scripts live under `addons/godot_flow_core/scripts/variables/`):
+Available variable types (scripts live under `addons/godot_meds_core/scripts/variables/`):
 
 - `BoolVariable`
 - `IntVariable`

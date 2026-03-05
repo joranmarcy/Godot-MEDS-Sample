@@ -63,7 +63,7 @@ To test the full flow:
 #### Debugging
 
 - If `debug_logs` is enabled on the `Event` resource, raising it prints a rich debug log.
-- When the **Godot Flow Extensions** plugin is enabled, the **Events** dock shows listener counts and raise counts.
+- When the **Godot MEDS Editor Tools** plugin is enabled, the **Events** dock shows listener counts and raise counts.
 
 See also:
 
