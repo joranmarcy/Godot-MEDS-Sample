@@ -1,19 +1,19 @@
-@icon("res://addons/godot_flow_core/icons/FloatVariable.svg")
+@icon("res://addons/godot_meds_core/icons/BoolVariable.svg")
 extends BaseVariable
-class_name FloatVariable
+class_name BoolVariable
 
 @warning_ignore("unused_signal")
-signal value_changed(new_value: float)
+signal value_changed(new_value: bool)
 
-@export var initial_value: float = 0.0:
+@export var initial_value: bool = false:
 	set(new_val):
 		initial_value = new_val
 		_apply_initial_value(new_val)
 
-func set_value(new_val: float, caller: Object = null) -> void:
+func set_value(new_val: bool, caller: Object = null) -> void:
 	_set_value_variant(new_val, caller)
 
-var value: float:
+var value: bool:
 	get:
 		return _get_value_variant()
 	set(new_val):

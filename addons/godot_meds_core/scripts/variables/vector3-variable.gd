@@ -1,4 +1,4 @@
-@icon("res://addons/godot_flow_core/icons/Vector3Variable.svg")
+@icon("res://addons/godot_meds_core/icons/Vector3Variable.svg")
 extends BaseVariable
 class_name Vector3Variable
 

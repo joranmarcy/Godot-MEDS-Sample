@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 const _EXTENSIONS_PLUGIN_NAME := "Godot Flow Extensions"
-const _DebuggerMessageSilencer := preload("res://addons/godot_flow_core/scripts/utils/debugger_message_silencer.gd")
+const _DebuggerMessageSilencer := preload("res://addons/godot_meds_core/scripts/utils/debugger_message_silencer.gd")
 
 var _debugger_silencer: EditorDebuggerPlugin = null
 var _last_extensions_enabled: bool = false
@@ -34,9 +34,9 @@ func _is_extensions_enabled() -> bool:
 		# Try a few common identifiers.
 		if bool(ei.call("is_plugin_enabled", _EXTENSIONS_PLUGIN_NAME)):
 			return true
-		if bool(ei.call("is_plugin_enabled", "godot_flow_extensions")):
+		if bool(ei.call("is_plugin_enabled", "godot_meds_extensions")):
 			return true
-		if bool(ei.call("is_plugin_enabled", "res://addons/godot_flow_extensions")):
+		if bool(ei.call("is_plugin_enabled", "res://addons/godot_meds_extensions")):
 			return true
 		return false
 	# Best-effort fallback: if we can't determine, assume enabled so we don't

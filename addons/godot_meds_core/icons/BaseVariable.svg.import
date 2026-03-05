@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7yshi41yyqh7"
-path="res://.godot/imported/ColorVariable.svg-06b15c547b2ee11ce38bb919037fa273.ctex"
+uid="uid://b65dg3ao0ewxg"
+path="res://.godot/imported/BaseVariable.svg-ba9d97f61cbed40e71660f8529a87ebd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/godot_flow_core/icons/ColorVariable.svg"
-dest_files=["res://.godot/imported/ColorVariable.svg-06b15c547b2ee11ce38bb919037fa273.ctex"]
+source_file="res://addons/godot_meds_core/icons/BaseVariable.svg"
+dest_files=["res://.godot/imported/BaseVariable.svg-ba9d97f61cbed40e71660f8529a87ebd.ctex"]
 
 [params]
 

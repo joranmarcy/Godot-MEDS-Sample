@@ -1,7 +1,7 @@
 @tool
 extends EditorDebuggerPlugin
 
-# When godot_flow_extensions is disabled, the running game can still send
+# When godot_meds_extensions is disabled, the running game can still send
 # custom debugger messages (e.g. "variable_values:update"). Without an
 # EditorDebuggerPlugin capture, the editor logs:
 # "Unknown message: variable_values:update".
