@@ -1,6 +1,6 @@
 ![Godot MEDS](logo/meds.png)
 
-# MEDS - Cure Godot from singletons
+# MEDS - Cure your game from singletons!
 
 ## Presentation
 
