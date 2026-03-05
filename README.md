@@ -46,21 +46,14 @@ And know at runtime who reacts to value or event raises :
 
 ## This Project Sample
 
-This repository is a Godot 4.x MEDS project built around **typed Resource variables** and **Resource events**, plus **editor extensions** for inspecting and editing their runtime state while the game is running.
-
-- Store gameplay state in `.tres` Resources (Bool/Int/Float/String/Color/Vector2/Vector3 variables).
-- Listen to changes via signals (`value_changed`) instead of wiring node references everywhere.
-- Use `.tres` Events to broadcast occurrences (`event_raised`) without tightly coupling sender/receiver.
-- Use the editor docks to watch/edit values and raise events live during play.
-
-![alt text](README_RESOURCES/ui.gif)
+This repository is a Godot 4.x sample project built using MEDS workflow. It has MEDS Core and MEDS Editor Tools plugin enabled. Full Godot MEDS Documentation is available [here](https://joranmarcy.github.io/Godot-MEDS-Docs)
 
 ## Project layout
 
 - `addons/godot_meds_core/`
   - Runtime: variable and event Resource types, runtime reporters, debug logging helpers.
   - Editor: a tiny plugin that silences custom debugger messages when the extensions plugin is disabled.
-- `addons/godot_meds_extensions/`
+- `addons/godot_meds_editor-tools/`
   - Editor-only: docks/debugger plugins for viewing runtime variable values and events.
   - Context menu action to scan/log where a variable `.tres` is referenced.
 - `samples/`
@@ -68,8 +61,7 @@ This repository is a Godot 4.x MEDS project built around **typed Resource variab
 
 ## Requirements
 
-- Godot 4.5 (this project has `config/features` set to `4.5` in `project.godot`).
-- Windows PowerShell (`pwsh`) only if you want to use the code-generation script.
+- Godot 4.5
 
 ## Enabling the plugins
 
@@ -77,8 +69,8 @@ In the Godot editor:
 
 1. Open **Project → Project Settings… → Plugins**
 2. Enable:
-   - **Godot Meds Core** (safe to enable always)
-   - **Godot Meds Extensions** (optional, editor UI)
+   - **Godot Meds Core**
+   - **Godot Meds Editor Tools** (optional)
 
 
 ## Installation into another project
@@ -86,7 +78,7 @@ In the Godot editor:
 If you want to reuse this in a different Godot project, copy these folders into that project:
 
 - `addons/godot_meds_core/`
-- `addons/godot_meds_extensions/` (optional)
+- `addons/godot_meds_editor-tools/` (optional)
 
 Then enable the plugin(s) as described above.
 
