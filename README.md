@@ -77,16 +77,16 @@ In the Godot editor:
 
 1. Open **Project → Project Settings… → Plugins**
 2. Enable:
-   - **Godot Flow Core** (safe to enable always)
-   - **Godot Flow Extensions** (optional, editor UI)
+   - **Godot Meds Core** (safe to enable always)
+   - **Godot Meds Extensions** (optional, editor UI)
 
 
 ## Installation into another project
 
 If you want to reuse this in a different Godot project, copy these folders into that project:
 
-- `addons/godot_flow_core/`
-- `addons/godot_flow_extensions/` (optional)
+- `addons/godot_meds_core/`
+- `addons/godot_meds_extensions/` (optional)
 
 Then enable the plugin(s) as described above.
 
