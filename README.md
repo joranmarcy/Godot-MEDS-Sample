@@ -53,7 +53,7 @@ This repository is a Godot 4.x sample project built using MEDS workflow. It has 
 - `addons/godot_meds_core/`
   - Runtime: variable and event Resource types, runtime reporters, debug logging helpers.
   - Editor: a tiny plugin that silences custom debugger messages when the extensions plugin is disabled.
-- `addons/godot_meds_editor-tools/`
+- `addons/godot_meds_editor/`
   - Editor-only: docks/debugger plugins for viewing runtime variable values and events.
   - Context menu action to scan/log where a variable `.tres` is referenced.
 - `samples/`
@@ -78,7 +78,7 @@ In the Godot editor:
 If you want to reuse this in a different Godot project, copy these folders into that project:
 
 - `addons/godot_meds_core/`
-- `addons/godot_meds_editor-tools/` (optional)
+- `addons/godot_meds_editor/` (optional)
 
 Then enable the plugin(s) as described above.
 

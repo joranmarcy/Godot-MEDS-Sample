@@ -14,7 +14,7 @@ const COL_RAISE := 4
 
 const BTN_RAISE := 1
 
-const EditorUIUtils := preload("res://addons/godot_meds_editor-tools/editor_ui_utils.gd")
+const EditorUIUtils := preload("res://addons/godot_meds_editor/editor_ui_utils.gd")
 
 
 var _tree: Tree

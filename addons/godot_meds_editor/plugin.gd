@@ -2,11 +2,11 @@
 extends EditorPlugin
 
 
-const VariableReferencesInspectorPlugin := preload("res://addons/godot_meds_editor-tools/variable_references_inspector.gd")
-const VariableValuesDock := preload("res://addons/godot_meds_editor-tools/variable_values_dock.gd")
-const VariableValuesDebugger := preload("res://addons/godot_meds_editor-tools/variable_values_debugger.gd")
-const EventsDock := preload("res://addons/godot_meds_editor-tools/events_dock.gd")
-const EventsDebugger := preload("res://addons/godot_meds_editor-tools/events_debugger.gd")
+const VariableReferencesInspectorPlugin := preload("res://addons/godot_meds_editor/variable_references_inspector.gd")
+const VariableValuesDock := preload("res://addons/godot_meds_editor/variable_values_dock.gd")
+const VariableValuesDebugger := preload("res://addons/godot_meds_editor/variable_values_debugger.gd")
+const EventsDock := preload("res://addons/godot_meds_editor/events_dock.gd")
+const EventsDebugger := preload("res://addons/godot_meds_editor/events_debugger.gd")
 
 
 var _context_menu_plugin: EditorContextMenuPlugin
