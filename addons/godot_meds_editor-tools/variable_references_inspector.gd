@@ -80,16 +80,16 @@ func _log_references_for_resource(res: Resource) -> void:
 	if target_path == null:
 		target_path = ""
 	if target_path == "":
-		push_warning("Godot Flow Extensions: resource has no resource_path (not saved to disk). Save it as a .tres first.")
+		push_warning("Godot MEDS Editor Tools: resource has no resource_path (not saved to disk). Save it as a .tres first.")
 		return
 
-	print("Godot Flow Extensions: scanning for ", target_path)
+	print("Godot MEDS Editor Tools: scanning for ", target_path)
 	var results := _find_references_in_project(target_path)
 	if results.is_empty():
-		print("Godot Flow Extensions: no references found for ", target_path)
+		print("Godot MEDS Editor Tools: no references found for ", target_path)
 		return
 
-	print("Godot Flow Extensions: found ", results.size(), " reference(s) for ", target_path)
+	print("Godot MEDS Editor Tools: found ", results.size(), " reference(s) for ", target_path)
 	for entry in results:
 		print_rich(entry)
 

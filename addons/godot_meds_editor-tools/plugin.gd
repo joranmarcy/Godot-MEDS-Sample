@@ -2,11 +2,11 @@
 extends EditorPlugin
 
 
-const VariableReferencesInspectorPlugin := preload("res://addons/godot_flow_extensions/variable_references_inspector.gd")
-const VariableValuesDock := preload("res://addons/godot_flow_extensions/variable_values_dock.gd")
-const VariableValuesDebugger := preload("res://addons/godot_flow_extensions/variable_values_debugger.gd")
-const EventsDock := preload("res://addons/godot_flow_extensions/events_dock.gd")
-const EventsDebugger := preload("res://addons/godot_flow_extensions/events_debugger.gd")
+const VariableReferencesInspectorPlugin := preload("res://addons/godot_meds_editor-tools/variable_references_inspector.gd")
+const VariableValuesDock := preload("res://addons/godot_meds_editor-tools/variable_values_dock.gd")
+const VariableValuesDebugger := preload("res://addons/godot_meds_editor-tools/variable_values_debugger.gd")
+const EventsDock := preload("res://addons/godot_meds_editor-tools/events_dock.gd")
+const EventsDebugger := preload("res://addons/godot_meds_editor-tools/events_debugger.gd")
 
 
 var _context_menu_plugin: EditorContextMenuPlugin
@@ -23,7 +23,7 @@ var _was_playing := false
 
 
 func _enter_tree() -> void:
-	print("Godot Flow Extensions: plugin loaded")
+	print("Godot MEDS Editor Tools: plugin loaded")
 	_context_menu_plugin = VariableReferencesInspectorPlugin.new()
 	add_context_menu_plugin(EditorContextMenuPlugin.CONTEXT_SLOT_FILESYSTEM, _context_menu_plugin)
 
@@ -199,7 +199,7 @@ func _on_output_meta_clicked(meta: Variant) -> void:
 	if not s.begins_with("//open_node?"):
 		return
 
-	# print("Godot Flow Extensions: clicked link ", s)
+	# print("Godot MEDS Editor Tools: clicked link ", s)
 
 	var q_index := s.find("?")
 	if q_index == -1:
@@ -232,7 +232,7 @@ func _open_scene_and_select_node(scene_path: String, node_path: String) -> void:
 		return
 
 	if scene_path == "":
-		push_warning("Godot Flow Extensions: missing scene path in link")
+		push_warning("Godot MEDS Editor Tools: missing scene path in link")
 		return
 
 	# Open the scene first.
@@ -253,12 +253,12 @@ func _open_scene_and_select_node(scene_path: String, node_path: String) -> void:
 				break
 
 	if root == null:
-		push_warning("Godot Flow Extensions: could not open scene " + scene_path)
+		push_warning("Godot MEDS Editor Tools: could not open scene " + scene_path)
 		return
 
 	var node := _resolve_node_from_logged_path(root, node_path)
 	if node == null:
-		push_warning("Godot Flow Extensions: node not found in opened scene: " + node_path)
+		push_warning("Godot MEDS Editor Tools: node not found in opened scene: " + node_path)
 		return
 
 	# Select the node in the SceneTree dock.

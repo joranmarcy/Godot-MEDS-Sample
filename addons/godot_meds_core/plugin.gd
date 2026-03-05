@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-const _EXTENSIONS_PLUGIN_NAME := "Godot Flow Extensions"
+const _EXTENSIONS_PLUGIN_NAME := "Godot MEDS Editor Tools"
 const _DebuggerMessageSilencer := preload("res://addons/godot_meds_core/scripts/utils/debugger_message_silencer.gd")
 
 var _debugger_silencer: EditorDebuggerPlugin = null
