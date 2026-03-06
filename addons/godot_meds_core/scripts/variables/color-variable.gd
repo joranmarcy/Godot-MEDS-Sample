@@ -1,4 +1,4 @@
-@icon("res://addons/godot_meds_core/icons/ColorVariable.svg")
+@icon("res://addons/godot_meds_core/icons/ColorVariable.png")
 extends BaseVariable
 class_name ColorVariable
 

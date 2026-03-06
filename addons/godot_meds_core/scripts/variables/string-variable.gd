@@ -1,4 +1,4 @@
-@icon("res://addons/godot_meds_core/icons/StringVariable.svg")
+@icon("res://addons/godot_meds_core/icons/StringVariable.png")
 extends BaseVariable
 class_name StringVariable
 

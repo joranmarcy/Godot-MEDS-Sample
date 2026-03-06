@@ -1,4 +1,4 @@
-@icon("res://addons/godot_meds_core/icons/FloatVariable.svg")
+@icon("res://addons/godot_meds_core/icons/FloatVariable.png")
 extends BaseVariable
 class_name FloatVariable
 
