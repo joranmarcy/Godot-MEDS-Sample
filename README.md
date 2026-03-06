@@ -2,6 +2,16 @@
 
 # MEDS - Cure your game from singletons!
 
+## Quickstart
+
+Download the [latest](https://github.com/joranmarcy/Godot-MEDS-Sample/releases/download/releases%2F0.1.0-alpha.1/godot-meds-project-sample-0.1.0-alpha.1.zip) project sample release from github: 
+
+[Download](https://godotengine.org/download/archive/4.5-stable/) & Install Godot 4.5
+
+Start Godot and import the project sample.
+
+Enjoy et test the features !
+
 ## Presentation
 
 Game engine architecture often involves a trade-off between short-term convenience and long-term maintainability. Early on, global singletons and monolithic "Manager" classes feel great: you can access game state from anywhere with minimal friction. But as projects grow, those patterns turn into hidden dependencies and fragile global state, making refactors risky and testing painful. [Ryan Hipple's Unite 2017 talk](https://www.youtube.com/watch?v=raQ3iHhE_Kk) popularized a strong alternative in the Unity ecosystem: a modular, data-driven architecture built on ScriptableObjects. The key idea is to decouple data from logic around three engineering pillars—every system should be **Modular**, **Editable**, and **Debuggable**.
