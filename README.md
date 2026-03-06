@@ -4,13 +4,15 @@
 
 ## Quickstart
 
-Download the [latest project sample release](https://github.com/joranmarcy/Godot-MEDS-Sample/releases/download/releases%2F0.1.0-alpha.1/godot-meds-project-sample-0.1.0-alpha.1.zip)
+Download the latest project sample [release](https://github.com/joranmarcy/Godot-MEDS-Sample/releases/download/releases%2F0.1.0-alpha.1/godot-meds-project-sample-0.1.0-alpha.1.zip)
 
 [Download](https://godotengine.org/download/archive/4.5-stable/) & Install Godot 4.5
 
 Start Godot and import the project sample.
 
 Enjoy the MEDS [features](#features) !
+
+See the full [documentation](https://joranmarcy.github.io/Godot-MEDS-Docs/docs/intro) for detailed usage and examples.
 
 ## Presentation
 
