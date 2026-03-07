@@ -104,3 +104,7 @@ A few scripts worth browsing:
 - `samples/scripts/bind-color-var-to-mat-albedo.gd`
 - `samples/scripts/event-listener.gd`
 - `samples/scripts/raise-event.gd`
+
+## License
+
+MIT — see `LICENSE`.
