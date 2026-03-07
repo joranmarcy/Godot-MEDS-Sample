@@ -2,5 +2,8 @@
     "godotTools.editorPath.godot4": "/usr/local/bin/godot",
     "editor.insertSpaces": false,
     "editor.tabSize": 4,
-    "editor.detectIndentation": false
+	"editor.detectIndentation": false,
+	"markdown.copyFiles.destination": {
+		"README.md": "README_RESOURCES/${unixTime}.${fileExtName}"
+	}
 }
