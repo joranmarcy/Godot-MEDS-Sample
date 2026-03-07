@@ -1,4 +1,4 @@
-@icon("res://addons/godot_meds_core/icons/BoolVariable.svg")
+@icon("res://addons/godot_meds_core/icons/BoolVariable.png")
 extends BaseVariable
 class_name BoolVariable
 

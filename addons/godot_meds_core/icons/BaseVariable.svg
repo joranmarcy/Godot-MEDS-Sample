@@ -4,8 +4,11 @@
    height="128"
    version="1.1"
    id="svg6"
-   sodipodi:docname="basel-variable.svg"
+   sodipodi:docname="BaseVariable.svg"
    inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   inkscape:export-filename="BaseVariable.png"
+   inkscape:export-xdpi="24"
+   inkscape:export-ydpi="24"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -21,15 +24,15 @@
      inkscape:pageopacity="0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
-     inkscape:zoom="6.4468251"
-     inkscape:cx="36.607166"
-     inkscape:cy="52.661581"
+     inkscape:zoom="12.89365"
+     inkscape:cx="47.426446"
+     inkscape:cy="58.982522"
      inkscape:window-width="2560"
      inkscape:window-height="1369"
      inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg6" />
+     inkscape:current-layer="g3" />
   <rect
      width="124"
      height="124"
@@ -39,16 +42,28 @@
      stroke="#212532"
      stroke-width="4"
      rx="14"
-     id="rect1" />
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:119.07px;font-family:Consolas;-inkscape-font-specification:Consolas;writing-mode:lr-tb;direction:ltr;fill:#ffffff;stroke-width:3.72094"
-     x="32.4011"
-     y="101.99426"
-     id="text1"><tspan
-       sodipodi:role="line"
-       id="tspan1"
-       x="32.4011"
-       y="101.99426"
-       style="stroke-width:3.72094">C</tspan></text>
+     id="rect1"
+     inkscape:export-filename="BaseVariable.png"
+     inkscape:export-xdpi="24"
+     inkscape:export-ydpi="24" />
+  <g
+     id="g3"
+     transform="matrix(1.0516409,0,0,1.0516409,-62.192848,-91.968111)">
+    <rect
+       style="fill:#4a88b9;fill-opacity:1;stroke:none;stroke-width:0.517653"
+       id="rect2"
+       width="92.716789"
+       height="46.470566"
+       x="73.637741"
+       y="125.07384"
+       ry="18.437614" />
+    <rect
+       style="fill:#ffffff;stroke:none;stroke-width:0.989395"
+       id="rect3"
+       width="14.871368"
+       height="46.247223"
+       x="112.56046"
+       y="125.15001"
+       ry="0" />
+  </g>
 </svg>

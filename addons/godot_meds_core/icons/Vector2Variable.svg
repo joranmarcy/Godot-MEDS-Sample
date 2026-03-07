@@ -4,8 +4,11 @@
    height="128"
    version="1.1"
    id="svg6"
-   sodipodi:docname="vector-variable.svg"
+   sodipodi:docname="Vector2Variable.svg"
    inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   inkscape:export-filename="StringVariable.png"
+   inkscape:export-xdpi="24"
+   inkscape:export-ydpi="24"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -21,9 +24,9 @@
      inkscape:pageopacity="0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
-     inkscape:zoom="6.4468251"
-     inkscape:cx="36.607167"
-     inkscape:cy="52.816696"
+     inkscape:zoom="2.2792969"
+     inkscape:cx="59.448157"
+     inkscape:cy="37.950299"
      inkscape:window-width="2560"
      inkscape:window-height="1369"
      inkscape:window-x="1912"
@@ -39,10 +42,19 @@
      stroke="#212532"
      stroke-width="4"
      rx="14"
-     id="rect1" />
-  <path
-     d="M 97.633786,26.005742 71.819782,101.99426 H 57.866266 L 32.633659,26.005742 h 11.686069 l 16.395381,51.221031 4.651172,15.000029 4.767451,-15.000029 16.45352,-51.221031 z"
-     id="text1"
-     style="font-size:119.07px;font-family:Consolas;-inkscape-font-specification:Consolas;fill:#ffffff;stroke-width:3.72094"
-     aria-label="V" />
+     id="rect1"
+     inkscape:export-filename="Vector2Variable.png"
+     inkscape:export-xdpi="24"
+     inkscape:export-ydpi="24" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:74.2566px;font-family:Consolas;-inkscape-font-specification:Consolas;writing-mode:lr-tb;direction:ltr;fill:#ffffff;stroke-width:2.32052"
+     x="15.770348"
+     y="90.435349"
+     id="text1"><tspan
+       sodipodi:role="line"
+       id="tspan1"
+       x="15.770348"
+       y="90.435349"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:Montserrat;stroke-width:2.32052">V2</tspan></text>
 </svg>

@@ -1,4 +1,4 @@
-@icon("res://addons/godot_meds_core/icons/IntVariable.svg")
+@icon("res://addons/godot_meds_core/icons/IntVariable.png")
 extends BaseVariable
 class_name IntVariable
 
