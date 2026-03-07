@@ -5,7 +5,7 @@
    version="1.1"
    id="svg6"
    sodipodi:docname="FloatVariable.svg"
-   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -22,12 +22,12 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
      inkscape:zoom="4.5585937"
-     inkscape:cx="114.17995"
-     inkscape:cy="43.324764"
+     inkscape:cx="31.917738"
+     inkscape:cy="45.957156"
      inkscape:window-width="2560"
      inkscape:window-height="1369"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg6" />
   <rect
@@ -39,16 +39,19 @@
      stroke="#212532"
      stroke-width="4"
      rx="14"
-     id="rect1" />
+     id="rect1"
+     inkscape:export-filename="FloatVariable.png"
+     inkscape:export-xdpi="24"
+     inkscape:export-ydpi="24" />
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:119.07px;font-family:Consolas;-inkscape-font-specification:Consolas;writing-mode:lr-tb;direction:ltr;fill:#ffffff;stroke-width:3.72094"
-     x="6.3700967"
-     y="105.37692"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:93.3333px;font-family:Consolas;-inkscape-font-specification:Consolas;writing-mode:lr-tb;direction:ltr;fill:#ffffff;stroke-width:3.72094"
+     x="18.826664"
+     y="96.293381"
      id="text1"><tspan
        sodipodi:role="line"
        id="tspan1"
-       x="6.3700967"
-       y="105.37692"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:Montserrat;stroke-width:3.72094">#.</tspan></text>
+       x="18.826664"
+       y="96.293381"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:93.3333px;font-family:Montserrat;-inkscape-font-specification:Montserrat;stroke-width:3.72094">#.</tspan></text>
 </svg>
