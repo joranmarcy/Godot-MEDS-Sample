@@ -1,4 +1,4 @@
-@icon("res://addons/godot_meds_core/icons/BaseVariable.svg")
+@icon("res://addons/godot_meds_core/icons/Event.png")
 extends Resource
 class_name Event
 
