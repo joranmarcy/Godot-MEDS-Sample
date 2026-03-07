@@ -2,7 +2,9 @@
 extends Resource
 class_name BaseVariable
 
+## If true, logs value changes and related runtime info for this variable.
 @export var debug_logs: bool = false
+## If true, persists the variable value to `user://settings.cfg` and restores it on load.
 @export var save_to_device: bool = false
 
 var _value: Variant = null
