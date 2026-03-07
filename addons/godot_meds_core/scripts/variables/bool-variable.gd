@@ -5,6 +5,7 @@ class_name BoolVariable
 @warning_ignore("unused_signal")
 signal value_changed(new_value: bool)
 
+## The starting value for this variable. This is the value that will be used if there is no saved value to load from a previous session.
 @export var initial_value: bool = false:
 	set(new_val):
 		initial_value = new_val

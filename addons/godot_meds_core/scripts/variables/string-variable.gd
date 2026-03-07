@@ -5,6 +5,7 @@ class_name StringVariable
 @warning_ignore("unused_signal")
 signal value_changed(new_value: String)
 
+## The starting value for this variable. This is the value that will be used if there is no saved value to load from a previous session.
 @export var initial_value: String = "":
 	set(new_val):
 		initial_value = new_val
