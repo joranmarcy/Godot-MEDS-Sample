@@ -1,4 +1,4 @@
-@icon("res://addons/godot_meds_core/icons/Vector2Variable.svg")
+@icon("res://addons/godot_meds_core/icons/Vector2Variable.png")
 extends BaseVariable
 class_name Vector2Variable
 
