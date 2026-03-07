@@ -36,7 +36,7 @@ Although the approach was born in Unity, the philosophy is engine-agnostic and m
 
 Custom resource icons :
 
-![alt text](README_RESOURCES/custom-icons.png)
+![alt text](README_RESOURCES/1772903849489.png)
 
 Live variables debugger. Change and monitor event values :
 
