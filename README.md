@@ -38,7 +38,7 @@ Custom resource icons :
 
 ![alt text](README_RESOURCES/1772903849489.png)
 
-Live variables debugger. Change and monitor event values :
+Live variables debugger. Change and monitor variable values :
 
 ![alt text](README_RESOURCES/variables-debugger-dock.gif)
 
