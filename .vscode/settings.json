@@ -1,5 +1,5 @@
 {
-    "godotTools.editorPath.godot4": "/usr/local/bin/godot",
+    "godotTools.editorPath.godot4": "godot",
     "editor.insertSpaces": false,
     "editor.tabSize": 4,
 	"editor.detectIndentation": false,
