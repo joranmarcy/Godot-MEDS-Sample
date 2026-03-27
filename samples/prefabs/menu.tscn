@@ -35,7 +35,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Cube visibility :"
+text = "Robot visibility :"
 
 [node name="CheckBox" type="CheckBox" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -47,7 +47,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Cube rotation : "
+text = "Robot rotation : "
 
 [node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -74,7 +74,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
-text = "Cube color :"
+text = "Robot color :"
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
@@ -85,8 +85,7 @@ color_variable = ExtResource("7_43bnt")
 [node name="Button" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "Raise Event
-"
+text = "Take Damage"
 
 [node name="RaiseEvent" type="Node" parent="PanelContainer/CenterContainer/VBoxContainer/Button"]
 script = ExtResource("8_f77vf")

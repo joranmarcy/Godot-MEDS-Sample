@@ -25,6 +25,7 @@ scale_max = 0.099999994
 scale_curve = SubResource("CurveTexture_gvi1x")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3v2ro"]
+albedo_color = Color(1, 0, 0, 1)
 emission_enabled = true
 billboard_mode = 3
 billboard_keep_scale = true
