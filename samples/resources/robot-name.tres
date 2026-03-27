@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="StringVariable" load_steps=2 format=3 uid="uid://bmevg4nhdn4tg"]
 
-[ext_resource type="Script" uid="uid://dpkqsxu1efc0s" path="res://scripts/resources/string-variable.gd" id="1_0rlm8"]
+[ext_resource type="Script" uid="uid://dpkqsxu1efc0s" path="res://addons/godot_meds_core/scripts/variables/string-variable.gd" id="1_0rlm8"]
 
 [resource]
 script = ExtResource("1_0rlm8")
-initial_value = "0.0"
+initial_value = "Gobot"
 metadata/_custom_type_script = "uid://dpkqsxu1efc0s"
