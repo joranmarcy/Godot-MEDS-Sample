@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://du16fk4iifk22" path="res://samples/scripts/play-idle-animation.gd" id="1_48bmk"]
 [ext_resource type="Script" uid="uid://cxtu81d4deqfi" path="res://samples/scripts/bind-color-var-to-mat-albedo.gd" id="3_880aq"]
-[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/cube-color.tres" id="4_i3fx1"]
+[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/robot-color.tres" id="4_i3fx1"]
 [ext_resource type="Material" uid="uid://8hwgldqnkiix" path="res://samples/materials/godot-plush.tres" id="5_v1q8r"]
 [ext_resource type="Script" uid="uid://bq1yerw3xhjgh" path="res://samples/scripts/bind-bool-var-to-visibility.gd" id="6_wgf41"]
-[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/cube-visibility.tres" id="7_s4ulu"]
+[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/robot-visibility.tres" id="7_s4ulu"]
 [ext_resource type="Script" uid="uid://lrdfsmroovyt" path="res://samples/scripts/bind-float-var-to-rotation.gd" id="8_gnplr"]
-[ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://samples/resources/cube-rotation.tres" id="9_bvhjx"]
+[ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://samples/resources/robot-rotation.tres" id="9_bvhjx"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_g5v1u"]
 resource_name = "godot_pixel_plush_Mesh_0"
