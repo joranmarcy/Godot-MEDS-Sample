@@ -4,5 +4,7 @@
 
 [resource]
 script = ExtResource("1_c5k1q")
-initial_value = 60.0
+clamp_value = true
+min_value = -90.0
+max_value = 90.0
 metadata/_custom_type_script = "uid://drhmoaiie1iuk"

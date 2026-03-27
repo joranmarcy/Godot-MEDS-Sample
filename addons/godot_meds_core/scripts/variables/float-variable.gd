@@ -4,21 +4,26 @@ class_name FloatVariable
 
 @warning_ignore("unused_signal")
 signal value_changed(new_value: float)
+@warning_ignore("unused_signal")
+signal range_changed(clamp_enabled: bool, min_value: float, max_value: float)
 
 @export var clamp_value: bool = false:
 	set(new_val):
 		clamp_value = new_val
 		_sync_clamped_values()
+		_emit_range_changed()
 
 @export var min_value: float = 0.0:
 	set(new_val):
 		min_value = new_val
 		_sync_clamped_values()
+		_emit_range_changed()
 
 @export var max_value: float = 1.0:
 	set(new_val):
 		max_value = new_val
 		_sync_clamped_values()
+		_emit_range_changed()
 
 ## The starting value for this variable. This is the value that will be used if there is no saved value to load from a previous session.
 @export var initial_value: float = 0.0:
@@ -60,4 +65,14 @@ func _sync_clamped_values() -> void:
 	_apply_initial_value(initial_value)
 	if _value != null:
 		_set_value_variant(_value, null)
+
+func _emit_range_changed() -> void:
+	var range_min := min_value
+	var range_max := max_value
+	if range_min > range_max:
+		var temp := range_min
+		range_min = range_max
+		range_max = temp
+
+	emit_signal("range_changed", clamp_value, range_min, range_max)
 
