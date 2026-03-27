@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://lch3icy0vr40"]
+
+[ext_resource type="Script" uid="uid://ns2kif8hq5ep" path="res://samples/scripts/game-over-manager.gd" id="1_28a0u"]
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_28a0u")
+retry_scene_path = "res://samples/main.tscn"
+retry_button = NodePath("CenterContainer/PanelContainer/VBoxContainer/RetryButton")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0666667, 0.0431373, 0.0431373, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "The robot ran out of health."
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Retry"

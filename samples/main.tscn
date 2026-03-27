@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dhpio07xeiuck"]
+[gd_scene load_steps=9 format=3 uid="uid://dhpio07xeiuck"]
 
 [ext_resource type="PackedScene" uid="uid://h1qc3fgd2sho" path="res://samples/prefabs/player.tscn" id="1_3v2ro"]
+[ext_resource type="Script" uid="uid://x86uxehx2ql" path="res://samples/scripts/scene-manager.gd" id="1_6m1kn"]
 [ext_resource type="PackedScene" uid="uid://bf7ic1165wq3u" path="res://samples/prefabs/menu.tscn" id="1_fqs1e"]
 [ext_resource type="Environment" uid="uid://dbehk4clt7h0t" path="res://samples/main.tres" id="6_rd6o4"]
 [ext_resource type="PackedScene" uid="uid://bjbcvsbcxyvc4" path="res://samples/prefabs/audio_manager.tscn" id="7_3v2ro"]
+[ext_resource type="Resource" uid="uid://4jflcb386yae" path="res://samples/resources/robot-health.tres" id="8_4ydju"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lquwl"]
 
@@ -31,3 +33,8 @@ shadow_enabled = true
 shadow_opacity = 0.5
 
 [node name="AudioManager" parent="." instance=ExtResource("7_3v2ro")]
+
+[node name="SceneManager" type="Node" parent="."]
+script = ExtResource("1_6m1kn")
+health = ExtResource("8_4ydju")
+death_scene_path = "uid://lch3icy0vr40"
