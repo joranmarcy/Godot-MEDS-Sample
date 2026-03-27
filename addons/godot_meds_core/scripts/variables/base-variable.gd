@@ -3,15 +3,15 @@ extends Resource
 class_name BaseVariable
 
 static var _runtime_value_cache: Dictionary = {}
-const RESET_ON_SCENE_LOAD := "on_scene_load"
-const RESET_ON_APPLICATION_START := "on_application_start"
+const RESET_ON_SCENE_LOAD := "On Scene Load"
+const RESET_ON_APPLICATION_START := "On Application Start"
 
 ## If true, logs value changes and related runtime info for this variable.
 @export var debug_logs: bool = false
 ## If true, persists the variable value to `user://settings.cfg` and restores it on load.
 @export var save_to_device: bool = false
 ## Controls whether the variable resets on each scene load or only on application start.
-@export_enum("on_scene_load", "on_application_start") var reset_on: String = RESET_ON_SCENE_LOAD
+@export_enum("On Scene Load", "On Application Start") var reset_on: String = RESET_ON_SCENE_LOAD
 
 var _value: Variant = null
 var _runtime_cache_state: int = 0
