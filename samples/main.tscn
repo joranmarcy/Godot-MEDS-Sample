@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dhpio07xeiuck"]
+[gd_scene load_steps=15 format=3 uid="uid://dhpio07xeiuck"]
 
 [ext_resource type="PackedScene" uid="uid://h1qc3fgd2sho" path="res://samples/prefabs/player.tscn" id="1_3v2ro"]
 [ext_resource type="PackedScene" uid="uid://bf7ic1165wq3u" path="res://samples/prefabs/menu.tscn" id="1_fqs1e"]
@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/trigger-cube-particles.tres" id="5_x7s1y"]
 [ext_resource type="Script" uid="uid://g2yo0xaiy6nv" path="res://samples/scripts/trigger-particles.gd" id="6_gvi1x"]
 [ext_resource type="Environment" uid="uid://dbehk4clt7h0t" path="res://samples/main.tres" id="6_rd6o4"]
+[ext_resource type="PackedScene" uid="uid://bjbcvsbcxyvc4" path="res://samples/prefabs/audio_manager.tscn" id="7_3v2ro"]
 
 [sub_resource type="Curve" id="Curve_lqy8j"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -75,5 +76,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_gvi1x")
 transform = Transform3D(0.033155162, -0.99945027, 9.308106e-10, 0.5207232, 0.017274162, 0.8535508, -0.8530815, -0.028299617, 0.5210097, 0, 4.006281, 0)
 shadow_enabled = true
 shadow_opacity = 0.5
+
+[node name="AudioManager" parent="." instance=ExtResource("7_3v2ro")]
 
 [connection signal="event_raised" from="Player/GPUParticles3D/Node" to="Player/GPUParticles3D" method="trigger_particles"]

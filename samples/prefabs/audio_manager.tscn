@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjbcvsbcxyvc4"]
+
+[ext_resource type="AudioStream" uid="uid://p753cuomaw6p" path="res://samples/sounds/hearbeat.mp3" id="1_p1q3j"]
+[ext_resource type="Script" uid="uid://bvpwrrclni3ev" path="res://samples/scripts/heartbeat-controller.gd" id="2_jvbil"]
+[ext_resource type="Resource" uid="uid://4jflcb386yae" path="res://samples/resources/robot-health.tres" id="3_umcx6"]
+
+[node name="AudioManager" type="Node"]
+
+[node name="Heartbeat" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("audio_player")]
+stream = ExtResource("1_p1q3j")
+script = ExtResource("2_jvbil")
+audio_player = NodePath(".")
+health = ExtResource("3_umcx6")
