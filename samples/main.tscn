@@ -76,8 +76,4 @@ transform = Transform3D(0.033155162, -0.99945027, 9.308106e-10, 0.5207232, 0.017
 shadow_enabled = true
 shadow_opacity = 0.5
 
-[node name="Node" type="Node" parent="."]
-script = ExtResource("4_lqy8j")
-event = ExtResource("5_x7s1y")
-
 [connection signal="event_raised" from="Player/GPUParticles3D/Node" to="Player/GPUParticles3D" method="trigger_particles"]
