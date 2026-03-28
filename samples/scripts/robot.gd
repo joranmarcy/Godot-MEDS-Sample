@@ -4,6 +4,7 @@ extends Node
 @export var idle_animation_name: String
 
 @export var health: IntVariable
+@export var damage_amount: IntVariable
 @export var damage_hit_event: Event
 
 
@@ -20,5 +21,5 @@ func _ready() -> void:
 	animation_player.play(idle_animation_name)
 
 func _on_damage_hit() -> void:
-	health.value -= 10
+	health.value -= damage_amount.value
 	

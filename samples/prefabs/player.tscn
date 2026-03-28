@@ -1,8 +1,9 @@
-[gd_scene load_steps=29 format=4 uid="uid://h1qc3fgd2sho"]
+[gd_scene load_steps=30 format=4 uid="uid://h1qc3fgd2sho"]
 
 [ext_resource type="Script" uid="uid://du16fk4iifk22" path="res://samples/scripts/robot.gd" id="1_48bmk"]
 [ext_resource type="Resource" uid="uid://4jflcb386yae" path="res://samples/resources/robot-health.tres" id="2_i3fx1"]
 [ext_resource type="Script" uid="uid://cxtu81d4deqfi" path="res://samples/scripts/bind-color-var-to-mat-albedo.gd" id="3_880aq"]
+[ext_resource type="Resource" uid="uid://cjs42mp1sei6r" path="res://samples/resources/damage-amount.tres" id="3_bbvlx"]
 [ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/take-damage.tres" id="3_v1q8r"]
 [ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/damage-color.tres" id="4_i3fx1"]
 [ext_resource type="Material" uid="uid://8hwgldqnkiix" path="res://samples/materials/godot-plush.tres" id="5_v1q8r"]
@@ -1355,6 +1356,7 @@ script = ExtResource("1_48bmk")
 animation_player = NodePath("AnimationPlayer")
 idle_animation_name = "idle"
 health = ExtResource("2_i3fx1")
+damage_amount = ExtResource("3_bbvlx")
 damage_hit_event = ExtResource("3_v1q8r")
 
 [node name="armature" type="Node3D" parent="."]
