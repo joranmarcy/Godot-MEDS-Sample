@@ -1,39 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://dhpio07xeiuck"]
+[gd_scene load_steps=9 format=3 uid="uid://dhpio07xeiuck"]
 
 [ext_resource type="PackedScene" uid="uid://h1qc3fgd2sho" path="res://samples/prefabs/player.tscn" id="1_3v2ro"]
+[ext_resource type="Script" uid="uid://x86uxehx2ql" path="res://samples/scripts/scene-manager.gd" id="1_6m1kn"]
 [ext_resource type="PackedScene" uid="uid://bf7ic1165wq3u" path="res://samples/prefabs/menu.tscn" id="1_fqs1e"]
-[ext_resource type="Script" uid="uid://bv0yeq0afhea3" path="res://samples/scripts/event-listener.gd" id="4_lqy8j"]
-[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/trigger-cube-particles.tres" id="5_x7s1y"]
-[ext_resource type="Script" uid="uid://g2yo0xaiy6nv" path="res://samples/scripts/trigger-particles.gd" id="6_gvi1x"]
 [ext_resource type="Environment" uid="uid://dbehk4clt7h0t" path="res://samples/main.tres" id="6_rd6o4"]
-
-[sub_resource type="Curve" id="Curve_lqy8j"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_gvi1x"]
-curve = SubResource("Curve_lqy8j")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3v2ro"]
-emission_shape = 3
-emission_box_extents = Vector3(0.5, 0.5, 0.5)
-radial_velocity_min = 3.9999776
-radial_velocity_max = 4.9999776
-gravity = Vector3(0, 0, 0)
-scale_min = 0.099999994
-scale_max = 0.099999994
-scale_curve = SubResource("CurveTexture_gvi1x")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3v2ro"]
-emission_enabled = true
-billboard_mode = 3
-billboard_keep_scale = true
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="QuadMesh" id="QuadMesh_gvi1x"]
-material = SubResource("StandardMaterial3D_3v2ro")
+[ext_resource type="PackedScene" uid="uid://bjbcvsbcxyvc4" path="res://samples/prefabs/audio_manager.tscn" id="7_3v2ro"]
+[ext_resource type="Resource" uid="uid://4jflcb386yae" path="res://samples/resources/robot-health.tres" id="8_4ydju"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lquwl"]
 
@@ -43,21 +15,6 @@ material = SubResource("StandardMaterial3D_3v2ro")
 
 [node name="Player" parent="." instance=ExtResource("1_3v2ro")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.113870084, 0)
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2145007, 0)
-emitting = false
-amount = 50
-lifetime = 0.5
-one_shot = true
-fixed_fps = 60
-process_material = SubResource("ParticleProcessMaterial_3v2ro")
-draw_pass_1 = SubResource("QuadMesh_gvi1x")
-script = ExtResource("6_gvi1x")
-
-[node name="Node" type="Node" parent="Player/GPUParticles3D"]
-script = ExtResource("4_lqy8j")
-event = ExtResource("5_x7s1y")
 
 [node name="Menu" parent="." instance=ExtResource("1_fqs1e")]
 
@@ -75,8 +32,9 @@ transform = Transform3D(0.033155162, -0.99945027, 9.308106e-10, 0.5207232, 0.017
 shadow_enabled = true
 shadow_opacity = 0.5
 
-[node name="Node" type="Node" parent="."]
-script = ExtResource("4_lqy8j")
-event = ExtResource("5_x7s1y")
+[node name="AudioManager" parent="." instance=ExtResource("7_3v2ro")]
 
-[connection signal="event_raised" from="Player/GPUParticles3D/Node" to="Player/GPUParticles3D" method="trigger_particles"]
+[node name="SceneManager" type="Node" parent="."]
+script = ExtResource("1_6m1kn")
+health = ExtResource("8_4ydju")
+death_scene_path = "uid://lch3icy0vr40"

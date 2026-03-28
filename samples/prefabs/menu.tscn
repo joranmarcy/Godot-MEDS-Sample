@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bf7ic1165wq3u"]
+[gd_scene load_steps=12 format=3 uid="uid://bf7ic1165wq3u"]
 
 [ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://addons/godot_meds_core/scripts/ui/bool-driven-checkbox.gd" id="1_qp0mf"]
 [ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/robot-visibility.tres" id="2_3e2kd"]
@@ -8,7 +8,9 @@
 [ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://addons/godot_meds_core/scripts/ui/color-driven-color-picker.gd" id="6_twerf"]
 [ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/robot-color.tres" id="7_43bnt"]
 [ext_resource type="Script" uid="uid://dgki0vmwag0uo" path="res://samples/scripts/raise-event.gd" id="8_f77vf"]
-[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/trigger-cube-particles.tres" id="9_g3v0a"]
+[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/take-damage.tres" id="9_g3v0a"]
+[ext_resource type="Script" uid="uid://du2vuyct57x4c" path="res://addons/godot_meds_core/scripts/ui/int-driven-progress-bar.gd" id="10_6nml3"]
+[ext_resource type="Resource" uid="uid://4jflcb386yae" path="res://samples/resources/robot-health.tres" id="11_twerf"]
 
 [node name="Menu" type="CanvasLayer"]
 follow_viewport_enabled = true
@@ -35,7 +37,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Cube visibility :"
+text = "Robot visibility :"
 
 [node name="CheckBox" type="CheckBox" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -47,7 +49,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Cube rotation : "
+text = "Robot rotation : "
 
 [node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -74,7 +76,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
-text = "Cube color :"
+text = "Robot color :"
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
@@ -85,8 +87,7 @@ color_variable = ExtResource("7_43bnt")
 [node name="Button" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "Raise Event
-"
+text = "Take Damage"
 
 [node name="RaiseEvent" type="Node" parent="PanelContainer/CenterContainer/VBoxContainer/Button"]
 script = ExtResource("8_f77vf")
@@ -94,5 +95,7 @@ event = ExtResource("9_g3v0a")
 
 [node name="ProgressBar" type="ProgressBar" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
+script = ExtResource("10_6nml3")
+int_variable = ExtResource("11_twerf")
 
 [connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/Button" to="PanelContainer/CenterContainer/VBoxContainer/Button/RaiseEvent" method="raise_event"]
