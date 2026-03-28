@@ -4,5 +4,6 @@
 
 [resource]
 script = ExtResource("1_0rlm8")
-initial_value = "Gobot"
+initial_value = "Robot"
+reset_on = "On Application Start"
 metadata/_custom_type_script = "uid://dpkqsxu1efc0s"
