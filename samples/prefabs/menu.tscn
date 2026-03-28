@@ -37,7 +37,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Robot visibility :"
+text = "Robot visibility:"
 
 [node name="CheckBox" type="CheckBox" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -49,7 +49,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Robot rotation : "
+text = "Robot rotation: "
 
 [node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -76,7 +76,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
-text = "Robot color :"
+text = "Robot color:"
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
@@ -93,8 +93,16 @@ text = "Take Damage"
 script = ExtResource("8_f77vf")
 event = ExtResource("9_g3v0a")
 
-[node name="ProgressBar" type="ProgressBar" parent="PanelContainer/CenterContainer/VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Health: "
+
+[node name="ProgressBar" type="ProgressBar" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
 script = ExtResource("10_6nml3")
 int_variable = ExtResource("11_twerf")
 
