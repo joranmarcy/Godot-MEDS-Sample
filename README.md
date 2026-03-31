@@ -81,12 +81,14 @@ This sample does not currently depend on an external Godot test framework. On Wi
 
 ```powershell
 .\addons\godot_meds_core\scripts\tests\run_float_variable_tests.ps1
+.\addons\godot_meds_core\scripts\tests\run_int_variable_tests.ps1
 ```
 
 If you want to invoke Godot directly, use:
 
 ```powershell
 godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/float_variable_test_runner.gd
+godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/int_variable_test_runner.gd
 ```
 
 ## Enabling the plugins
