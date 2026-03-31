@@ -28,8 +28,9 @@ signal range_changed(clamp_enabled: bool, min_value: int, max_value: int)
 ## The starting value for this variable. This is the value that will be used if there is no saved value to load from a previous session.
 @export var initial_value: int = 0:
 	set(new_val):
-		initial_value = new_val
-		_apply_initial_value(new_val)
+		var sanitized_value := _sanitize_value(new_val)
+		initial_value = sanitized_value
+		_apply_initial_value(sanitized_value)
 
 func set_value(new_val: int, caller: Object = null) -> void:
 	_set_value_variant(new_val, caller)

@@ -75,6 +75,22 @@ This repository is a Godot 4.x sample project built using MEDS workflow. It has 
 
 - Godot 4.5
 
+## Running tests
+
+This sample does not currently depend on an external Godot test framework. On Windows, use the console Godot binary so test output is printed to the terminal:
+
+```powershell
+.\addons\godot_meds_core\scripts\tests\run_float_variable_tests.ps1
+.\addons\godot_meds_core\scripts\tests\run_int_variable_tests.ps1
+```
+
+If you want to invoke Godot directly, use:
+
+```powershell
+godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/float_variable_test_runner.gd
+godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/int_variable_test_runner.gd
+```
+
 ## Enabling the plugins
 
 In the Godot editor:
