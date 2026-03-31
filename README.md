@@ -114,6 +114,8 @@ Then enable the plugin(s) as described above.
 
 The `samples/` folder contains example resources and scripts. The project’s main scene is set to the sample scene (`samples/main.tscn`).
 
+Reusable UI bindings for MEDS variables live under `addons/godot_meds_core/scripts/ui/`, including `variable-driven-label.gd`, `variable-driven-slider.gd`, and `variable-driven-progress-bar.gd`.
+
 A few scripts worth browsing:
 
 - `samples/scripts/bind-bool-var-to-visibility.gd`
