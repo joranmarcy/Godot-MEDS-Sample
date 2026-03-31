@@ -1,4 +1,4 @@
-extends "res://addons/godot_meds_core/scripts/ui/numeric-driven-slider.gd"
+extends "res://addons/godot_meds_core/scripts/ui/variable-driven-slider.gd"
 
 static var _deprecation_reported: bool = false
 
@@ -17,7 +17,7 @@ func _report_deprecation_once() -> void:
 	if _deprecation_reported:
 		return
 	_deprecation_reported = true
-	var message := "[DEPRECATED] float-driven-slider.gd is deprecated. Use numeric-driven-slider.gd instead."
+	var message := "[DEPRECATED] float-driven-slider.gd is deprecated. Use variable-driven-slider.gd instead."
 	push_warning(message)
 	printerr(message)
 
