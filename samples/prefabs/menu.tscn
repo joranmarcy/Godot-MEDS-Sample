@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://bf7ic1165wq3u"]
 
-[ext_resource type="Script" path="res://addons/godot_meds_core/scripts/ui/variable-driven-label.gd" id="1_43bnt"]
+[ext_resource type="Script" uid="uid://r82qbgedpjxf" path="res://addons/godot_meds_core/scripts/ui/variable-driven-label.gd" id="1_43bnt"]
 [ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://addons/godot_meds_core/scripts/ui/bool-driven-checkbox.gd" id="1_qp0mf"]
 [ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/robot-visibility.tres" id="2_3e2kd"]
 [ext_resource type="Resource" uid="uid://bmevg4nhdn4tg" path="res://samples/resources/robot-name.tres" id="2_d1bvm"]
 [ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://samples/resources/robot-rotation.tres" id="4_8o0cq"]
-[ext_resource type="Script" uid="uid://88788hcpf44m" path="res://addons/godot_meds_core/scripts/ui/float-driven-slider.gd" id="5_6nml3"]
+[ext_resource type="Script" uid="uid://bkb1yi6tc68ai" path="res://addons/godot_meds_core/scripts/ui/numeric-driven-slider.gd" id="5_6nml3"]
 [ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://addons/godot_meds_core/scripts/ui/color-driven-color-picker.gd" id="6_twerf"]
 [ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/damage-color.tres" id="7_43bnt"]
 [ext_resource type="Script" uid="uid://dgki0vmwag0uo" path="res://samples/scripts/raise-event.gd" id="8_f77vf"]
@@ -64,7 +64,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 max_value = 180.0
 script = ExtResource("5_6nml3")
-float_variable = ExtResource("4_8o0cq")
+variable = ExtResource("4_8o0cq")
 
 [node name="Label2" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(43, 0)
