@@ -1,14 +1,22 @@
-extends Label
-@export var string_variable: StringVariable
-@export var prefix: String = ""
-@export var suffix: String = ""
+extends "res://addons/godot_meds_core/scripts/ui/variable-driven-label.gd"
 
-func _ready():
-	_update_text(string_variable.value)
-	string_variable.value_changed.connect(_on_value_changed)
+static var _deprecation_reported: bool = false
 
-func _on_value_changed(new_value: String):
-	_update_text(new_value)
+@export var string_variable: StringVariable:
+	set(new_value):
+		string_variable = new_value
+		variable = new_value
 
-func _update_text(value: String) -> void:
-	self.text = prefix + value + suffix
+func _ready() -> void:
+	if variable == null and string_variable != null:
+		variable = string_variable
+	_report_deprecation_once()
+	super._ready()
+
+func _report_deprecation_once() -> void:
+	if _deprecation_reported:
+		return
+	_deprecation_reported = true
+	var message := "[DEPRECATED] string-driven-label.gd is deprecated. Use variable-driven-label.gd instead."
+	push_warning(message)
+	printerr(message)
