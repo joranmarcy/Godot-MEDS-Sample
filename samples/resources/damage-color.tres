@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ColorVariable" load_steps=2 format=3 uid="uid://b4iae3nedcib3"]
+
+[ext_resource type="Script" uid="uid://cqwpwdrtx6ayu" path="res://addons/godot_meds_core/scripts/variables/color-variable.gd" id="1_mfhf7"]
+
+[resource]
+script = ExtResource("1_mfhf7")
+initial_value = Color(1, 0, 0, 1)

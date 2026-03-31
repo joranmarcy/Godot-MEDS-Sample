@@ -1,14 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://bf7ic1165wq3u"]
+[gd_scene load_steps=13 format=3 uid="uid://bf7ic1165wq3u"]
 
-[ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://scripts/ui/bool-driven-checkbox.gd" id="1_qp0mf"]
-[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/cube-visibility.tres" id="2_3e2kd"]
-[ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://samples/resources/cube-rotation.tres" id="4_8o0cq"]
-[ext_resource type="Script" uid="uid://88788hcpf44m" path="res://scripts/ui/float-driven-slider.gd" id="5_6nml3"]
-[ext_resource type="Script" uid="uid://bsmw2a24e0op5" path="res://scripts/ui/float-driven-label.gd" id="5_qp0mf"]
-[ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://scripts/ui/color-driven-color-picker.gd" id="6_twerf"]
-[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/cube-color.tres" id="7_43bnt"]
+[ext_resource type="Script" uid="uid://r82qbgedpjxf" path="res://addons/godot_meds_core/scripts/ui/variable-driven-label.gd" id="1_43bnt"]
+[ext_resource type="Script" uid="uid://dnkkogdmsde86" path="res://addons/godot_meds_core/scripts/ui/bool-driven-checkbox.gd" id="1_qp0mf"]
+[ext_resource type="Resource" uid="uid://d0f12m7q2anp7" path="res://samples/resources/robot-visibility.tres" id="2_3e2kd"]
+[ext_resource type="Resource" uid="uid://bmevg4nhdn4tg" path="res://samples/resources/robot-name.tres" id="2_d1bvm"]
+[ext_resource type="Resource" uid="uid://d0lvwpimvdu0f" path="res://samples/resources/robot-rotation.tres" id="4_8o0cq"]
+[ext_resource type="Script" uid="uid://bkb1yi6tc68ai" path="res://addons/godot_meds_core/scripts/ui/variable-driven-slider.gd" id="5_6nml3"]
+[ext_resource type="Script" uid="uid://iwi7jkmkggbd" path="res://addons/godot_meds_core/scripts/ui/color-driven-color-picker.gd" id="6_twerf"]
+[ext_resource type="Resource" uid="uid://b4iae3nedcib3" path="res://samples/resources/damage-color.tres" id="7_43bnt"]
 [ext_resource type="Script" uid="uid://dgki0vmwag0uo" path="res://samples/scripts/raise-event.gd" id="8_f77vf"]
-[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/my-event.tres" id="9_g3v0a"]
+[ext_resource type="Resource" uid="uid://dnkg62r486bv1" path="res://samples/events/take-damage.tres" id="9_g3v0a"]
+[ext_resource type="Script" path="res://addons/godot_meds_core/scripts/ui/variable-driven-progress-bar.gd" id="10_6nml3"]
+[ext_resource type="Resource" uid="uid://4jflcb386yae" path="res://samples/resources/robot-health.tres" id="11_twerf"]
 
 [node name="Menu" type="CanvasLayer"]
 follow_viewport_enabled = true
@@ -35,7 +38,10 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Cube visibility :"
+text = "Robot visibility:"
+script = ExtResource("1_43bnt")
+variable = ExtResource("2_d1bvm")
+suffix = " visibility:"
 
 [node name="CheckBox" type="CheckBox" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -47,7 +53,10 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Cube rotation : "
+text = "Robot rotation: "
+script = ExtResource("1_43bnt")
+variable = ExtResource("2_d1bvm")
+suffix = " rotation: "
 
 [node name="HSlider" type="HSlider" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -55,15 +64,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 max_value = 180.0
 script = ExtResource("5_6nml3")
-float_variable = ExtResource("4_8o0cq")
+variable = ExtResource("4_8o0cq")
 
 [node name="Label2" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(43, 0)
 layout_mode = 2
 text = "180.0"
 horizontal_alignment = 2
-script = ExtResource("5_qp0mf")
-float_variable = ExtResource("4_8o0cq")
+script = ExtResource("1_43bnt")
+variable = ExtResource("4_8o0cq")
 
 [node name="Label3" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -74,7 +83,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
-text = "Cube color :"
+text = "Damage color:"
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
@@ -85,11 +94,23 @@ color_variable = ExtResource("7_43bnt")
 [node name="Button" type="Button" parent="PanelContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "Raise Event
-"
+text = "Take Damage"
 
 [node name="RaiseEvent" type="Node" parent="PanelContainer/CenterContainer/VBoxContainer/Button"]
 script = ExtResource("8_f77vf")
 event = ExtResource("9_g3v0a")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="PanelContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Health: "
+
+[node name="ProgressBar" type="ProgressBar" parent="PanelContainer/CenterContainer/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("10_6nml3")
+variable = ExtResource("11_twerf")
 
 [connection signal="pressed" from="PanelContainer/CenterContainer/VBoxContainer/Button" to="PanelContainer/CenterContainer/VBoxContainer/Button/RaiseEvent" method="raise_event"]

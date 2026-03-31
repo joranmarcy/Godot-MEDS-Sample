@@ -4,7 +4,7 @@
 
 ## Quickstart
 
-Download the latest project sample [release](https://github.com/joranmarcy/Godot-MEDS-Sample/archive/refs/tags/releases/0.1.0-alpha.2.zip)
+Download the latest project sample [release](https://github.com/joranmarcy/Godot-MEDS-Sample/archive/refs/tags/releases/0.1.0-alpha.3.zip)
 
 [Download](https://godotengine.org/download/archive/4.5-stable/) & Install Godot 4.5
 
@@ -75,6 +75,22 @@ This repository is a Godot 4.x sample project built using MEDS workflow. It has 
 
 - Godot 4.5
 
+## Running tests
+
+This sample does not currently depend on an external Godot test framework. On Windows, use the console Godot binary so test output is printed to the terminal:
+
+```powershell
+.\addons\godot_meds_core\scripts\tests\run_float_variable_tests.ps1
+.\addons\godot_meds_core\scripts\tests\run_int_variable_tests.ps1
+```
+
+If you want to invoke Godot directly, use:
+
+```powershell
+godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/float_variable_test_runner.gd
+godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/int_variable_test_runner.gd
+```
+
 ## Enabling the plugins
 
 In the Godot editor:
@@ -97,6 +113,8 @@ Then enable the plugin(s) as described above.
 ## Samples
 
 The `samples/` folder contains example resources and scripts. The project’s main scene is set to the sample scene (`samples/main.tscn`).
+
+Reusable UI bindings for MEDS variables live under `addons/godot_meds_core/scripts/ui/`, including `variable-driven-label.gd`, `variable-driven-slider.gd`, and `variable-driven-progress-bar.gd`.
 
 A few scripts worth browsing:
 
