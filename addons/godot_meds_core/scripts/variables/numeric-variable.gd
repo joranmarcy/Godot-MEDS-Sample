@@ -1,5 +1,5 @@
 extends BaseVariable
-class_name ClampedNumericVariable
+class_name NumericVariable
 
 @export var clamp_value: bool = false:
 	set(new_val):

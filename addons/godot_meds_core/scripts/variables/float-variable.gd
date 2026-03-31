@@ -1,5 +1,5 @@
 @icon("res://addons/godot_meds_core/icons/FloatVariable.png")
-extends ClampedNumericVariable
+extends NumericVariable
 class_name FloatVariable
 
 @warning_ignore("unused_signal")

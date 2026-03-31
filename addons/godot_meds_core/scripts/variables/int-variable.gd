@@ -1,5 +1,5 @@
 @icon("res://addons/godot_meds_core/icons/IntVariable.png")
-extends ClampedNumericVariable
+extends NumericVariable
 class_name IntVariable
 
 @warning_ignore("unused_signal")
