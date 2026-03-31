@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_c8tbn")
-clamp_value = true
 min_value = -90.0
 max_value = 90.0
+clamp_value = true
 reset_on = "On Application Start"
 metadata/_custom_type_script = "uid://drhmoaiie1iuk"
