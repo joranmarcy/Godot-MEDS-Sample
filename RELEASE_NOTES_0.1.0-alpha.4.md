@@ -1,7 +1,7 @@
 # Release Notes: 0.1.0-alpha.4
 
 Released: 2026-04-04  
-Commit range: `releases/0.1.0-alpha.3` -> `3443e4599434e628f1a5982a47f5eedd2bbb75f7`  
+Commit range: `releases/0.1.0-alpha.3` -> `releases/0.1.0-alpha.4`  
 Diff summary: 11 files changed, 247 insertions, 44 deletions.
 
 ## Highlights
