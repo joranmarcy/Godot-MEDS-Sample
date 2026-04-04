@@ -12,8 +12,6 @@ const COL_RAISED := 2
 const COL_DEBUG_LOGS := 3
 const COL_RAISE := 4
 
-const BTN_RAISE := 1
-
 const EditorUIUtils := preload("res://addons/godot_meds_editor/editor_ui_utils.gd")
 
 
@@ -94,11 +92,8 @@ func _ready() -> void:
 		_tree.item_edited.connect(_on_tree_item_edited)
 	if _tree.has_signal("cell_selected"):
 		_tree.cell_selected.connect(_on_tree_cell_selected)
-	# Tree's button click signal name differs across Godot versions.
-	if _tree.has_signal("button_clicked"):
-		_tree.button_clicked.connect(_on_tree_button_clicked_4)
-	elif _tree.has_signal("item_button_pressed"):
-		_tree.item_button_pressed.connect(_on_tree_button_clicked_3)
+	if _tree.has_signal("item_mouse_selected"):
+		_tree.item_mouse_selected.connect(_on_tree_item_mouse_selected)
 	add_child(_tree)
 
 	_root = _tree.create_item()
@@ -137,7 +132,13 @@ func on_event_updated(payload: Dictionary) -> void:
 		if has_method("get_theme_icon"):
 			# Editor icon set.
 			icon = get_theme_icon("Play", "EditorIcons")
-		item.add_button(COL_RAISE, icon, BTN_RAISE, false, "Raise this event")
+		if icon != null:
+			item.set_icon(COL_RAISE, icon)
+
+	item.set_text(COL_RAISE, "Raise")
+	if item.has_method("set_text_alignment"):
+		item.call("set_text_alignment", COL_RAISE, HORIZONTAL_ALIGNMENT_CENTER)
+	item.set_custom_bg_color(COL_RAISE, _get_raise_cell_bg_color())
 
 	# Ensure checkbox column stays configured even if the row existed already.
 	item.set_cell_mode(COL_DEBUG_LOGS, TreeItem.CELL_MODE_CHECK)
@@ -287,22 +288,9 @@ func _set_debug_logs_for_all(enabled: bool) -> void:
 	_is_bulk_updating_debug_logs = false
 
 
-func _on_tree_button_clicked_4(item: TreeItem, column: int, id: int, _mouse_button_index: int) -> void:
-	_on_tree_button_clicked(item, column, id)
-
-
-func _on_tree_button_clicked_3(item: TreeItem, column: int, id: int) -> void:
-	_on_tree_button_clicked(item, column, id)
-
-
-func _on_tree_button_clicked(item: TreeItem, column: int, id: int) -> void:
+func _raise_event_for_item(item: TreeItem) -> void:
 	if item == null:
 		return
-	if column != COL_RAISE:
-		return
-	if id != BTN_RAISE:
-		return
-
 	var meta: Variant = item.get_metadata(COL_RAISE)
 	if typeof(meta) != TYPE_DICTIONARY:
 		return
@@ -321,6 +309,23 @@ func _on_tree_button_clicked(item: TreeItem, column: int, id: int) -> void:
 	event_raise_requested.emit(session_id, event_id, path)
 
 
+func _on_tree_item_mouse_selected(_position: Vector2, mouse_button_index: int) -> void:
+	if mouse_button_index != MOUSE_BUTTON_LEFT:
+		return
+	call_deferred("_activate_raise_cell_if_selected")
+
+
+func _activate_raise_cell_if_selected() -> void:
+	if _tree == null:
+		return
+	var item := _tree.get_selected()
+	if item == null:
+		return
+	if _get_selected_column() != COL_RAISE:
+		return
+	_raise_event_for_item(item)
+
+
 func _on_tree_item_activated() -> void:
 	if _tree == null:
 		return
@@ -329,6 +334,9 @@ func _on_tree_item_activated() -> void:
 		return
 
 	var column := _get_selected_column()
+	if column == COL_RAISE:
+		_raise_event_for_item(item)
+		return
 	if column == COL_LISTENERS:
 		_open_listeners_dialog_for_item(item)
 		return
@@ -353,6 +361,14 @@ func _get_selected_column() -> int:
 	if _tree.has_method("get_selected_column"):
 		return int(_tree.call("get_selected_column"))
 	return _last_selected_column
+
+
+func _get_raise_cell_bg_color() -> Color:
+	if has_method("has_theme_color") and call("has_theme_color", "accent_color", "Editor"):
+		var accent: Color = get_theme_color("accent_color", "Editor")
+		accent.a = 0.18
+		return accent
+	return Color(0.18, 0.28, 0.40, 0.80)
 
 
 func _open_listeners_dialog_for_item(item: TreeItem) -> void:
