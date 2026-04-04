@@ -45,11 +45,11 @@ Custom resource icons :
 
 Live variables debugger. Change and monitor variable values :
 
-![alt text](README_RESOURCES/variables-debugger-dock.gif)
+![alt text](README_RESOURCES/variables-debugger-dock-2.gif)
 
 Live event debugger. Raise and monitor events at runtime :
 
-![alt text](README_RESOURCES/event-debugger-dock.gif)
+![alt text](README_RESOURCES/event-debugger-dock-2.gif)
 
 Easily track your resources usages at editor time :
 
