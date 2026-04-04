@@ -4,7 +4,7 @@
 
 ## Quickstart
 
-Download the latest project sample [release](https://github.com/joranmarcy/Godot-MEDS-Sample/archive/refs/tags/releases/0.1.0-alpha.3.zip)
+Download the latest project sample [release](https://github.com/joranmarcy/Godot-MEDS-Sample/archive/refs/tags/releases/0.1.0-alpha.4.zip)
 
 [Download](https://godotengine.org/download/archive/4.5-stable/) & Install Godot 4.5
 
