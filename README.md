@@ -27,7 +27,11 @@ Although the approach was born in Unity, the philosophy is engine-agnostic and m
 ## Features
 
 - Typed Resource variables (core GDScript primitives)
+- Shared `NumericVariable` foundation for `FloatVariable` and `IntVariable`
+- Numeric clamping, ranges, and `range_changed(...)` notifications
 - Resource events (decoupled signaling)
+- Reusable UI bindings for labels, sliders, progress bars, checkboxes, and color pickers
+- Reset behavior through `reset_on`, with runtime caching for application-start resets
 - Custom editor icons
 - Save variable values
 - Variable & event reference tracking
@@ -60,16 +64,24 @@ And know at runtime who reacts to value or event raises :
 
 This repository is a Godot 4.x sample project built using MEDS workflow. It has MEDS Core and MEDS Editor Tools plugin enabled. Full Godot MEDS Documentation is available [here](https://joranmarcy.github.io/Godot-MEDS-Docs)
 
+The current sample centers on a small robot gameplay loop driven by shared variables and events:
+
+- a menu edits shared MEDS resources through reusable UI bindings
+- a robot scene reacts to rotation, visibility, health, and color variables
+- a `take-damage` event triggers health loss and related gameplay reactions
+- audio and scene transitions react to the same shared health resource
+
 ## Project layout
 
 - `addons/godot_meds_core/`
-  - Runtime: variable and event Resource types, runtime reporters, debug logging helpers.
+  - Runtime: variable and event Resource types, numeric variable base classes, runtime reporters, debug logging helpers.
+  - Reusable UI binding scripts under `scripts/ui/`.
   - Editor: a tiny plugin that silences custom debugger messages when the extensions plugin is disabled.
 - `addons/godot_meds_editor/`
   - Editor-only: docks/debugger plugins for viewing runtime variable values and events.
   - Context menu action to scan/log where a variable `.tres` is referenced.
 - `samples/`
-  - Example scenes, resources, and scripts showing typical usage.
+  - Example scenes, resources, scripts, materials, sounds, and models showing a complete MEDS gameplay loop.
 
 ## Requirements
 
@@ -77,7 +89,11 @@ This repository is a Godot 4.x sample project built using MEDS workflow. It has 
 
 ## Running tests
 
-This sample does not currently depend on an external Godot test framework. On Windows, use the console Godot binary so test output is printed to the terminal:
+This sample does not currently depend on an external Godot test framework.
+
+Headless runtime tests are included for `FloatVariable` and `IntVariable`.
+
+On Windows, use the provided PowerShell wrappers so test output is printed to the terminal:
 
 ```powershell
 .\addons\godot_meds_core\scripts\tests\run_float_variable_tests.ps1
@@ -112,16 +128,45 @@ Then enable the plugin(s) as described above.
 
 ## Samples
 
-The `samples/` folder contains example resources and scripts. The project’s main scene is set to the sample scene (`samples/main.tscn`).
+The `samples/` folder contains the main demo used throughout the documentation. The project's main scene is set to `samples/main.tscn`.
 
-Reusable UI bindings for MEDS variables live under `addons/godot_meds_core/scripts/ui/`, including `variable-driven-label.gd`, `variable-driven-slider.gd`, and `variable-driven-progress-bar.gd`.
+Main sample scenes:
+
+- `samples/main.tscn`: entry point for the sample
+- `samples/prefabs/menu.tscn`: MEDS-driven UI controls and displays
+- `samples/prefabs/player.tscn`: robot prefab and gameplay listeners
+- `samples/game-over.tscn`: game-over screen shown when health reaches zero
+
+Main sample resources:
+
+- `samples/resources/robot-health.tres`
+- `samples/resources/damage-amount.tres`
+- `samples/resources/robot-rotation.tres`
+- `samples/resources/robot-visibility.tres`
+- `samples/resources/robot-name.tres`
+- `samples/resources/damage-color.tres`
+- `samples/events/take-damage.tres`
+
+Reusable UI bindings for MEDS variables live under `addons/godot_meds_core/scripts/ui/`, including:
+
+- `variable-driven-label.gd`
+- `variable-driven-slider.gd`
+- `variable-driven-progress-bar.gd`
+- `bool-driven-checkbox.gd`
+- `color-driven-color-picker.gd`
+
+Deprecated binding scripts were moved under `addons/godot_meds_core/scripts/ui/deprecated/`. Prefer the `variable-driven-*` replacements for new work.
 
 A few scripts worth browsing:
 
 - `samples/scripts/bind-bool-var-to-visibility.gd`
 - `samples/scripts/bind-color-var-to-mat-albedo.gd`
+- `samples/scripts/bind-float-var-to-rotation.gd`
 - `samples/scripts/event-listener.gd`
+- `samples/scripts/heartbeat-controller.gd`
+- `samples/scripts/robot.gd`
 - `samples/scripts/raise-event.gd`
+- `samples/scripts/scene-manager.gd`
 
 ## License
 
