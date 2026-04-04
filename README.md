@@ -186,7 +186,7 @@ The Godot pixel plush asset used in the sample model was created by [potato_dude
 These tools were especially helpful while building and maintaining this project:
 
 - [Inkscape](https://inkscape.org/) for SVG icon work and other visual asset tweaks.
-- [GDVM](https://github.com/embraceTheWind/gdvm) to manage Godot versions during development and testing.
+- [GDVM](https://gdvm.io/) to manage Godot versions during development and testing.
 - [Visual Studio Code](https://code.visualstudio.com/) for GDScript editing, project navigation, and release tooling.
 
 ## License
