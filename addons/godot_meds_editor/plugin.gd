@@ -31,7 +31,7 @@ func _enter_tree() -> void:
 	_values_dock.name = "Variable Values"
 	if _values_dock.has_method("set_editor_interface"):
 		_values_dock.call("set_editor_interface", get_editor_interface())
-	add_control_to_dock(DOCK_SLOT_RIGHT_UL, _values_dock)
+	add_control_to_bottom_panel(_values_dock, "Variable Values")
 
 	_values_debugger = VariableValuesDebugger.new()
 	add_debugger_plugin(_values_debugger)
@@ -48,7 +48,7 @@ func _enter_tree() -> void:
 	_events_dock.name = "Events"
 	if _events_dock.has_method("set_editor_interface"):
 		_events_dock.call("set_editor_interface", get_editor_interface())
-	add_control_to_dock(DOCK_SLOT_RIGHT_UL, _events_dock)
+	add_control_to_bottom_panel(_events_dock, "Events")
 
 	_events_debugger = EventsDebugger.new()
 	add_debugger_plugin(_events_debugger)
@@ -75,7 +75,7 @@ func _exit_tree() -> void:
 		remove_debugger_plugin(_values_debugger)
 		_values_debugger = null
 	if _values_dock:
-		remove_control_from_docks(_values_dock)
+		remove_control_from_bottom_panel(_values_dock)
 		_values_dock.queue_free()
 		_values_dock = null
 
@@ -83,7 +83,7 @@ func _exit_tree() -> void:
 		remove_debugger_plugin(_events_debugger)
 		_events_debugger = null
 	if _events_dock:
-		remove_control_from_docks(_events_dock)
+		remove_control_from_bottom_panel(_events_dock)
 		_events_dock.queue_free()
 		_events_dock = null
 
