@@ -169,6 +169,12 @@ A few scripts worth browsing:
 - `samples/scripts/raise-event.gd`
 - `samples/scripts/scene-manager.gd`
 
+## Asset Credits
+
+The Godot pixel plush asset used in the sample model was created by [potato_dude_100](https://sketchfab.com/potato_dude_100):
+
+- [Godot Pixel Plush on Sketchfab](https://sketchfab.com/3d-models/godot-pixel-plush-a48f8f6e2c464adc815f59527037e3a6)
+
 ## License
 
 MIT — see `LICENSE`.
