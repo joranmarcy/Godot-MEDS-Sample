@@ -12,7 +12,10 @@ Start Godot and import the project sample.
 
 Enjoy the MEDS [features](#features) !
 
-See the full [documentation](https://joranmarcy.github.io/Godot-MEDS-Docs/docs/intro) for detailed usage and examples.
+> [!IMPORTANT]
+> Full [Godot MEDS documentation](https://joranmarcy.github.io/Godot-MEDS-Docs/docs/intro) is available for setup, concepts, usage patterns, and examples.
+> 
+> **Documentation:** https://joranmarcy.github.io/Godot-MEDS-Docs/docs/intro
 
 ## Presentation
 
