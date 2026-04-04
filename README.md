@@ -14,8 +14,6 @@ Enjoy the MEDS [features](#features) !
 
 > [!IMPORTANT]
 > Full [Godot MEDS documentation](https://joranmarcy.github.io/Godot-MEDS-Docs/docs/intro) is available for setup, concepts, usage patterns, and examples.
-> 
-> **Documentation:** https://joranmarcy.github.io/Godot-MEDS-Docs/docs/intro
 
 ## Presentation
 
