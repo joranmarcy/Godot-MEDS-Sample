@@ -39,25 +39,31 @@ Although the approach was born in Unity, the philosophy is engine-agnostic and m
 - Live variable debugger (read & edit values at runtime)
 - Live event debugger (raise events from editor / monitor event raises)
 
-Custom resource icons :
+### Custom resource icons
+
+Custom icons make variables and events easier to identify at a glance in the editor.
 
 ![alt text](README_RESOURCES/1772903849489.png)
 
-Live variables debugger. Change and monitor variable values :
+### Live variables debugger
+
+Inspect shared variable values during play mode from a single dock. You can also edit values live to validate bindings, gameplay reactions, and UI behavior without adding temporary debug code.
 
 ![alt text](README_RESOURCES/variables-debugger-dock-2.gif)
 
-Live event debugger. Raise and monitor events at runtime :
+### Live event debugger
+
+Monitor MEDS events as they are raised at runtime, or trigger them manually from the editor to test listeners without reproducing the full gameplay action.
 
 ![alt text](README_RESOURCES/event-debugger-dock-2.gif)
 
-Easily track your resources usages at editor time :
+### Editor-time reference tracking
 
-![alt text](README_RESOURCES/offline-reference-tracking.gif)
+Scan scenes, scripts, and assets to find where a variable resource is referenced before you rename, refactor, or remove it. This becomes especially useful once the same resource is reused across multiple systems.
 
-And know at runtime who reacts to value or event raises :
+### Runtime reaction tracking
 
-![alt text](README_RESOURCES/online-reference-tracking.gif)
+Through the debug log option, you can see which nodes react to variable changes or event raises while the game is running, along with the stack trace and clickable links to the nodes involved. That makes it easier to follow the live dependency chain behind unexpected behavior.
 
 ------------------
 
