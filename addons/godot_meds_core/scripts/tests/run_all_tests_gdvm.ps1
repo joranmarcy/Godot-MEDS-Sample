@@ -1,3 +1,4 @@
+# Requires GDVM to be installed with one or more Godot versions under ~/.gdvm/installs.
 param(
 	[string[]]$Versions,
 	[switch]$StopOnFirstFailure
