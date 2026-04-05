@@ -98,13 +98,21 @@ The current sample centers on a small robot gameplay loop driven by shared varia
 
 This sample does not currently depend on an external Godot test framework.
 
-Headless runtime tests are included for `FloatVariable` and `IntVariable`.
+Headless runtime regression tests are included for:
+
+- `FloatVariable`
+- `IntVariable`
+- Base typed variables (`BoolVariable`, `StringVariable`, `ColorVariable`, `Vector2Variable`, `Vector3Variable`)
+- `Event` signal dispatch
+- Runtime cache behavior for `reset_on`
+- UI bindings (`VariableDrivenLabel`, `VariableDrivenSlider`)
 
 On Windows, use the provided PowerShell wrappers so test output is printed to the terminal:
 
 ```powershell
 .\addons\godot_meds_core\scripts\tests\run_float_variable_tests.ps1
 .\addons\godot_meds_core\scripts\tests\run_int_variable_tests.ps1
+.\addons\godot_meds_core\scripts\tests\run_all_tests.ps1
 ```
 
 If you want to invoke Godot directly, use:
@@ -112,7 +120,12 @@ If you want to invoke Godot directly, use:
 ```powershell
 godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/float_variable_test_runner.gd
 godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/int_variable_test_runner.gd
+godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/base_value_types_and_event_test_runner.gd
+godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/ui_bindings_test_runner.gd
+godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/runtime_cache_test_runner.gd
 ```
+
+For Godot upgrade checks, prefer running `run_all_tests.ps1` so the full suite executes against the target engine version.
 
 ## Enabling the plugins
 
