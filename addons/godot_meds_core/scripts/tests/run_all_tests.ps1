@@ -1,3 +1,7 @@
+param(
+	[string]$GodotPath
+)
+
 $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
 [Console]::InputEncoding = $utf8NoBom
 [Console]::OutputEncoding = $utf8NoBom
@@ -12,34 +16,38 @@ $testRunners = @(
 	"res://addons/godot_meds_core/scripts/tests/runtime_cache_test_runner.gd"
 )
 
-$godotCommand = Get-Command godot -ErrorAction SilentlyContinue
-$godotPath = $null
 
-if ($godotCommand) {
-	$godotPath = $godotCommand.Source
-	$candidateConsolePath = Join-Path (Split-Path $godotPath) "godot_console.exe"
-	if (Test-Path $candidateConsolePath) {
-		$godotPath = $candidateConsolePath
+if (-not $GodotPath) {
+	$godotCommand = Get-Command godot -ErrorAction SilentlyContinue
+	if ($godotCommand) {
+		$GodotPath = $godotCommand.Source
+		$candidateConsolePath = Join-Path (Split-Path $GodotPath) "godot_console.exe"
+		if (Test-Path $candidateConsolePath) {
+			$GodotPath = $candidateConsolePath
+		}
 	}
 }
 
-if (-not $godotPath) {
+
+if (-not $GodotPath) {
 	$consoleCommand = Get-Command godot_console -ErrorAction SilentlyContinue
 	if ($consoleCommand) {
-		$godotPath = $consoleCommand.Source
+		$GodotPath = $consoleCommand.Source
 	}
 }
 
-if (-not $godotPath) {
+if (-not $GodotPath) {
 	throw "Could not find Godot on PATH. Install Godot or add godot_console.exe to PATH."
 }
+
+$GodotPath = (Resolve-Path $GodotPath).Path
 
 $failedRunners = @()
 
 foreach ($runnerPath in $testRunners) {
-	Write-Host "Running tests with $godotPath"
+	Write-Host "Running tests with $GodotPath"
 	Write-Host "Runner: $runnerPath"
-	$outputLines = & $godotPath --headless --path $projectPath -s $runnerPath 2>&1
+	$outputLines = & $GodotPath --headless --path $projectPath -s $runnerPath 2>&1
 	$normalizedOutputLines = @($outputLines | ForEach-Object {
 		if ($_ -is [System.Management.Automation.ErrorRecord]) {
 			$_.ToString() -replace "[\u2066-\u2069]", ""

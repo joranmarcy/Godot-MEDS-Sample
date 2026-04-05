@@ -113,6 +113,7 @@ On Windows, use the provided PowerShell wrappers so test output is printed to th
 .\addons\godot_meds_core\scripts\tests\run_float_variable_tests.ps1
 .\addons\godot_meds_core\scripts\tests\run_int_variable_tests.ps1
 .\addons\godot_meds_core\scripts\tests\run_all_tests.ps1
+.\addons\godot_meds_core\scripts\tests\run_all_tests_gdvm.ps1
 ```
 
 If you want to invoke Godot directly, use:
@@ -126,6 +127,18 @@ godot_console --headless --path . -s res://addons/godot_meds_core/scripts/tests/
 ```
 
 For Godot upgrade checks, prefer running `run_all_tests.ps1` so the full suite executes against the target engine version.
+
+If you use GDVM and want to sweep every installed version automatically, use:
+
+```powershell
+.\addons\godot_meds_core\scripts\tests\run_all_tests_gdvm.ps1
+```
+
+You can also limit the sweep to specific installs:
+
+```powershell
+.\addons\godot_meds_core\scripts\tests\run_all_tests_gdvm.ps1 -Versions 4.5.2-stable,4.6.2-stable
+```
 
 ## Enabling the plugins
 
