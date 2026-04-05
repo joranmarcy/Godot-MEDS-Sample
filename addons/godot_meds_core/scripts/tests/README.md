@@ -19,8 +19,6 @@ This folder contains the headless unit and regression test suite for MEDS core r
 - `base_value_types_and_event_test_runner.gd`: base typed variable and event coverage
 - `ui_bindings_test_runner.gd`: label and slider binding coverage
 - `runtime_cache_test_runner.gd`: runtime cache and `reset_on` coverage
-- `run_float_variable_tests.ps1`: run only the float suite with the Godot executable on `PATH`
-- `run_int_variable_tests.ps1`: run only the int suite with the Godot executable on `PATH`
 - `run_all_tests.ps1`: run the full suite with the Godot executable on `PATH`
 - `run_all_tests_gdvm.ps1`: run the full suite across all GDVM-installed Godot versions
 
@@ -29,8 +27,6 @@ This folder contains the headless unit and regression test suite for MEDS core r
 On Windows, use the provided PowerShell wrappers:
 
 ```powershell
-.\addons\godot_meds_core\scripts\tests\run_float_variable_tests.ps1
-.\addons\godot_meds_core\scripts\tests\run_int_variable_tests.ps1
 .\addons\godot_meds_core\scripts\tests\run_all_tests.ps1
 .\addons\godot_meds_core\scripts\tests\run_all_tests_gdvm.ps1
 ```
